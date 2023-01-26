@@ -26,7 +26,8 @@ public class Exp : MonoBehaviour
 
         // 경험치 비활성화 -> 플레이어에서 안하는 이유: 플레이어 스크립트가 자석오브젝트의 상위에 있어서 자석에 닿은 즉시 없어져버림
         if (collision.gameObject.tag == "Player")
-        {        
+        {
+            SoundManager.instance.PlaySE("Get Exp");
             gameObject.SetActive(false);
             onMagnet = false;
 

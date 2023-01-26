@@ -51,12 +51,16 @@ public class Player : MonoBehaviour
 
     // 슬래시 이펙트
     public GameObject slashEffect;
-    private float curSlashTime;
-    private float maxSlashTime = 1.5f;
+    public float curSlashTime;
+    public float maxSlashTime = 1.5f;
 
     // 자동 공격 사운드 한번만 사용되도록
     private bool isSlash;
 
+    // 최대 공격 범위
+    public Vector3 maxRange = new Vector3(12f, 12f, 12f);
+    // 공격 범위 증가 폭(기본 3, 50%증가)
+    private Vector3 plusRange = new Vector3(1.5f, 1.5f, 1.5f);
 
     void Awake()
     {
@@ -92,6 +96,10 @@ public class Player : MonoBehaviour
         if (!isLive)
             return;
 
+        if (Input.GetKeyDown(KeyCode.U))
+            UpgradeDefaultAtkSpeed();
+        if (Input.GetKeyDown(KeyCode.R))
+            UpgradeDefaultAtkRange();
 
         SlashOn();
         OnMove();
@@ -227,13 +235,13 @@ public class Player : MonoBehaviour
             
             slashEffect.SetActive(true);
             Invoke("SlashOff", 0.4f);
+            curSlashTime = 0f;
         }
     }
 
     void SlashOff()
     {
         slashEffect.SetActive(false);
-        curSlashTime = 0f;
         isSlash = false;
     }
 
@@ -299,5 +307,21 @@ public class Player : MonoBehaviour
         {
             playerBodies[i].color = originColor[i];
         }
+    }
+
+    // 평타 공격 속도 증가 함수
+    void UpgradeDefaultAtkSpeed()
+    {
+        maxSlashTime -= 0.3f;
+        if (maxSlashTime <= 0.6f)
+            maxSlashTime = 0.6f;
+    }
+
+    // 평타 공격 범위 증가 함수
+    void UpgradeDefaultAtkRange()
+    {
+        slashEffect.transform.localScale += plusRange;
+        if (slashEffect.transform.localScale.x >= maxRange.x)
+            slashEffect.transform.localScale = maxRange;
     }
 }
