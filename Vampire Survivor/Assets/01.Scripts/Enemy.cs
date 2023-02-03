@@ -77,13 +77,36 @@ public class Enemy : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        // 플레이어의 히트박스와 닿으면 플레이어의 공격력만큼을 적의 체력에서 뺀다.
+        // 1. 플레이어 평타와 충돌
         if(collision.gameObject.tag == "HitBox")
         {
             // 적 히트 사운드 재생
             SoundManager.instance.PlaySE("Enemy Hit");
             animator.SetTrigger("isHit");
             enemy_Hp -= GameManager.instance.player.player_Atk;
+
+            if (enemy_Hp <= 0)
+            {
+                // 콜라이더 비활성화
+                this.GetComponent<CapsuleCollider2D>().enabled = false;
+                // 적 사망 사운드 재생
+                SoundManager.instance.PlaySE("Enemy Die");
+                animator.SetTrigger("isDead");
+                Invoke("Delete", 0.5f);
+                // 경험치 드랍(풀의 인덱스 5번)
+                GameObject exp = GameManager.instance.pool.Get(5);
+                exp.transform.position = this.transform.position;
+            }
+        }
+
+        // 2. 방패와 충돌
+        if(collision.gameObject.tag == "Shield")
+        {
+            // 적 히트 사운드 재생
+            SoundManager.instance.PlaySE("Enemy Hit");
+            animator.SetTrigger("isHit");
+            // 쉴드의 현 데미지 만큼 감소
+            enemy_Hp -= collision.GetComponent<Shield>().damage;
 
             if (enemy_Hp <= 0)
             {

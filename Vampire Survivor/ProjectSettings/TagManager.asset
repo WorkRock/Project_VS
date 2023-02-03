@@ -12,6 +12,7 @@ TagManager:
   - Exp
   - Magnet
   - Fence
+  - Shield
   layers:
   - Default
   - TransparentFX
