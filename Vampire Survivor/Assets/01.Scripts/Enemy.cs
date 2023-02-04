@@ -106,7 +106,30 @@ public class Enemy : MonoBehaviour
             SoundManager.instance.PlaySE("Enemy Hit");
             animator.SetTrigger("isHit");
             // 쉴드의 현 데미지 만큼 감소
-            enemy_Hp -= collision.GetComponent<Shield>().damage;
+            enemy_Hp -= collision.GetComponent<Weapon>().damage;
+
+            if (enemy_Hp <= 0)
+            {
+                // 콜라이더 비활성화
+                this.GetComponent<CapsuleCollider2D>().enabled = false;
+                // 적 사망 사운드 재생
+                SoundManager.instance.PlaySE("Enemy Die");
+                animator.SetTrigger("isDead");
+                Invoke("Delete", 0.5f);
+                // 경험치 드랍(풀의 인덱스 5번)
+                GameObject exp = GameManager.instance.pool.Get(5);
+                exp.transform.position = this.transform.position;
+            }
+        }
+
+        // 3. 단검과 충돌
+        if (collision.gameObject.tag == "Knife")
+        {
+            // 적 히트 사운드 재생
+            SoundManager.instance.PlaySE("Enemy Hit");
+            animator.SetTrigger("isHit");
+            // 현 데미지 만큼 감소
+            enemy_Hp -= collision.GetComponent<Weapon>().damage;
 
             if (enemy_Hp <= 0)
             {

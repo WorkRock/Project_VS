@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     // 플레이어 관련 속성
     public int speed;
     public Vector2 inputVec;
+    public Scanner scanner;
 
     // 플레이어 체력
     public float player_Hp;
@@ -71,6 +72,7 @@ public class Player : MonoBehaviour
         // 피격 효과(알파값 조정)을 위해 플레이어의 자식으로 있는 스프라이트 렌더러들을 연결
         playerBodies = GetComponentsInChildren<SpriteRenderer>();
         originColor = new Color[playerBodies.Length];
+        scanner = GetComponent<Scanner>();
     }
 
     void Start()

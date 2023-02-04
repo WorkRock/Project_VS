@@ -2,19 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShieldManager : MonoBehaviour
+public class WeaponManager : MonoBehaviour
 {
-    // 방패 id
+    // 무기 id
     public int id;
     // 프리팹 id
     public int prefabId;
-    // 방패 데미지
+    // 데미지
     public float damage;
     public float maxDamage = 5;
-    // 방패의 개수
+    // 관통 가능 적 개수
     public int count;
     public int maxCount = 7;
-    // 방패 스피드
+    // 방패: 스피드, 단검: 공격주기
     public float speed;
     public float maxSpeed = 230;
 
@@ -25,6 +25,14 @@ public class ShieldManager : MonoBehaviour
     SpriteRenderer[] nowShieldSprites;
     public Sprite[] shields;
 
+    private float timer;
+    Player player;
+
+    private void Awake()
+    {
+        player = GetComponentInParent<Player>();
+    }
+
     private void Start()
     {
         Init();
@@ -33,9 +41,22 @@ public class ShieldManager : MonoBehaviour
     {
         switch (id)
         {
+            // 방패
             case 0:
                 transform.Rotate(Vector3.back * speed * Time.deltaTime);
                 break;
+
+            // 단검
+            default:
+                timer += Time.deltaTime;
+
+                if(timer > speed)
+                {
+                    timer = 0f;
+                    Fire();
+                }
+                break;
+
         }
 
         // 레벨에 따라 방패 스프라이트 변경하기
@@ -95,10 +116,14 @@ public class ShieldManager : MonoBehaviour
     {
         switch (id)
         {
+            // 방패
             case 0:
-                speed = 150;
+                speed = 150;    // 방패 회전 스피드
                 level = 1;
                 SetShieldPosition();
+                break;
+            default:
+                speed = 1f;   // 단검 투척 주기
                 break;
         }
     }
@@ -130,7 +155,24 @@ public class ShieldManager : MonoBehaviour
             shield.Rotate(rotVec);
             shield.Translate(shield.up * 1.5f, Space.World);
 
-            shield.GetComponent<Shield>().Init(damage, -1); // -1은 무한으로 관통함을 의미.
+            shield.GetComponent<Weapon>().Init(damage, -1, Vector3.zero); // -1은 무한으로 관통함을 의미.
         }
+    }
+
+    // 단검 발사(원거리 공격)
+    void Fire()
+    {
+        if (!player.scanner.nearestTarget)
+            return;
+
+        Vector3 targetPos = player.scanner.nearestTarget.position;
+        Vector3 dir = targetPos - transform.position;
+        dir = dir.normalized;
+
+        Transform knife = GameManager.instance.pool.Get(prefabId).transform;
+        knife.position = transform.position;
+        // Quaternion.FromToRotation: 지정된 축을 중심으로 목표를 향해 회전하는 함수
+        knife.rotation = Quaternion.FromToRotation(Vector3.up, dir);
+        knife.GetComponent<Weapon>().Init(damage, count, dir);
     }
 }
