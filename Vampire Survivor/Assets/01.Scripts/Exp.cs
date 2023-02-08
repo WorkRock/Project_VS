@@ -6,13 +6,14 @@ public class Exp : MonoBehaviour
 {
     // 자석 범위에 걸렸는지 체크
     public bool onMagnet;
-
+   
     void Update()
     {
         // 자석 범위안에 걸린 경우 경험치를 플레이어 위치로 이동
         if(onMagnet)
         {
-            transform.position = Vector3.MoveTowards(transform.position, GameManager.instance.player.transform.position, 5f * Time.deltaTime);
+            transform.position = Vector3.Slerp(transform.position, GameManager.instance.player.transform.position, 0.05f);
+            //Vector3.MoveTowards(transform.position, GameManager.instance.player.transform.position, 5f * Time.deltaTime);
         }
     }
 

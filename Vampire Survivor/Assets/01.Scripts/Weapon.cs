@@ -8,7 +8,7 @@ public class Weapon : MonoBehaviour
     public float damage;
     // °üÅë
     public int per;
-
+  
     Rigidbody2D rigid;
 
     private void Awake()

@@ -5,80 +5,72 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     // 플레이어 관련 속성
+    [Header("Player Attributes")]
     public int speed;
     public Vector2 inputVec;
     public Scanner scanner;
 
     // 플레이어 체력
+    [Space(10f)]
+    [Header("HP")]
     public float player_Hp;
     public float player_MaxHp = 10;
 
-    // 플레이어 공격력
-    public float player_Atk;
+    // 플레이어 공격 관련
+    [Space(10f)]
+    [Header("Atk")]
+    public float player_Atk;    // 공격력
+    public BoxCollider2D hitBox;    // 히트박스
+    public GameObject slashEffect;  // 슬래시 이펙트
+    public float curSlashTime;      // 공격 주기
+    public float maxSlashTime = 1.5f;
 
     // 플레이어 레벨, 경험치
+    [Space(10f)]
+    [Header("Lv & Exp")]  
     public int playerLV;
     public int baseExp = 5;
     public int nowExp;  // 현재 경험치
     public int needExpPerLV; // 레벨 당 필요 경험치
 
-    // 히트박스
-    public BoxCollider2D hitBox;
+    // 무기 스왑 관련
+    [Space(10f)]
+    [Header("Swap")]
+    public Sprite[] weaponsSprites; // 무기 스왑용 스프라이트 배열 -> 나중에 최적화 고려하면 게임매니저에다 만드는게 나을듯
+    // 현재 착용 중인 무기 스프라이트
+    public SpriteRenderer rightWeapon;
+    public SpriteRenderer leftWeapon;
 
     // 컴포넌트
     Rigidbody2D rigid;
     CapsuleCollider2D capsuleCollider;
     SpriteRenderer sprite;
     Animator animator;
-
-    // 생존 체크
-    private bool isLive;
-    // 공격 체크
-    private bool isAtk;
-    // 히트박스 활성화 시간 체크
-    private float atkTime;
-
-    // 무기 스왑용 스프라이트 배열 -> 나중에 최적화 고려하면 게임매니저에다 만드는게 나을듯
-    public Sprite[] weaponsSprites;
-    // 현재 착용 중인 무기 스프라이트
-    public SpriteRenderer rightWeapon;
-    public SpriteRenderer leftWeapon;
-
-    // 피격 효과(알파값 조정)을 위해 플레이어의 자식으로 있는 스프라이트 렌더러들을 연결
-    private SpriteRenderer[] playerBodies;
-    
-    // 원래 색깔 저장
-    private Color[] originColor;
-
-    // 슬래시 이펙트
-    public GameObject slashEffect;
-    public float curSlashTime;
-    public float maxSlashTime = 1.5f;
-
-    // 자동 공격 사운드 한번만 사용되도록
-    private bool isSlash;
-
-    // 최대 공격 범위
-    public Vector3 maxRange = new Vector3(12f, 12f, 12f);
-    // 공격 범위 증가 폭(기본 3, 50%증가)
-    private Vector3 plusRange = new Vector3(1.5f, 1.5f, 1.5f);
+ 
+    private bool isLive;    // 생존 체크
+    private bool isAtk;     // 공격 체크
+    private float atkTime;  // 히트박스 활성화 시간 체크 
+    private SpriteRenderer[] playerBodies;  // 피격 효과(알파값 조정)을 위해 플레이어의 자식으로 있는 스프라이트 렌더러들을 연결
+    private Color[] originColor;    // 원래 색깔 저장  
+    private bool isSlash;   // 사운드 한번만 사용되도록 체크  
+    private Vector3 maxRange = new Vector3(12f, 12f, 12f);   // 최대 공격 범위
+    private Vector3 plusRange = new Vector3(1.5f, 1.5f, 1.5f);  // 공격 범위 증가 폭(기본 3, 50%증가)
 
     void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
         capsuleCollider = GetComponent<CapsuleCollider2D>();
         sprite = GetComponent<SpriteRenderer>();
-        animator = GetComponent<Animator>();
-        // 피격 효과(알파값 조정)을 위해 플레이어의 자식으로 있는 스프라이트 렌더러들을 연결
-        playerBodies = GetComponentsInChildren<SpriteRenderer>();
-        originColor = new Color[playerBodies.Length];
+        animator = GetComponent<Animator>(); 
+        playerBodies = GetComponentsInChildren<SpriteRenderer>();   // 피격 효과(알파값 조정)을 위해 플레이어의 자식으로 있는 스프라이트 렌더러들을 연결
+        originColor = new Color[playerBodies.Length];   // 피격 효과를 위해 플레이어의 원래 색깔을 저장
         scanner = GetComponent<Scanner>();
     }
 
     void Start()
     {
+        // 플레이어 관련 옵션 초기화
         player_Hp = player_MaxHp;
-        // 레벨 및 필요 경험치 초기화
         playerLV = 1;
         needExpPerLV = baseExp;
         isLive = true;
@@ -86,7 +78,8 @@ public class Player : MonoBehaviour
         atkTime = 0f;
         curSlashTime = 0f;
 
-        for(int i = 0; i < playerBodies.Length; i++)
+        // 피격 효과를 위해 플레이어의 원래 색깔을 저장
+        for (int i = 0; i < playerBodies.Length; i++)
         {
             originColor[i] = playerBodies[i].color;
         }
@@ -98,17 +91,19 @@ public class Player : MonoBehaviour
         if (!isLive)
             return;
 
+        // 업그레이드 테스트
         if (Input.GetKeyDown(KeyCode.U))
-            UpgradeDefaultAtkSpeed();
+            UpgradeDefaultAtkSpeed();   // 공격 속도 강화
         if (Input.GetKeyDown(KeyCode.R))
-            UpgradeDefaultAtkRange();
+            UpgradeDefaultAtkRange();   // 공격 범위 강화
 
         SlashOn();
         OnMove();
         Flip();
         Dead();
+        ActiveAttack();
 
-
+        // 공격 테스트
         if (Input.GetKeyDown(KeyCode.Z))
         {
             isAtk = true;
@@ -184,27 +179,7 @@ public class Player : MonoBehaviour
             // 5. 방패
             else if (Input.GetKeyDown(KeyCode.F5))
                 rightWeapon.sprite = weaponsSprites[4];
-        }
-        
-        
-
-        if(isAtk)
-        {
-            // 공격 중일 땐 이동 x
-            inputVec = new Vector2(0, 0);
-
-            // 히트 박스 활성화
-            hitBox.enabled = true; 
-            atkTime += Time.deltaTime;
-
-            // 0.2초 후 히트 박스 끄고 시간 초기화, 공격 상태 false
-            if(atkTime >= 0.2f)
-            {
-                hitBox.enabled = false;
-                atkTime = 0f;
-                isAtk = false;
-            }
-        }
+        }   
     }
 
     // rigid 관련 로직은 fixedUpdate에서 수행
@@ -223,6 +198,29 @@ public class Player : MonoBehaviour
         
     }
 
+    // 수동 공격
+    void ActiveAttack()
+    {
+        if (isAtk)
+        {
+            // 공격 중일 땐 이동 x
+            inputVec = new Vector2(0, 0);
+
+            // 히트 박스 활성화
+            hitBox.enabled = true;
+            atkTime += Time.deltaTime;
+
+            // 0.2초 후 히트 박스 끄고 시간 초기화, 공격 상태 false
+            if (atkTime >= 0.2f)
+            {
+                hitBox.enabled = false;
+                atkTime = 0f;
+                isAtk = false;
+            }
+        }
+    }
+
+    // 자동 공격(평타)
     void SlashOn()
     {
         curSlashTime += Time.deltaTime;
@@ -270,10 +268,8 @@ public class Player : MonoBehaviour
 
     void Dead()
     {
-        // 체력이 0이 되었을 때
         if (player_Hp <= 0)
         {
-            // 플레이어 사망 사운드 재생
             SoundManager.instance.PlaySE("Player Die");
             capsuleCollider.enabled = false;
             animator.SetTrigger("isDead");
@@ -285,15 +281,14 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.tag == "Enemy")
         {
-            // 플레이어 히트 사운드 재생
             SoundManager.instance.PlaySE("Player Hit");
             animator.SetTrigger("isHit");
             player_Hp--;
-
             HurtEffectOn();     
         }
     }
 
+    // 플레이어 피격효과 함수(알파값 조정)
     public void HurtEffectOn()
     {
         for (int i = 0; i < playerBodies.Length; i++)

@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    // 적 관련 속성
+    [Header("Enemy Attributes")]
     public float speed;
     bool isLive = true;
-
     // 적 체력
     public float enemy_Hp;
     public float enemy_MaxHp = 6;
@@ -18,7 +19,7 @@ public class Enemy : MonoBehaviour
     Rigidbody2D rigid;
     Animator animator;
 
-    // 플레이어 추적용
+    // 플레이어 추적
     Rigidbody2D target;
 
     void Awake()

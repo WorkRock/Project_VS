@@ -17,16 +17,16 @@ public class WeaponManager : MonoBehaviour
     // 방패: 스피드, 단검: 공격주기
     public float speed;
     public float maxSpeed = 230;
-
     // 레벨 업(레벨에 따라 방패 변경)
     public int level;
     public int maxLevel = 10;
-
+   
     SpriteRenderer[] nowShieldSprites;
     public Sprite[] shields;
 
     private float timer;
     Player player;
+    public Vector3 rotVec;
 
     private void Awake()
     {
@@ -109,7 +109,9 @@ public class WeaponManager : MonoBehaviour
         this.speed += speed;
 
         if (id == 0)
+        {
             SetShieldPosition();
+        }      
     }
 
     public void Init()
@@ -123,7 +125,7 @@ public class WeaponManager : MonoBehaviour
                 SetShieldPosition();
                 break;
             default:
-                speed = 1f;   // 단검 투척 주기
+                speed = 3f;   // 단검 투척 주기
                 break;
         }
     }
@@ -143,7 +145,7 @@ public class WeaponManager : MonoBehaviour
             else
             {
                 shield = GameManager.instance.pool.Get(prefabId).transform;
-                // Transform의 parent 속성을 통해 부모를 변경(Poolmanager -> ShieldManager)
+                // Transform의 parent 속성을 통해 부모를 변경(Poolmanager -> WeaponManager)
                 shield.parent = transform;
             }
           
@@ -151,7 +153,7 @@ public class WeaponManager : MonoBehaviour
             shield.localRotation = Quaternion.identity;
 
             // 방패 회전 로직
-            Vector3 rotVec = Vector3.forward * 360 * i / count;
+            rotVec = Vector3.forward * 360 * i / count;
             shield.Rotate(rotVec);
             shield.Translate(shield.up * 1.5f, Space.World);
 
