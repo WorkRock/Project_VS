@@ -4738,6 +4738,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnPoint: []
+  waveTime: 0
 --- !u!1 &4818382392581843043
 GameObject:
   m_ObjectHideFlags: 0
@@ -4769,6 +4770,7 @@ RectTransform:
   m_Children:
   - {fileID: 5353998924799196723}
   - {fileID: 1113570508}
+  - {fileID: 7587889356986849201}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5473,18 +5475,80 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   inputVec: {x: 0, y: 0}
+  scanner: {fileID: 0}
   player_Hp: 0
   player_MaxHp: 10
   player_Atk: 3
+  hitBox: {fileID: 8712647624721140491}
+  slashEffect: {fileID: 7950571384011113576}
+  curSlashTime: 0
+  maxSlashTime: 1.5
   playerLV: 0
   baseExp: 5
   nowExp: 0
   needExpPerLV: 0
-  hitBox: {fileID: 8712647624721140491}
   weaponsSprites: []
   rightWeapon: {fileID: 6374246375620990808}
   leftWeapon: {fileID: 7835093225657549800}
-  slashEffect: {fileID: 7950571384011113576}
+--- !u!1 &6836052978344391936
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7587889356986849201}
+  - component: {fileID: 6670008875293282524}
+  m_Layer: 0
+  m_Name: Weapon 0
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &7587889356986849201
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6836052978344391936}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.25, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7586330572396024177}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6670008875293282524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6836052978344391936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec6a81fbe832fc242979cad78b560d32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0
+  prefabId: 6
+  damage: 1
+  maxDamage: 5
+  count: 1
+  maxCount: 6
+  speed: 0
+  maxSpeed: 230
+  level: 0
+  maxLevel: 8
+  shields:
+  - {fileID: 21300000, guid: d90b86f6d80074f47a69e64a2d4dc9b5, type: 3}
+  - {fileID: 21300000, guid: a24176236f91b25498d38edba6de7c76, type: 3}
+  - {fileID: 21300000, guid: 75937e74469bcb648b0e50ac3e9bb5de, type: 3}
+  rotVec: {x: 0, y: 0, z: 0}
 --- !u!1 &6855723864824829440
 GameObject:
   m_ObjectHideFlags: 0

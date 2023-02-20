@@ -757,7 +757,7 @@ SortingGroup:
   m_Enabled: 1
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 3
 --- !u!95 &3887083327318951592
 Animator:
   serializedVersion: 5
@@ -4016,7 +4016,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 1
   enemy_Hp: 0
-  enemy_MaxHp: 6
+  enemy_MaxHp: 20
   enemy_Atk: 2
 --- !u!114 &-417618361678228107
 MonoBehaviour:

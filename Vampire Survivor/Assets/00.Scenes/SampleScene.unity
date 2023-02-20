@@ -241,6 +241,7 @@ MonoBehaviour:
   - {fileID: 359072205482564588, guid: dfabe6cc7d5837543b3a3f1b11efaf94, type: 3}
   - {fileID: 5904228870182678101, guid: 8f6192b29e206df4bb06ae72d9db3165, type: 3}
   - {fileID: 5873260137157664155, guid: 421957782e67b8c44834030a1e48191e, type: 3}
+  - {fileID: 5873260137157664155, guid: 6e21ad84dee95174ea58cc35ce7ff9eb, type: 3}
 --- !u!4 &235873188
 Transform:
   m_ObjectHideFlags: 0
@@ -267,6 +268,10 @@ PrefabInstance:
       propertyPath: m_Radius
       value: 0.8
       objectReference: {fileID: 0}
+    - target: {fileID: 3225521668185990698, guid: 7a356ab428150904d9dda5773678c5ac, type: 3}
+      propertyPath: m_SortingOrder
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 4016812122430155565, guid: 7a356ab428150904d9dda5773678c5ac, type: 3}
       propertyPath: m_SortingOrder
       value: 6
@@ -286,6 +291,10 @@ PrefabInstance:
     - target: {fileID: 4818382392581843043, guid: 7a356ab428150904d9dda5773678c5ac, type: 3}
       propertyPath: m_Name
       value: Unit006
+      objectReference: {fileID: 0}
+    - target: {fileID: 6836052978344391936, guid: 7a356ab428150904d9dda5773678c5ac, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7466887306183435798, guid: 7a356ab428150904d9dda5773678c5ac, type: 3}
       propertyPath: weaponsSprites.Array.size
@@ -393,6 +402,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7586330572396024177, guid: 7a356ab428150904d9dda5773678c5ac, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7587889356986849201, guid: 7a356ab428150904d9dda5773678c5ac, type: 3}
+      propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -564,7 +577,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 2
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -4759,7 +4772,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2056243452}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &403477953
 MonoBehaviour:
@@ -4950,7 +4963,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 2
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -9537,7 +9550,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 2
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -13618,6 +13631,65 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &763145019
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 763145020}
+  - component: {fileID: 763145021}
+  m_Layer: 0
+  m_Name: Weapon 2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &763145020
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 763145019}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.25, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2056243452}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &763145021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 763145019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec6a81fbe832fc242979cad78b560d32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 2
+  prefabId: 8
+  damage: 5
+  maxDamage: 10
+  count: 3
+  maxCount: 5
+  speed: 5
+  maxSpeed: 0.5
+  level: 0
+  maxLevel: 8
+  shields:
+  - {fileID: 21300000, guid: d90b86f6d80074f47a69e64a2d4dc9b5, type: 3}
+  - {fileID: 21300000, guid: a24176236f91b25498d38edba6de7c76, type: 3}
+  - {fileID: 21300000, guid: 75937e74469bcb648b0e50ac3e9bb5de, type: 3}
+  rotVec: {x: 0, y: 0, z: 0}
 --- !u!1 &835958470
 GameObject:
   m_ObjectHideFlags: 3
@@ -14334,7 +14406,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 2
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -18685,65 +18757,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!1 &1911293275
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1911293276}
-  - component: {fileID: 1911293277}
-  m_Layer: 0
-  m_Name: Weapon 0
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1911293276
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1911293275}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.25, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2056243452}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1911293277
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1911293275}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec6a81fbe832fc242979cad78b560d32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 0
-  prefabId: 6
-  damage: 1
-  maxDamage: 5
-  count: 1
-  maxCount: 6
-  speed: 0
-  maxSpeed: 230
-  level: 0
-  maxLevel: 8
-  shields:
-  - {fileID: 21300000, guid: d90b86f6d80074f47a69e64a2d4dc9b5, type: 3}
-  - {fileID: 21300000, guid: a24176236f91b25498d38edba6de7c76, type: 3}
-  - {fileID: 21300000, guid: 75937e74469bcb648b0e50ac3e9bb5de, type: 3}
-  rotVec: {x: 0, y: 0, z: 0}
 --- !u!1 &1933856511
 GameObject:
   m_ObjectHideFlags: 0

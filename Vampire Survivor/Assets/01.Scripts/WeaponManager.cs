@@ -29,12 +29,13 @@ public class WeaponManager : MonoBehaviour
     public Vector3 rotVec;
 
     private void Awake()
-    {
-        player = GetComponentInParent<Player>();
+    {    
+        //player = GetComponentInParent<Player>();
     }
 
     private void Start()
     {
+        player = GameManager.instance.player;
         Init();
     }
     void Update()
@@ -43,17 +44,30 @@ public class WeaponManager : MonoBehaviour
         {
             // 방패
             case 0:
+                //transform.position = player.transform.position;
+                transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 0.35f, player.transform.position.z);
                 transform.Rotate(Vector3.back * speed * Time.deltaTime);
+                //transform.Rotate(Vector3.back * (-1) * player.transform.localScale.x * speed * Time.deltaTime);
                 break;
 
             // 단검
-            default:
+            case 1:
                 timer += Time.deltaTime;
 
                 if(timer > speed)
                 {
                     timer = 0f;
-                    Fire();
+                    FireKnife();
+                }
+                break;
+            // 화살
+            case 2:
+                timer += Time.deltaTime;
+
+                if (timer > speed)
+                {
+                    timer = 0f;
+                    FireArrow();
                 }
                 break;
 
@@ -124,8 +138,11 @@ public class WeaponManager : MonoBehaviour
                 level = 1;
                 SetShieldPosition();
                 break;
-            default:
+            case 1:
                 speed = 3f;   // 단검 투척 주기
+                break;
+            case 2:
+                speed = 5f;   // 화살 투척 주기
                 break;
         }
     }
@@ -162,10 +179,53 @@ public class WeaponManager : MonoBehaviour
     }
 
     // 단검 발사(원거리 공격)
-    void Fire()
+    void FireKnife()
     {
         if (!player.scanner.nearestTarget)
+        {
+            Transform knifeTwo = GameManager.instance.pool.Get(prefabId).transform;
+            knifeTwo.position = transform.position;
+            
+            Vector3 dirTwo = player.inputVec;
+            dirTwo.x = (-1) * player.transform.localScale.x;
+            
+            knifeTwo.rotation = Quaternion.FromToRotation(Vector3.up, dirTwo);
+            knifeTwo.GetComponent<Weapon>().Init(damage, count, dirTwo);
+            //rigid.AddForce(transform.position, ForceMode2D.Impulse);
+
             return;
+        }
+            
+
+        Vector3 targetPos = player.scanner.nearestTarget.position;
+        Vector3 dir = targetPos - transform.position;
+        dir = dir.normalized;
+
+        Transform knife = GameManager.instance.pool.Get(prefabId).transform;
+        knife.position = transform.position;
+        // Quaternion.FromToRotation: 지정된 축을 중심으로 목표를 향해 회전하는 함수
+        knife.rotation = Quaternion.FromToRotation(Vector3.up, dir);
+        knife.GetComponent<Weapon>().Init(damage, count, dir);
+    }
+
+    // 화살 발사(원거리 공격)
+    void FireArrow()
+    {
+        if (!player.scanner.nearestTarget)
+        {
+            Transform knifeTwo = GameManager.instance.pool.Get(prefabId).transform;
+            knifeTwo.position = transform.position;
+
+            Vector3 dirTwo = player.inputVec;
+            dirTwo.x = (-1) * player.transform.localScale.x;
+
+            knifeTwo.rotation = Quaternion.FromToRotation(Vector3.up, dirTwo);
+            knifeTwo.GetComponent<Weapon>().Init(damage, count, dirTwo);
+            //rigid.AddForce(transform.position, ForceMode2D.Impulse);
+
+            return;
+        }
+
 
         Vector3 targetPos = player.scanner.nearestTarget.position;
         Vector3 dir = targetPos - transform.position;

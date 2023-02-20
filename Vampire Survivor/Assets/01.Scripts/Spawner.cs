@@ -20,7 +20,7 @@ public class Spawner : MonoBehaviour
     {
         timer += Time.deltaTime;
      
-        if (timer > 2f)
+        if (timer > 0.1f)
         {
             waveTime += timer;
 
