@@ -56,8 +56,8 @@ public class Reposition : MonoBehaviour
                 // 적의 콜라이더가 활성화 되어있다면(적이 살아있다면)
                 if(coll.enabled)
                 {
-                    // 플레이어의 이동 방향에 따라 맞은 편 20만큼의 거리에서 등장하도록 이동
-                    transform.Translate(playerDir * 20 + new Vector3(Random.Range(-3f, 3f), Random.Range(-3f, 3f), 0));
+                    // 플레이어의 이동 방향에 따라 맞은 편 30+-3 만큼의 거리에서 등장하도록 이동
+                    transform.Translate(playerDir * 30 + new Vector3(Random.Range(-3f, 3f), Random.Range(-3f, 3f), 0));
                 }
                 break;
         }

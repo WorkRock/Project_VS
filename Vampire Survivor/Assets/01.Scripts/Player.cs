@@ -270,6 +270,11 @@ public class Player : MonoBehaviour
     {
         if (player_Hp <= 0)
         {
+            for (int i = 0; i < playerBodies.Length; i++)
+            {
+                playerBodies[i].color = originColor[i];
+            }
+
             SoundManager.instance.PlaySE("Player Die");
             capsuleCollider.enabled = false;
             animator.SetTrigger("isDead");
@@ -291,6 +296,9 @@ public class Player : MonoBehaviour
     // 플레이어 피격효과 함수(알파값 조정)
     public void HurtEffectOn()
     {
+        // 피격 시 콜라이더 끄기
+        capsuleCollider.enabled = false;
+
         for (int i = 0; i < playerBodies.Length; i++)
         {
             playerBodies[i].color = new Color(1, 1, 1, 0.4f);
@@ -300,6 +308,11 @@ public class Player : MonoBehaviour
 
     public void HurtEffectOff()
     {
+        if (player_Hp <= 0)
+            return;
+        // 콜라이더 켜기
+        capsuleCollider.enabled = true;
+
         for (int i = 0; i < playerBodies.Length; i++)
         {
             playerBodies[i].color = originColor[i];
