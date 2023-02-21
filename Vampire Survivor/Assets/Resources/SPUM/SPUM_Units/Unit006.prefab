@@ -5403,7 +5403,7 @@ SortingGroup:
   m_Enabled: 1
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 4
 --- !u!95 &5029736103320196090
 Animator:
   serializedVersion: 5

@@ -31,6 +31,9 @@ public class Weapon : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.CompareTag("Border"))
+            gameObject.SetActive(false);
+
         // 충돌 객체가 적이 아니거나 근접무기라면 실행 X
         if (!collision.CompareTag("Enemy") || per == -1)
             return;

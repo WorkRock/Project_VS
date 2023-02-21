@@ -5,7 +5,7 @@ using UnityEngine;
 public class Magnet : MonoBehaviour
 {
     public float magnetRange;
-    public float maxMagnetRange = 2f;
+    public float maxMagnetRange;
     CircleCollider2D circle;
 
     private void Awake()
