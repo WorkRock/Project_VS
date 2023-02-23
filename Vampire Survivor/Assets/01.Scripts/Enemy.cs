@@ -100,8 +100,33 @@ public class Enemy : MonoBehaviour
             }
         }
 
-        // 2. 방패와 충돌
-        if(collision.gameObject.tag == "Shield")
+        // 2. 플레이어 평타-검-보조무기 와 충돌
+        if (collision.gameObject.tag == "Player_Atk")
+        {
+            // 평타 비활성화
+            collision.gameObject.SetActive(false);
+
+            // 적 히트 사운드 재생
+            SoundManager.instance.PlaySE("Enemy Hit");
+            animator.SetTrigger("isHit");
+            enemy_Hp -= GameManager.instance.player.player_Atk;
+
+            if (enemy_Hp <= 0)
+            {
+                // 콜라이더 비활성화
+                this.GetComponent<CapsuleCollider2D>().enabled = false;
+                // 적 사망 사운드 재생
+                SoundManager.instance.PlaySE("Enemy Die");
+                animator.SetTrigger("isDead");
+                Invoke("Delete", 0.5f);
+                // 경험치 드랍(풀의 인덱스 5번)
+                GameObject exp = GameManager.instance.pool.Get(5);
+                exp.transform.position = this.transform.position;
+            }
+        }
+
+        // 3. 방패와 충돌
+        if (collision.gameObject.tag == "Shield")
         {
             // 적 히트 사운드 재생
             SoundManager.instance.PlaySE("Enemy Hit");
@@ -123,7 +148,7 @@ public class Enemy : MonoBehaviour
             }
         }
 
-        // 3. 단검과 충돌
+        // 4. 단검과 충돌
         if (collision.gameObject.tag == "Knife")
         {
             // 적 히트 사운드 재생

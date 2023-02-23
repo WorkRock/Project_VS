@@ -20,11 +20,20 @@ public class Player : MonoBehaviour
     [Space(10f)]
     [Header("Atk")]
     public float player_Atk;    // 공격력
-    public BoxCollider2D hitBox;    // 히트박스
-    public GameObject slashEffect;  // 슬래시 이펙트
+    public BoxCollider2D hitBox;    // 히트박스(스킬)
+
+    public GameObject slashEffect;  // 슬래시(평타)
     public float curSlashTime;      // 공격 주기
     public float maxSlashTime = 1.5f;
+    public float playerDir; // 플레이어가 바라보는 방향(transform.localScale.x)값 저장
 
+    public Transform passivePos;    // 평타 생성 위치
+    public GameObject passive_Main_Sword;   // 검-평타-주무기
+    public GameObject passive_Sub_Sword;    // 검-평타-보조무기
+
+    // 현재 무기가 주무기인지, 보조무기인지 저장(테스트용)
+    private bool isMain;
+   
     // 플레이어 레벨, 경험치
     [Space(10f)]
     [Header("Lv & Exp")]  
@@ -78,6 +87,8 @@ public class Player : MonoBehaviour
         atkTime = 0f;
         curSlashTime = 0f;
 
+        isMain = true;
+        
         // 피격 효과를 위해 플레이어의 원래 색깔을 저장
         for (int i = 0; i < playerBodies.Length; i++)
         {
@@ -91,13 +102,33 @@ public class Player : MonoBehaviour
         if (!isLive)
             return;
 
+        // @@@@@@@@주무기(오른쪽) 보조무기(왼쪽) 스왑에 따른 평타 변경 테스트
+        if(Input.GetKeyDown(KeyCode.O))
+        {
+            isMain = !isMain;
+            if(rightWeapon.sprite != null)
+            {
+                leftWeapon.sprite = rightWeapon.sprite;
+                rightWeapon.sprite = null;
+            }
+            else if(rightWeapon.sprite == null)
+            {
+                rightWeapon.sprite = leftWeapon.sprite;
+                leftWeapon.sprite = null;
+            }         
+        }
+
+        // update에서 플레이어가 바라보는 방향을 지속적으로 받아오기
+        playerDir = transform.localScale.x;
+
         // 업그레이드 테스트
         if (Input.GetKeyDown(KeyCode.U))
             UpgradeDefaultAtkSpeed();   // 공격 속도 강화
         if (Input.GetKeyDown(KeyCode.R))
             UpgradeDefaultAtkRange();   // 공격 범위 강화
 
-        SlashOn();
+        SlashOn();  // 검-메인-평타
+        Passive_Sub_Sword_On(); // 검-서브-평타
         OnMove();
         Flip();
         Dead();
@@ -220,30 +251,60 @@ public class Player : MonoBehaviour
         }
     }
 
-    // 자동 공격(평타)
+    #region 평타-검
+    // 평타 - 검 - 주무기(뱀서 채찍)
     void SlashOn()
     {
+        if (!isMain)
+            return;
+
         curSlashTime += Time.deltaTime;
         if (curSlashTime >= maxSlashTime)
         {
             if(!isSlash)
             {
-                // 자동공격 사운드 재생
+                // 사운드 재생
                 SoundManager.instance.PlaySE("Passive Atk_Sword");
                 isSlash = true;
             }
-            
-            slashEffect.SetActive(true);
+            passive_Main_Sword = GameManager.instance.pool.Get(9);  // 풀에서 평타-검(주무기) 꺼내오기
+            passive_Main_Sword.transform.position = passivePos.position;    // 평타의 위치 지정
+            passive_Main_Sword.GetComponent<SpriteRenderer>().flipX = playerDir == -1; // 플레이어의 좌우반전에 따라 평타도 반전시키기
             Invoke("SlashOff", 0.4f);
             curSlashTime = 0f;
         }
     }
-
     void SlashOff()
     {
-        slashEffect.SetActive(false);
+        passive_Main_Sword.SetActive(false);
         isSlash = false;
     }
+
+    // 평타 - 검 - 보조무기(검기 발사)
+    void Passive_Sub_Sword_On()
+    {
+        if (isMain)
+            return;
+
+        curSlashTime += Time.deltaTime;
+        if (curSlashTime >= maxSlashTime)
+        {
+            if (!isSlash)
+            {
+                // 사운드 재생
+                SoundManager.instance.PlaySE("Passive Atk_Sword");
+                isSlash = true;
+            }
+            passive_Sub_Sword = GameManager.instance.pool.Get(10);  // 풀에서 평타-검(보조무기) 꺼내오기
+            passive_Sub_Sword.transform.position = passivePos.position; // 평타의 위치 지정
+            passive_Sub_Sword.GetComponent<SpriteRenderer>().flipX = playerDir == -1; // 플레이어의 좌우반전에 따라 평타도 반전시키기
+                                                                                      // 플레이어가 바라보는 방향(playerDir)으로 검기 발사
+            passive_Sub_Sword.GetComponent<Rigidbody2D>().AddForce(Vector2.left * playerDir * 4.5f, ForceMode2D.Impulse);
+            curSlashTime = 0f;
+        }
+    }
+
+    #endregion
 
     void OnMove()
     {
@@ -330,8 +391,8 @@ public class Player : MonoBehaviour
     // 평타 공격 범위 증가 함수
     void UpgradeDefaultAtkRange()
     {
-        slashEffect.transform.localScale += plusRange;
-        if (slashEffect.transform.localScale.x >= maxRange.x)
-            slashEffect.transform.localScale = maxRange;
+        passive_Main_Sword.transform.localScale += plusRange;
+        if (passive_Main_Sword.transform.localScale.x >= maxRange.x)
+            passive_Main_Sword.transform.localScale = maxRange;
     }
 }

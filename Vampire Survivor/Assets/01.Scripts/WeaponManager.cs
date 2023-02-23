@@ -44,10 +44,8 @@ public class WeaponManager : MonoBehaviour
         {
             // 방패
             case 0:
-                //transform.position = player.transform.position;
                 transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 0.35f, player.transform.position.z);
                 transform.Rotate(Vector3.back * speed * Time.deltaTime);
-                //transform.Rotate(Vector3.back * (-1) * player.transform.localScale.x * speed * Time.deltaTime);
                 break;
 
             // 단검
