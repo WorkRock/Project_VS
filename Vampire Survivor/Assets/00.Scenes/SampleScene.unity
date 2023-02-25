@@ -242,6 +242,8 @@ MonoBehaviour:
   - {fileID: 5904228870182678101, guid: 8f6192b29e206df4bb06ae72d9db3165, type: 3}
   - {fileID: 5873260137157664155, guid: 421957782e67b8c44834030a1e48191e, type: 3}
   - {fileID: 5873260137157664155, guid: 6e21ad84dee95174ea58cc35ce7ff9eb, type: 3}
+  - {fileID: 1663387448367639306, guid: d8afbf64364de484ca3b098c9aaad793, type: 3}
+  - {fileID: 1937058878522365953, guid: 585557653db827d4eb7f9f4cc1c6af81, type: 3}
 --- !u!4 &235873188
 Transform:
   m_ObjectHideFlags: 0
@@ -292,6 +294,10 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 4423715700981631106, guid: 7a356ab428150904d9dda5773678c5ac, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4602415365850828386, guid: 7a356ab428150904d9dda5773678c5ac, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -308,9 +314,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: Unit006
       objectReference: {fileID: 0}
+    - target: {fileID: 5353998924799196723, guid: 7a356ab428150904d9dda5773678c5ac, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6836052978344391936, guid: 7a356ab428150904d9dda5773678c5ac, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7466887306183435798, guid: 7a356ab428150904d9dda5773678c5ac, type: 3}
+      propertyPath: slash
+      value: 
+      objectReference: {fileID: 1663387448367639306, guid: d8afbf64364de484ca3b098c9aaad793, type: 3}
+    - target: {fileID: 7466887306183435798, guid: 7a356ab428150904d9dda5773678c5ac, type: 3}
+      propertyPath: leftSlash
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7466887306183435798, guid: 7a356ab428150904d9dda5773678c5ac, type: 3}
+      propertyPath: rightSlash
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7466887306183435798, guid: 7a356ab428150904d9dda5773678c5ac, type: 3}
       propertyPath: weaponsSprites.Array.size
@@ -422,6 +444,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7587889356986849201, guid: 7a356ab428150904d9dda5773678c5ac, type: 3}
       propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7950571384011113576, guid: 7a356ab428150904d9dda5773678c5ac, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8118284291745976279, guid: 7a356ab428150904d9dda5773678c5ac, type: 3}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8712647624721140491, guid: 7a356ab428150904d9dda5773678c5ac, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -545,7 +579,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2056243452}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &403477953
 MonoBehaviour:
@@ -948,7 +982,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2056243452}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &763145021
 MonoBehaviour:

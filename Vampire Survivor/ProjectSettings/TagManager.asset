@@ -15,6 +15,7 @@ TagManager:
   - Shield
   - Knife
   - Border
+  - Player_Atk
   layers:
   - Default
   - TransparentFX
