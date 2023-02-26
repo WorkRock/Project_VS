@@ -22,18 +22,43 @@ public class Player : MonoBehaviour
     public float player_Atk;    // 공격력
     public BoxCollider2D hitBox;    // 히트박스(스킬)
 
-    public GameObject slashEffect;  // 슬래시(평타)
-    public float curSlashTime;      // 공격 주기
-    public float maxSlashTime = 1.5f;
+    // 0-검 1-활 2-단검 3-창 4-완드 5-도끼 6-방패
+    public int weaponNum;
+    // 현재 무기가 주무기인지, 보조무기인지 저장(테스트용)
+    private bool isMain;
     public float playerDir; // 플레이어가 바라보는 방향(transform.localScale.x)값 저장
 
+    [Space(10f)]
+    [Header("Sword")]
+    public float curSlashTime;      // 공격 주기
+    public float maxSlashTime = 1.5f;  
     public Transform passivePos;    // 평타 생성 위치
     public GameObject passive_Main_Sword;   // 검-평타-주무기
     public GameObject passive_Sub_Sword;    // 검-평타-보조무기
 
-    // 현재 무기가 주무기인지, 보조무기인지 저장(테스트용)
-    private bool isMain;
-   
+    [Space(10f)]
+    [Header("Bow")]
+    public float curBowTime;
+    public float maxBowTime = 1.5f;
+    public GameObject passive_Main_Bow;     // 활-평타-주무기
+    public GameObject passive_Sub_Bow;      // 활-평타-보조무기
+
+    [Space(10f)]
+    [Header("Knife")]
+    public float curKnifeTime;
+    public float maxKnifeTime = 1.5f;
+    public Transform passivePos_Knife;    // 평타 생성 위치
+    public GameObject passive_Main_Knife;   // 단검-평타-주무기
+    public GameObject passive_Sub_Knife;    // 단검-평타-보조무기
+
+    [Space(10f)]
+    [Header("Spear")]
+    public float curSpearTime;
+    public float maxSpearTime = 1.5f;
+    public Transform passivePos_Spear;    // 평타 생성 위치
+    public GameObject passive_Main_Spear;   // 창-평타-주무기
+    public GameObject passive_Sub_Spear;    // 창-평타-보조무기
+
     // 플레이어 레벨, 경험치
     [Space(10f)]
     [Header("Lv & Exp")]  
@@ -78,6 +103,8 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        // 무기 번호 초기화 (기본-0, 검)
+        weaponNum = 0;
         // 플레이어 관련 옵션 초기화
         player_Hp = player_MaxHp;
         playerLV = 1;
@@ -86,6 +113,9 @@ public class Player : MonoBehaviour
         isAtk = false;
         atkTime = 0f;
         curSlashTime = 0f;
+        curKnifeTime = 0f;
+        curBowTime = 0f;
+        curSpearTime = 0f;
 
         isMain = true;
         
@@ -102,8 +132,11 @@ public class Player : MonoBehaviour
         if (!isLive)
             return;
 
+        // 무기 변경
+        ChangeWeapon();
+
         // @@@@@@@@주무기(오른쪽) 보조무기(왼쪽) 스왑에 따른 평타 변경 테스트
-        if(Input.GetKeyDown(KeyCode.O))
+        if (Input.GetKeyDown(KeyCode.O))
         {
             isMain = !isMain;
             if(rightWeapon.sprite != null)
@@ -127,12 +160,35 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
             UpgradeDefaultAtkRange();   // 공격 범위 강화
 
-        SlashOn();  // 검-메인-평타
-        Passive_Sub_Sword_On(); // 검-서브-평타
-        OnMove();
-        Flip();
-        Dead();
-        ActiveAttack();
+        // 무기 종류에 따라 다른 평타가 나가도록 검사
+        switch (weaponNum)
+        {
+            // 검
+            case 0:
+                SlashOn();              // 검-메인-평타
+                Passive_Sub_Sword_On(); // 검-서브-평타
+                break;
+            // 활
+            case 1:
+                Passive_Main_Bow();     // 활-메인-평타
+                Passive_Sub_Bow();      // 활-서브-평타
+                break;
+            // 단검
+            case 2:
+                Passive_Main_Knife();   // 단검-메인-평타          
+                Passive_Sub_Knife();    // 단검-서브-평타
+                break;
+            // 창
+            case 3:
+                Passive_Main_Spear();   // 창-메인-평타
+                Passive_Sub_Spear();    // 창-서브-평타
+                break;
+        }
+        
+        OnMove();   // 이동
+        Flip();     // 좌우 반전
+        Dead();     // 사망 체크
+        ActiveAttack(); // 수동 공격
 
         // 공격 테스트
         if (Input.GetKeyDown(KeyCode.Z))
@@ -168,48 +224,6 @@ public class Player : MonoBehaviour
         {
             isAtk = true;
             animator.SetTrigger("SMagic");
-        }
-
-
-
-        // 무기 스왑 테스트 
-        // 왼손 무기 : L키 + 숫자 1 2 3 4 5
-        if (Input.GetKey(KeyCode.L))
-        {
-            // 1. 도끼
-            if (Input.GetKeyDown(KeyCode.F1))
-                leftWeapon.sprite = weaponsSprites[0];
-            // 2. 활
-            else if (Input.GetKeyDown(KeyCode.F2))       
-                leftWeapon.sprite = weaponsSprites[1];
-            // 3. 창 
-            else if (Input.GetKeyDown(KeyCode.F3))
-                leftWeapon.sprite = weaponsSprites[2];
-            // 4. 완드
-            else if (Input.GetKeyDown(KeyCode.F4))
-                leftWeapon.sprite = weaponsSprites[3];
-            // 5. 방패
-            else if (Input.GetKeyDown(KeyCode.F5))
-                leftWeapon.sprite = weaponsSprites[4];
-        }
-        // 오른손 무기 : R키 + 숫자 1 2 3 4 5
-        else if(Input.GetKey(KeyCode.R))
-        {
-            // 1. 도끼
-            if (Input.GetKeyDown(KeyCode.F1))
-                rightWeapon.sprite = weaponsSprites[0];
-            // 2. 활
-            else if (Input.GetKeyDown(KeyCode.F2))
-                rightWeapon.sprite = weaponsSprites[1];
-            // 3. 창 
-            else if (Input.GetKeyDown(KeyCode.F3))
-                rightWeapon.sprite = weaponsSprites[2];
-            // 4. 완드
-            else if (Input.GetKeyDown(KeyCode.F4))
-                rightWeapon.sprite = weaponsSprites[3];
-            // 5. 방패
-            else if (Input.GetKeyDown(KeyCode.F5))
-                rightWeapon.sprite = weaponsSprites[4];
         }   
     }
 
@@ -251,7 +265,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    #region 평타-검
+    #region 평타 - 검
     // 평타 - 검 - 주무기(뱀서 채찍)
     void SlashOn()
     {
@@ -297,15 +311,218 @@ public class Player : MonoBehaviour
             }
             passive_Sub_Sword = GameManager.instance.pool.Get(10);  // 풀에서 평타-검(보조무기) 꺼내오기
             passive_Sub_Sword.transform.position = passivePos.position; // 평타의 위치 지정
-            passive_Sub_Sword.GetComponent<SpriteRenderer>().flipX = playerDir == -1; // 플레이어의 좌우반전에 따라 평타도 반전시키기
-                                                                                      // 플레이어가 바라보는 방향(playerDir)으로 검기 발사
-            passive_Sub_Sword.GetComponent<Rigidbody2D>().AddForce(Vector2.left * playerDir * 4.5f, ForceMode2D.Impulse);
+            passive_Sub_Sword.GetComponent<SpriteRenderer>().flipX = playerDir == -1; // 플레이어의 좌우반전에 따라 평타도 반전시키기                                                                                  
+            passive_Sub_Sword.GetComponent<Rigidbody2D>().AddForce(Vector2.left * playerDir * 4.5f, ForceMode2D.Impulse);   // 플레이어가 바라보는 방향(playerDir)으로 검기 발사
             curSlashTime = 0f;
         }
     }
 
     #endregion
 
+    #region 평타 - 활(석궁)
+    // 평타 - 활 - 주무기
+    void Passive_Main_Bow()
+    {
+        if (!isMain)
+            return;
+
+        curBowTime += Time.deltaTime;
+
+        if (curBowTime > maxBowTime)
+        {
+            curBowTime = 0f;
+            if (!this.scanner.nearestTarget)
+            {
+                Transform bowTwo = GameManager.instance.pool.Get(12).transform;
+                bowTwo.position = transform.position;
+
+                Vector3 dirTwo = this.inputVec;
+                dirTwo.x = (-1) * this.transform.localScale.x;
+
+                bowTwo.rotation = Quaternion.FromToRotation(Vector3.up, dirTwo);
+                bowTwo.GetComponent<Weapon>().Init(4, 1, dirTwo);
+                //rigid.AddForce(transform.position, ForceMode2D.Impulse);
+
+                return;
+            }
+
+            Vector3 targetPos = this.scanner.nearestTarget.position;
+            Vector3 dir = targetPos - transform.position;
+            dir = dir.normalized;
+
+            Transform bow = GameManager.instance.pool.Get(12).transform;
+            bow.position = transform.position;
+            // Quaternion.FromToRotation: 지정된 축을 중심으로 목표를 향해 회전하는 함수
+            bow.rotation = Quaternion.FromToRotation(Vector3.up, dir);
+            bow.GetComponent<Weapon>().Init(4, 1, dir);
+        }
+    }
+
+    // 평타 - 활 - 보조무기
+    void Passive_Sub_Bow()
+    {
+        if (isMain)
+            return;
+
+        curBowTime += Time.deltaTime;
+
+        if (curBowTime > maxBowTime)
+        {
+            curBowTime = 0f;
+            if (!this.scanner.nearestTarget)
+            {
+                Transform bowTwo = GameManager.instance.pool.Get(8).transform;
+                bowTwo.position = transform.position;
+
+                Vector3 dirTwo = this.inputVec;
+                dirTwo.x = (-1) * this.transform.localScale.x;
+
+                bowTwo.rotation = Quaternion.FromToRotation(Vector3.up, dirTwo);
+                bowTwo.GetComponent<Weapon>().Init(1, 1, dirTwo);
+                //rigid.AddForce(transform.position, ForceMode2D.Impulse);
+
+                return;
+            }
+
+            Vector3 targetPos = this.scanner.nearestTarget.position;
+            Vector3 dir = targetPos - transform.position;
+            dir = dir.normalized;
+
+            Transform bow = GameManager.instance.pool.Get(8).transform;
+            bow.position = transform.position;
+            // Quaternion.FromToRotation: 지정된 축을 중심으로 목표를 향해 회전하는 함수
+            bow.rotation = Quaternion.FromToRotation(Vector3.up, dir);
+            bow.GetComponent<Weapon>().Init(1, 1, dir);
+        }
+    }
+    #endregion
+
+    #region 평타 - 단검
+    // 평타 - 단검 - 주무기
+    void Passive_Main_Knife()
+    {
+        if (!isMain)
+            return;
+
+        curKnifeTime += Time.deltaTime;
+        if (curKnifeTime >= maxKnifeTime)
+        {
+            if (!isSlash)
+            {
+                // 사운드 재생
+                SoundManager.instance.PlaySE("Passive Atk_Sword");
+                isSlash = true;
+            }
+            passive_Main_Knife = GameManager.instance.pool.Get(11);  // 풀에서 평타-단검(주무기) 꺼내오기
+            passive_Main_Knife.transform.position = passivePos_Knife.position;    // 평타의 위치 지정
+            passive_Main_Knife.GetComponent<SpriteRenderer>().flipX = playerDir == -1; // 플레이어의 좌우반전에 따라 평타도 반전시키기
+            Invoke("Passive_Main_Knife_Off", 0.3f);
+            curKnifeTime = 0f;
+        }
+    }
+    void Passive_Main_Knife_Off()
+    {
+        passive_Main_Knife.SetActive(false);
+        isSlash = false;
+    }
+
+    // 평타 - 단검 - 보조무기
+    // 단검 발사(원거리 공격)
+    void Passive_Sub_Knife()
+    {
+        if (isMain)
+            return;
+
+        curKnifeTime += Time.deltaTime;
+
+        if (curKnifeTime > maxKnifeTime)
+        {
+            curKnifeTime = 0f;
+            if (!this.scanner.nearestTarget)
+            {
+                Transform knifeTwo = GameManager.instance.pool.Get(7).transform;
+                knifeTwo.position = transform.position;
+
+                Vector3 dirTwo = this.inputVec;
+                dirTwo.x = (-1) * this.transform.localScale.x;
+
+                knifeTwo.rotation = Quaternion.FromToRotation(Vector3.up, dirTwo);
+                knifeTwo.GetComponent<Weapon>().Init(1, 1, dirTwo);
+                //rigid.AddForce(transform.position, ForceMode2D.Impulse);
+
+                return;
+            }
+
+            Vector3 targetPos = this.scanner.nearestTarget.position;
+            Vector3 dir = targetPos - transform.position;
+            dir = dir.normalized;
+
+            Transform knife = GameManager.instance.pool.Get(7).transform;
+            knife.position = transform.position;
+            // Quaternion.FromToRotation: 지정된 축을 중심으로 목표를 향해 회전하는 함수
+            knife.rotation = Quaternion.FromToRotation(Vector3.up, dir);
+            knife.GetComponent<Weapon>().Init(1, 1, dir);
+        }    
+    }
+    #endregion
+
+    #region 평타 - 창
+    // 평타 - 창 - 주무기(길게 찌르기)
+    void Passive_Main_Spear()
+    {
+        if (!isMain)
+            return;
+
+        curSpearTime += Time.deltaTime;
+        if (curSpearTime >= maxSpearTime)
+        {
+            if (!isSlash)
+            {
+                // 사운드 재생
+                SoundManager.instance.PlaySE("Passive Atk_Sword");
+                isSlash = true;
+            }
+            passive_Main_Spear = GameManager.instance.pool.Get(14);  // 풀에서 평타-창(주무기) 꺼내오기
+            passive_Main_Spear.transform.position = passivePos_Spear.position;    // 평타의 위치 지정
+            passive_Main_Spear.GetComponent<SpriteRenderer>().flipX = playerDir == -1; // 플레이어의 좌우반전에 따라 평타도 반전시키기
+            Invoke("Passive_Main_Spear_Off", 0.4f);
+            curSpearTime = 0f;
+        }
+    }
+
+    void Passive_Main_Spear_Off()
+    {
+        passive_Main_Spear.SetActive(false);
+        isSlash = false;
+    }
+    // 평타 - 창 - 보조무기(원형 휘두르기)
+    void Passive_Sub_Spear()
+    {
+        if (isMain)
+            return;
+
+        curSpearTime += Time.deltaTime;
+        if (curSpearTime >= maxSpearTime)
+        {
+            if (!isSlash)
+            {
+                // 사운드 재생
+                SoundManager.instance.PlaySE("Passive Atk_Sword");
+                isSlash = true;
+            }
+            passive_Sub_Spear = GameManager.instance.pool.Get(13);  // 풀에서 평타-창(보조무기) 꺼내오기
+            passive_Sub_Spear.transform.position = transform.position;    // 평타의 위치 지정
+            passive_Sub_Spear.GetComponent<SpriteRenderer>().flipX = playerDir == 1; // 플레이어의 좌우반전에 따라 평타도 반전시키기
+            Invoke("Passive_Sub_Spear_Off", 0.4f);
+            curSpearTime = 0f;
+        }
+    }
+    void Passive_Sub_Spear_Off()
+    {
+        passive_Sub_Spear.SetActive(false);
+        isSlash = false;
+    }
+    #endregion
     void OnMove()
     {
         float h = Input.GetAxisRaw("Horizontal");
@@ -394,5 +611,53 @@ public class Player : MonoBehaviour
         passive_Main_Sword.transform.localScale += plusRange;
         if (passive_Main_Sword.transform.localScale.x >= maxRange.x)
             passive_Main_Sword.transform.localScale = maxRange;
+    }
+
+    // 무기 변경 함수
+    void ChangeWeapon()
+    {
+        // F1 ~ 5
+        // 1. 검
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            rightWeapon.sprite = weaponsSprites[0];
+            weaponNum = 0;
+        }
+        // 2. 활
+        else if (Input.GetKeyDown(KeyCode.F2))
+        {
+            rightWeapon.sprite = weaponsSprites[1];
+            weaponNum = 1;
+        }
+        // 3. 단검
+        else if (Input.GetKeyDown(KeyCode.F3))
+        {
+            rightWeapon.sprite = weaponsSprites[2];
+            weaponNum = 2;
+        }
+        // 4. 창
+        else if (Input.GetKeyDown(KeyCode.F4))
+        {
+            rightWeapon.sprite = weaponsSprites[3];
+            weaponNum = 3;
+        }
+        // 5. 완드
+        else if (Input.GetKeyDown(KeyCode.F5))
+        {
+            rightWeapon.sprite = weaponsSprites[4];
+            weaponNum = 4;
+        }
+        // 6. 도끼
+        else if (Input.GetKeyDown(KeyCode.F6))
+        {
+            rightWeapon.sprite = weaponsSprites[5];
+            weaponNum = 5;
+        }
+        // 7. 방패
+        else if (Input.GetKeyDown(KeyCode.F7))
+        {
+            rightWeapon.sprite = weaponsSprites[6];
+            weaponNum = 6;
+        }
     }
 }

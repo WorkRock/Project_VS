@@ -48,7 +48,7 @@ public class WeaponManager : MonoBehaviour
                 transform.Rotate(Vector3.back * speed * Time.deltaTime);
                 break;
 
-            // 단검
+            // 단검 - 보조무기 상태
             case 1:
                 timer += Time.deltaTime;
 
@@ -136,9 +136,16 @@ public class WeaponManager : MonoBehaviour
                 level = 1;
                 SetShieldPosition();
                 break;
+
+            // 단검 - 주 무기
+            
+
+            // 단검 - 보조 무기
             case 1:
                 speed = 3f;   // 단검 투척 주기
                 break;
+
+            // 석궁 - 주?
             case 2:
                 speed = 5f;   // 화살 투척 주기
                 break;
