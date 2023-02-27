@@ -17,7 +17,7 @@ public class Weapon : MonoBehaviour
     }
 
     // 변수 초기화 함수
-    public void Init(float damage, int per, Vector3 dir)
+    public void Init(float damage, int per, Vector3 dir, float speed)
     {
         this.damage = damage;
         this.per = per;
@@ -25,7 +25,7 @@ public class Weapon : MonoBehaviour
         // 관통이 -1(무한) 보다 큰 것은 속도를 적용
         if (per > -1)
         {
-            rigid.velocity = dir * 6f;
+            rigid.velocity = dir * speed;
         }
     }
 

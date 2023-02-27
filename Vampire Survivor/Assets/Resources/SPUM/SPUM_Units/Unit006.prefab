@@ -2961,6 +2961,79 @@ Transform:
   m_Father: {fileID: 5824408858646384058}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
+--- !u!1 &1392428862093241666
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3768177592592831319}
+  - component: {fileID: 5581925177718223886}
+  m_Layer: 0
+  m_Name: Weapon 0_Sword
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3768177592592831319
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1392428862093241666}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.25, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5353998924799196723}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5581925177718223886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1392428862093241666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec6a81fbe832fc242979cad78b560d32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  passivePos_Sword: {fileID: 0}
+  passive_Main_Sword: {fileID: 0}
+  passive_Sub_Sword: {fileID: 0}
+  passive_Main_Bow: {fileID: 0}
+  passive_Sub_Bow: {fileID: 0}
+  passivePos_Knife: {fileID: 0}
+  passive_Main_Knife: {fileID: 0}
+  passive_Sub_Knife: {fileID: 0}
+  passivePos_Spear: {fileID: 0}
+  passive_Main_Spear: {fileID: 0}
+  passive_Sub_Spear: {fileID: 0}
+  id: 0
+  prefabId: 8
+  damage: 5
+  maxDamage: 10
+  count: 3
+  maxCount: 5
+  CT: 0
+  maxCT: 230
+  atkSpeed: 0
+  maxatkSpeed: 230
+  level: 0
+  maxLevel: 8
+  shields:
+  - {fileID: 21300000, guid: d90b86f6d80074f47a69e64a2d4dc9b5, type: 3}
+  - {fileID: 21300000, guid: a24176236f91b25498d38edba6de7c76, type: 3}
+  - {fileID: 21300000, guid: 75937e74469bcb648b0e50ac3e9bb5de, type: 3}
+  rotVec: {x: 0, y: 0, z: 0}
+  lastDir: {x: 0, y: 0, z: 0}
 --- !u!1 &1460324017278949357
 GameObject:
   m_ObjectHideFlags: 0
@@ -3916,6 +3989,79 @@ Transform:
   m_Father: {fileID: 2052169859599551141}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3388780224265603922
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3732638725432085887}
+  - component: {fileID: 7908573618566676988}
+  m_Layer: 0
+  m_Name: Weapon 4_Wand
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &3732638725432085887
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3388780224265603922}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.25, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5353998924799196723}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7908573618566676988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3388780224265603922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec6a81fbe832fc242979cad78b560d32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  passivePos_Sword: {fileID: 0}
+  passive_Main_Sword: {fileID: 0}
+  passive_Sub_Sword: {fileID: 0}
+  passive_Main_Bow: {fileID: 0}
+  passive_Sub_Bow: {fileID: 0}
+  passivePos_Knife: {fileID: 0}
+  passive_Main_Knife: {fileID: 0}
+  passive_Sub_Knife: {fileID: 0}
+  passivePos_Spear: {fileID: 0}
+  passive_Main_Spear: {fileID: 0}
+  passive_Sub_Spear: {fileID: 0}
+  id: 1
+  prefabId: 7
+  damage: 3
+  maxDamage: 10
+  count: 0
+  maxCount: 5
+  CT: 1
+  maxCT: 0.5
+  atkSpeed: 10
+  maxatkSpeed: 30
+  level: 0
+  maxLevel: 8
+  shields:
+  - {fileID: 21300000, guid: d90b86f6d80074f47a69e64a2d4dc9b5, type: 3}
+  - {fileID: 21300000, guid: a24176236f91b25498d38edba6de7c76, type: 3}
+  - {fileID: 21300000, guid: 75937e74469bcb648b0e50ac3e9bb5de, type: 3}
+  rotVec: {x: 0, y: 0, z: 0}
+  lastDir: {x: 0, y: 0, z: 0}
 --- !u!1 &3744892035618468819
 GameObject:
   m_ObjectHideFlags: 0
@@ -4623,6 +4769,79 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0.33}
   serializedVersion: 2
   m_Radius: 0.8
+--- !u!1 &4457562669601419557
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4621087499839253823}
+  - component: {fileID: 3018989664542456922}
+  m_Layer: 0
+  m_Name: Weapon 5_Axe
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &4621087499839253823
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4457562669601419557}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.25, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5353998924799196723}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3018989664542456922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4457562669601419557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec6a81fbe832fc242979cad78b560d32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  passivePos_Sword: {fileID: 0}
+  passive_Main_Sword: {fileID: 0}
+  passive_Sub_Sword: {fileID: 0}
+  passive_Main_Bow: {fileID: 0}
+  passive_Sub_Bow: {fileID: 0}
+  passivePos_Knife: {fileID: 0}
+  passive_Main_Knife: {fileID: 0}
+  passive_Sub_Knife: {fileID: 0}
+  passivePos_Spear: {fileID: 0}
+  passive_Main_Spear: {fileID: 0}
+  passive_Sub_Spear: {fileID: 0}
+  id: 1
+  prefabId: 7
+  damage: 3
+  maxDamage: 10
+  count: 0
+  maxCount: 5
+  CT: 1
+  maxCT: 0.5
+  atkSpeed: 10
+  maxatkSpeed: 30
+  level: 0
+  maxLevel: 8
+  shields:
+  - {fileID: 21300000, guid: d90b86f6d80074f47a69e64a2d4dc9b5, type: 3}
+  - {fileID: 21300000, guid: a24176236f91b25498d38edba6de7c76, type: 3}
+  - {fileID: 21300000, guid: 75937e74469bcb648b0e50ac3e9bb5de, type: 3}
+  rotVec: {x: 0, y: 0, z: 0}
+  lastDir: {x: 0, y: 0, z: 0}
 --- !u!1 &4479859162683967760
 GameObject:
   m_ObjectHideFlags: 0
@@ -4919,6 +5138,79 @@ Transform:
   m_Father: {fileID: 9195504842466865755}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5341675826971086172
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7813334383543240369}
+  - component: {fileID: 6601973253924753520}
+  m_Layer: 0
+  m_Name: Weapon 1_Bow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &7813334383543240369
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5341675826971086172}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.25, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5353998924799196723}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6601973253924753520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5341675826971086172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec6a81fbe832fc242979cad78b560d32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  passivePos_Sword: {fileID: 0}
+  passive_Main_Sword: {fileID: 0}
+  passive_Sub_Sword: {fileID: 0}
+  passive_Main_Bow: {fileID: 0}
+  passive_Sub_Bow: {fileID: 0}
+  passivePos_Knife: {fileID: 0}
+  passive_Main_Knife: {fileID: 0}
+  passive_Sub_Knife: {fileID: 0}
+  passivePos_Spear: {fileID: 0}
+  passive_Main_Spear: {fileID: 0}
+  passive_Sub_Spear: {fileID: 0}
+  id: 2
+  prefabId: 8
+  damage: 5
+  maxDamage: 10
+  count: 3
+  maxCount: 5
+  CT: 0
+  maxCT: 230
+  atkSpeed: 0
+  maxatkSpeed: 230
+  level: 0
+  maxLevel: 8
+  shields:
+  - {fileID: 21300000, guid: d90b86f6d80074f47a69e64a2d4dc9b5, type: 3}
+  - {fileID: 21300000, guid: a24176236f91b25498d38edba6de7c76, type: 3}
+  - {fileID: 21300000, guid: 75937e74469bcb648b0e50ac3e9bb5de, type: 3}
+  rotVec: {x: 0, y: 0, z: 0}
+  lastDir: {x: 0, y: 0, z: 0}
 --- !u!1 &5537301539278263736
 GameObject:
   m_ObjectHideFlags: 0
@@ -5363,6 +5655,12 @@ Transform:
   - {fileID: 7468592333157510801}
   - {fileID: 4602415365850828386}
   - {fileID: 8118284291745976279}
+  - {fileID: 3768177592592831319}
+  - {fileID: 7813334383543240369}
+  - {fileID: 7629614969409783639}
+  - {fileID: 7737206497201112801}
+  - {fileID: 3732638725432085887}
+  - {fileID: 4621087499839253823}
   m_Father: {fileID: 7586330572396024177}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5453,12 +5751,29 @@ MonoBehaviour:
   player_MaxHp: 10
   player_Atk: 3
   hitBox: {fileID: 8712647624721140491}
-  slashEffect: {fileID: 0}
+  selectedWeapon: []
+  weaponNum: 0
+  isMain: 0
+  playerDir: 0
   curSlashTime: 0
   maxSlashTime: 1.5
   passivePos: {fileID: 8118284291745976279}
   passive_Main_Sword: {fileID: 0}
   passive_Sub_Sword: {fileID: 0}
+  curBowTime: 0
+  maxBowTime: 1.5
+  passive_Main_Bow: {fileID: 0}
+  passive_Sub_Bow: {fileID: 0}
+  curKnifeTime: 0
+  maxKnifeTime: 1.5
+  passivePos_Knife: {fileID: 0}
+  passive_Main_Knife: {fileID: 0}
+  passive_Sub_Knife: {fileID: 0}
+  curSpearTime: 0
+  maxSpearTime: 1.5
+  passivePos_Spear: {fileID: 0}
+  passive_Main_Spear: {fileID: 0}
+  passive_Sub_Spear: {fileID: 0}
   playerLV: 0
   baseExp: 5
   nowExp: 0
@@ -5466,6 +5781,7 @@ MonoBehaviour:
   weaponsSprites: []
   rightWeapon: {fileID: 6374246375620990808}
   leftWeapon: {fileID: 7835093225657549800}
+  isSlash: 0
 --- !u!1 &6836052978344391936
 GameObject:
   m_ObjectHideFlags: 0
@@ -5477,7 +5793,7 @@ GameObject:
   - component: {fileID: 7587889356986849201}
   - component: {fileID: 6670008875293282524}
   m_Layer: 0
-  m_Name: Weapon 0
+  m_Name: Weapon 6_Shield
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5510,14 +5826,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec6a81fbe832fc242979cad78b560d32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  passivePos_Sword: {fileID: 0}
+  passive_Main_Sword: {fileID: 0}
+  passive_Sub_Sword: {fileID: 0}
+  passive_Main_Bow: {fileID: 0}
+  passive_Sub_Bow: {fileID: 0}
+  passivePos_Knife: {fileID: 0}
+  passive_Main_Knife: {fileID: 0}
+  passive_Sub_Knife: {fileID: 0}
+  passivePos_Spear: {fileID: 0}
+  passive_Main_Spear: {fileID: 0}
+  passive_Sub_Spear: {fileID: 0}
   id: 0
   prefabId: 6
   damage: 1
   maxDamage: 5
   count: 1
   maxCount: 6
-  speed: 0
-  maxSpeed: 230
+  CT: 0
+  maxCT: 230
+  atkSpeed: 0
+  maxatkSpeed: 230
   level: 0
   maxLevel: 8
   shields:
@@ -5525,6 +5854,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: a24176236f91b25498d38edba6de7c76, type: 3}
   - {fileID: 21300000, guid: 75937e74469bcb648b0e50ac3e9bb5de, type: 3}
   rotVec: {x: 0, y: 0, z: 0}
+  lastDir: {x: 0, y: 0, z: 0}
 --- !u!1 &6855723864824829440
 GameObject:
   m_ObjectHideFlags: 0
@@ -5873,6 +6203,79 @@ Transform:
   m_Father: {fileID: 2052169859599551141}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7656347665783089192
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7737206497201112801}
+  - component: {fileID: 4563754892406832143}
+  m_Layer: 0
+  m_Name: Weapon 3_Spear
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &7737206497201112801
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7656347665783089192}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.25, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5353998924799196723}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4563754892406832143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7656347665783089192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec6a81fbe832fc242979cad78b560d32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  passivePos_Sword: {fileID: 0}
+  passive_Main_Sword: {fileID: 0}
+  passive_Sub_Sword: {fileID: 0}
+  passive_Main_Bow: {fileID: 0}
+  passive_Sub_Bow: {fileID: 0}
+  passivePos_Knife: {fileID: 0}
+  passive_Main_Knife: {fileID: 0}
+  passive_Sub_Knife: {fileID: 0}
+  passivePos_Spear: {fileID: 0}
+  passive_Main_Spear: {fileID: 0}
+  passive_Sub_Spear: {fileID: 0}
+  id: 1
+  prefabId: 7
+  damage: 3
+  maxDamage: 10
+  count: 0
+  maxCount: 5
+  CT: 1
+  maxCT: 0.5
+  atkSpeed: 10
+  maxatkSpeed: 30
+  level: 0
+  maxLevel: 8
+  shields:
+  - {fileID: 21300000, guid: d90b86f6d80074f47a69e64a2d4dc9b5, type: 3}
+  - {fileID: 21300000, guid: a24176236f91b25498d38edba6de7c76, type: 3}
+  - {fileID: 21300000, guid: 75937e74469bcb648b0e50ac3e9bb5de, type: 3}
+  rotVec: {x: 0, y: 0, z: 0}
+  lastDir: {x: 0, y: 0, z: 0}
 --- !u!1 &7698853449996151279
 GameObject:
   m_ObjectHideFlags: 0
@@ -6068,6 +6471,79 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c562f92f3b8b435d98ac3b65547b755, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &7944358754969423455
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7629614969409783639}
+  - component: {fileID: 5099160995485245465}
+  m_Layer: 0
+  m_Name: Weapon 2_Knife
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &7629614969409783639
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7944358754969423455}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.25, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5353998924799196723}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5099160995485245465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7944358754969423455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec6a81fbe832fc242979cad78b560d32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  passivePos_Sword: {fileID: 0}
+  passive_Main_Sword: {fileID: 0}
+  passive_Sub_Sword: {fileID: 0}
+  passive_Main_Bow: {fileID: 0}
+  passive_Sub_Bow: {fileID: 0}
+  passivePos_Knife: {fileID: 0}
+  passive_Main_Knife: {fileID: 0}
+  passive_Sub_Knife: {fileID: 0}
+  passivePos_Spear: {fileID: 0}
+  passive_Main_Spear: {fileID: 0}
+  passive_Sub_Spear: {fileID: 0}
+  id: 1
+  prefabId: 7
+  damage: 3
+  maxDamage: 10
+  count: 0
+  maxCount: 5
+  CT: 1
+  maxCT: 0.5
+  atkSpeed: 10
+  maxatkSpeed: 30
+  level: 0
+  maxLevel: 8
+  shields:
+  - {fileID: 21300000, guid: d90b86f6d80074f47a69e64a2d4dc9b5, type: 3}
+  - {fileID: 21300000, guid: a24176236f91b25498d38edba6de7c76, type: 3}
+  - {fileID: 21300000, guid: 75937e74469bcb648b0e50ac3e9bb5de, type: 3}
+  rotVec: {x: 0, y: 0, z: 0}
+  lastDir: {x: 0, y: 0, z: 0}
 --- !u!1 &7962956920665709196
 GameObject:
   m_ObjectHideFlags: 0

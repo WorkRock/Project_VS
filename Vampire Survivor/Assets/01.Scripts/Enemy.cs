@@ -100,9 +100,10 @@ public class Enemy : MonoBehaviour
             }
         }
 
-        // 2. 플레이어 평타-검-보조무기 와 충돌
+        // 2. 플레이어 평타-보조무기 와 충돌
         if (collision.gameObject.tag == "Player_Atk")
         {
+            GameManager.instance.player.isSlash = false;
             // 평타 비활성화
             collision.gameObject.SetActive(false);
 

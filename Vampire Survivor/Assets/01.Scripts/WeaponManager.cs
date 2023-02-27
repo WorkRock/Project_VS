@@ -4,6 +4,47 @@ using UnityEngine;
 
 public class WeaponManager : MonoBehaviour
 {
+    [Space(10f)]
+    [Header("Sword")]
+    public Transform passivePos_Sword;    // 평타 생성 위치
+    public GameObject passive_Main_Sword;   // 검-평타-주무기
+    public GameObject passive_Sub_Sword;    // 검-평타-보조무기
+
+    [Space(10f)]
+    [Header("Bow")]
+    public GameObject passive_Main_Bow;     // 활-평타-주무기
+    public GameObject passive_Sub_Bow;      // 활-평타-보조무기
+
+    [Space(10f)]
+    [Header("Knife")]
+    public Transform passivePos_Knife;    // 평타 생성 위치
+    public GameObject passive_Main_Knife;   // 단검-평타-주무기
+    public GameObject passive_Sub_Knife;    // 단검-평타-보조무기
+
+    [Space(10f)]
+    [Header("Spear")]
+    public Transform passivePos_Spear;    // 평타 생성 위치
+    public GameObject passive_Main_Spear;   // 창-평타-주무기
+    public GameObject passive_Sub_Spear;    // 창-평타-보조무기
+
+    [Space(10f)]
+    [Header("Wand")]
+    public Transform passivePos_Wand;    // 평타 생성 위치
+    public GameObject passive_Main_Wand;   // 완드-평타-주무기
+    public GameObject passive_Sub_Wand;    // 완드-평타-보조무기
+
+    [Space(10f)]
+    [Header("Axe")]
+    public Transform passivePos_Axe;    // 평타 생성 위치
+    public GameObject passive_Main_Axe;   // 도끼-평타-주무기
+    public GameObject passive_Sub_Axe;    // 도끼-평타-보조무기
+
+    [Space(10f)]
+    [Header("Shield")]
+    public Transform passivePos_Shield;    // 평타 생성 위치
+    public GameObject passive_Main_Shield;   // 방패-평타-주무기
+    public GameObject passive_Sub_Shield;    // 방패-평타-보조무기
+
     // 무기 id
     public int id;
     // 프리팹 id
@@ -15,8 +56,11 @@ public class WeaponManager : MonoBehaviour
     public int count;
     public int maxCount = 7;
     // 방패: 스피드, 단검: 공격주기
-    public float speed;
-    public float maxSpeed = 230;
+    public float CT;
+    public float maxCT = 230;
+    // 방패: 스피드, 단검: 투사체 속도
+    public float atkSpeed;
+    public float maxatkSpeed = 230;
     // 레벨 업(레벨에 따라 방패 변경)
     public int level;
     public int maxLevel = 10;
@@ -27,6 +71,8 @@ public class WeaponManager : MonoBehaviour
     private float timer;
     Player player;
     public Vector3 rotVec;
+    // 플레이어의 마지막 입력방향 값 저장
+    public Vector3 lastDir;
 
     private void Awake()
     {    
@@ -37,36 +83,83 @@ public class WeaponManager : MonoBehaviour
     {
         player = GameManager.instance.player;
         Init();
+        // 시작 시에는 좌측으로 초기화
+        lastDir = new Vector3(-1, 0);
     }
     void Update()
     {
         switch (id)
         {
-            // 방패
+            // 검
             case 0:
-                transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 0.35f, player.transform.position.z);
-                transform.Rotate(Vector3.back * speed * Time.deltaTime);
-                break;
-
-            // 단검 - 보조무기 상태
-            case 1:
                 timer += Time.deltaTime;
 
-                if(timer > speed)
+                if (timer > CT)
                 {
                     timer = 0f;
-                    FireKnife();
+                    if (player.isMain)
+                        Passive_Main_Sword();
+                    else
+                        Passive_Sub_Sword();
                 }
                 break;
             // 화살
+            case 1:
+                timer += Time.deltaTime;
+
+                if (timer > CT)
+                {
+                    timer = 0f;
+                    if (player.isMain)
+                        Passive_Main_Bow();
+                    else
+                        Passive_Sub_Bow();
+                }
+                break;
+            // 단검
             case 2:
                 timer += Time.deltaTime;
 
-                if (timer > speed)
+                if(timer > CT)
                 {
                     timer = 0f;
-                    FireArrow();
+                    if (player.isMain)
+                        Passive_Main_Knife();
+                    else
+                        Passive_Sub_Knife();
                 }
+                break;
+            // 창
+            case 3:
+                timer += Time.deltaTime;
+
+                if (timer > CT)
+                {
+                    timer = 0f;
+                    if (player.isMain)
+                        Passive_Main_Spear();
+                    else
+                        Passive_Sub_Spear();
+                }
+                break;
+            // 완드
+            case 4:
+                timer += Time.deltaTime;
+
+                if (timer > CT)
+                {
+                    timer = 0f;
+                    if (player.isMain)
+                        Passive_Main_Wand();
+                    else
+                        Passive_Sub_Wand();
+                }
+                break;
+               
+            // 방패
+            case 6:
+                transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 0.35f, player.transform.position.z);
+                transform.Rotate(Vector3.back * CT * Time.deltaTime);
                 break;
 
         }
@@ -106,19 +199,19 @@ public class WeaponManager : MonoBehaviour
                 damage = maxDamage;
             if (count >= maxCount)
                 count = maxCount;
-            if (speed >= maxSpeed)
-                speed = maxSpeed;
+            if (CT >= maxCT)
+                CT = maxCT;
             if (level >= maxLevel)
                 level = maxLevel;
         }
     }
 
-    public void LevelUp(float damage, int count, float speed)
+    public void LevelUp(float damage, int count, float CT)
     {
         level++;
         this.damage += damage;
         this.count += count;
-        this.speed += speed;
+        this.CT += CT;
 
         if (id == 0)
         {
@@ -130,24 +223,22 @@ public class WeaponManager : MonoBehaviour
     {
         switch (id)
         {
-            // 방패
-            case 0:
-                speed = 150;    // 방패 회전 스피드
-                level = 1;
-                SetShieldPosition();
-                break;
 
-            // 단검 - 주 무기
+            // 활 - 주?
+            case 1:
+                //CT = 5f;   // 화살 투척 주기
+                break;
+            // 단검 - 보조 무기
+            case 2:
+                //CT = 3f;   // 단검 투척 주기
+                break;
             
 
-            // 단검 - 보조 무기
-            case 1:
-                speed = 3f;   // 단검 투척 주기
-                break;
-
-            // 석궁 - 주?
-            case 2:
-                speed = 5f;   // 화살 투척 주기
+            // 방패
+            case 6:
+                CT = 150;    // 방패 회전 스피드
+                level = 1;
+                SetShieldPosition();
                 break;
         }
     }
@@ -179,67 +270,277 @@ public class WeaponManager : MonoBehaviour
             shield.Rotate(rotVec);
             shield.Translate(shield.up * 1.5f, Space.World);
 
-            shield.GetComponent<Weapon>().Init(damage, -1, Vector3.zero); // -1은 무한으로 관통함을 의미.
+            shield.GetComponent<Weapon>().Init(damage, -1, Vector3.zero,CT); // -1은 무한으로 관통함을 의미.
         }
     }
 
+    #region 평타 - 검
+    // 평타 - 검 - 주무기(뱀서 채찍)
+    void Passive_Main_Sword()
+    {
+        if (!player.isSlash)
+        {
+            // 사운드 재생
+            SoundManager.instance.PlaySE("Passive Atk_Sword");
+            player.isSlash = true;
+        }
+        passive_Main_Sword = GameManager.instance.pool.Get(9);  // 풀에서 평타-검(주무기) 꺼내오기
+        passive_Main_Sword.transform.position = passivePos_Sword.position;    // 평타의 위치 지정
+        passive_Main_Sword.GetComponent<SpriteRenderer>().flipX = player.playerDir == -1; // 플레이어의 좌우반전에 따라 평타도 반전시키기
+        Invoke("Passive_Main_Sword_Off", 0.4f);
+    }
+    void Passive_Main_Sword_Off()
+    {
+        passive_Main_Sword.SetActive(false);
+        player.isSlash = false;
+    }
+
+    // 평타 - 검 - 보조무기(검기 발사)
+    void Passive_Sub_Sword()
+    {
+        if (!player.isSlash)
+        {
+            // 사운드 재생
+            SoundManager.instance.PlaySE("Passive Atk_Sword");
+            player.isSlash = true;
+        }
+        
+        if (!player.scanner.nearestTarget)
+        {
+            Transform passive_Sub_Sword = GameManager.instance.pool.Get(10).transform;
+            passive_Sub_Sword.position = transform.position;
+            Vector3 dir = player.inputVec;
+            if (dir == new Vector3(0, 0))
+                dir = lastDir;
+            passive_Sub_Sword.rotation = Quaternion.FromToRotation(Vector3.right, dir);
+            lastDir = dir;
+            passive_Sub_Sword.GetComponent<Weapon>().Init(4, 1, dir, atkSpeed);
+
+            return;
+        }
+
+        Vector3 targetPos = player.scanner.nearestTarget.position;
+        Vector3 dir_two = targetPos - transform.position;
+        dir_two = dir_two.normalized;
+
+        Transform passive_Sub_Sword_two = GameManager.instance.pool.Get(10).transform;
+        passive_Sub_Sword_two.position = passivePos_Sword.position;
+        // Quaternion.FromToRotation: 지정된 축을 중심으로 목표를 향해 회전하는 함수
+        passive_Sub_Sword_two.rotation = Quaternion.FromToRotation(Vector3.right, dir_two);
+        passive_Sub_Sword_two.GetComponent<Weapon>().Init(4, 1, dir_two, atkSpeed);
+
+    }
+    #endregion
+
+    #region 평타 - 활
+    // 평타 - 활 - 주무기
+    void Passive_Main_Bow()
+    {
+        if (!player.isSlash)
+        {
+            // 사운드 재생
+            SoundManager.instance.PlaySE("Passive Atk_Sword");
+            player.isSlash = true;
+        }
+
+        if (!player.scanner.nearestTarget)
+        {
+            Transform passive_Main_Bow = GameManager.instance.pool.Get(12).transform;
+            passive_Main_Bow.position = transform.position;
+            Vector3 dir = player.inputVec;
+            if (dir == new Vector3(0, 0))
+                dir = lastDir;
+            passive_Main_Bow.rotation = Quaternion.FromToRotation(Vector3.up, dir);
+            lastDir = dir;
+            passive_Main_Bow.GetComponent<Weapon>().Init(4, 1, dir, atkSpeed);
+
+            return;
+        }
+
+        Vector3 targetPos = player.scanner.nearestTarget.position;
+        Vector3 dir_two = targetPos - transform.position;
+        dir_two = dir_two.normalized;
+
+        Transform passive_Main_Bow_two = GameManager.instance.pool.Get(12).transform;
+        passive_Main_Bow_two.position = transform.position;
+        // Quaternion.FromToRotation: 지정된 축을 중심으로 목표를 향해 회전하는 함수
+        passive_Main_Bow_two.rotation = Quaternion.FromToRotation(Vector3.up, dir_two);
+        passive_Main_Bow_two.GetComponent<Weapon>().Init(4, 1, dir_two, atkSpeed);
+    }
+
+    // 평타 - 활 - 보조무기
+    void Passive_Sub_Bow()
+    {
+        if (!player.isSlash)
+        {
+            // 사운드 재생
+            SoundManager.instance.PlaySE("Passive Atk_Sword");
+            player.isSlash = true;
+        }
+
+        if (!player.scanner.nearestTarget)
+        {
+            Transform passive_Sub_Bow = GameManager.instance.pool.Get(8).transform;
+            passive_Sub_Bow.position = transform.position;
+            Vector3 dir = player.inputVec;
+            if (dir == new Vector3(0, 0))
+                dir = lastDir;
+            passive_Sub_Bow.rotation = Quaternion.FromToRotation(Vector3.up, dir);
+            lastDir = dir;
+            passive_Sub_Bow.GetComponent<Weapon>().Init(4, 1, dir, atkSpeed);
+
+            return;
+        }
+
+        Vector3 targetPos = player.scanner.nearestTarget.position;
+        Vector3 dir_two = targetPos - transform.position;
+        dir_two = dir_two.normalized;
+
+        Transform passive_Sub_Bow_two = GameManager.instance.pool.Get(8).transform;
+        passive_Sub_Bow_two.position = transform.position;
+        // Quaternion.FromToRotation: 지정된 축을 중심으로 목표를 향해 회전하는 함수
+        passive_Sub_Bow_two.rotation = Quaternion.FromToRotation(Vector3.up, dir_two);
+        passive_Sub_Bow_two.GetComponent<Weapon>().Init(4, 1, dir_two, atkSpeed);
+    }
+
+    #endregion
+
+    #region 평타 - 단검
+    // 평타 - 단검 - 주무기
+    void Passive_Main_Knife()
+    {
+        if (!player.isMain)
+            return;
+
+        if (!player.isSlash)
+        {
+            // 사운드 재생
+            SoundManager.instance.PlaySE("Passive Atk_Sword");
+            player.isSlash = true;
+        }
+        passive_Main_Knife = GameManager.instance.pool.Get(11);  // 풀에서 평타-단검(주무기) 꺼내오기
+        passive_Main_Knife.transform.position = passivePos_Knife.position;    // 평타의 위치 지정
+        passive_Main_Knife.GetComponent<SpriteRenderer>().flipX = player.playerDir == -1; // 플레이어의 좌우반전에 따라 평타도 반전시키기
+        Invoke("Passive_Main_Knife_Off", 0.3f);
+    }
+    void Passive_Main_Knife_Off()
+    {
+        passive_Main_Knife.SetActive(false);
+        player.isSlash = false;
+    }
+
+    // 평타 - 단검 - 보조무기
     // 단검 발사(원거리 공격)
-    void FireKnife()
+    void Passive_Sub_Knife()
     {
+        if (player.isMain)
+            return;
+
+        Transform knife = GameManager.instance.pool.Get(7).transform;
+        knife.position = transform.position;
+        Vector3 dir = player.inputVec.normalized;
+        if (dir == new Vector3(0, 0))
+            dir = lastDir; 
+        knife.rotation = Quaternion.FromToRotation(Vector3.up, dir);
+        lastDir = dir;
+        knife.GetComponent<Weapon>().Init(1, 1, dir,atkSpeed);
+
+        return;
+    }
+    #endregion
+
+    #region 평타 - 창
+    // 평타 - 창 - 주무기(길게 찌르기)
+    void Passive_Main_Spear()
+    {
+        if (!player.isSlash)
+        {
+            // 사운드 재생
+            SoundManager.instance.PlaySE("Passive Atk_Sword");
+            player.isSlash = true;
+        }
+        passive_Main_Spear = GameManager.instance.pool.Get(14);  // 풀에서 평타-창(주무기) 꺼내오기
+        passive_Main_Spear.transform.position = passivePos_Spear.position;    // 평타의 위치 지정
+        passive_Main_Spear.GetComponent<SpriteRenderer>().flipX = player.playerDir == -1; // 플레이어의 좌우반전에 따라 평타도 반전시키기
+        Invoke("Passive_Main_Spear_Off", 0.4f);
+    }
+
+    void Passive_Main_Spear_Off()
+    {
+        passive_Main_Spear.SetActive(false);
+        player.isSlash = false;
+    }
+    // 평타 - 창 - 보조무기(원형 휘두르기)
+    void Passive_Sub_Spear()
+    {
+        if (!player.isSlash)
+        {
+            // 사운드 재생
+            SoundManager.instance.PlaySE("Passive Atk_Sword");
+            player.isSlash = true;
+        }
+        passive_Sub_Spear = GameManager.instance.pool.Get(13);  // 풀에서 평타-창(보조무기) 꺼내오기
+        passive_Sub_Spear.transform.position = transform.position;    // 평타의 위치 지정
+        passive_Sub_Spear.GetComponent<SpriteRenderer>().flipX = player.playerDir == 1; // 플레이어의 좌우반전에 따라 평타도 반전시키기
+        Invoke("Passive_Sub_Spear_Off", 0.4f);
+    }
+    void Passive_Sub_Spear_Off()
+    {
+        passive_Sub_Spear.SetActive(false);
+        player.isSlash = false;
+    }
+    #endregion
+
+    #region 평타 - 완드
+    // 평타 - 완드 - 주무기(익스플로전)
+    void Passive_Main_Wand()
+    {
+
+    }
+
+    // 평타 - 완드 - 보조무기(에너지 볼트)
+    void Passive_Sub_Wand()
+    {
+        if (!player.isSlash)
+        {
+            // 사운드 재생
+            SoundManager.instance.PlaySE("Passive Atk_Sword");
+            player.isSlash = true;
+        }
+
         if (!player.scanner.nearestTarget)
         {
-            Transform knifeTwo = GameManager.instance.pool.Get(prefabId).transform;
-            knifeTwo.position = transform.position;
-            
-            Vector3 dirTwo = player.inputVec;
-            dirTwo.x = (-1) * player.transform.localScale.x;
-            
-            knifeTwo.rotation = Quaternion.FromToRotation(Vector3.up, dirTwo);
-            knifeTwo.GetComponent<Weapon>().Init(damage, count, dirTwo);
-            //rigid.AddForce(transform.position, ForceMode2D.Impulse);
+            Transform passive_Sub_Wand = GameManager.instance.pool.Get(15).transform;
+            passive_Sub_Wand.position = transform.position;
+            Vector3 dir = player.inputVec;
+            if (dir == new Vector3(0, 0))
+                dir = lastDir;
+            passive_Sub_Wand.rotation = Quaternion.FromToRotation(Vector3.right, dir);
+            lastDir = dir;
+            passive_Sub_Wand.GetComponent<Weapon>().Init(4, 1, dir, atkSpeed);
 
             return;
         }
-            
 
         Vector3 targetPos = player.scanner.nearestTarget.position;
-        Vector3 dir = targetPos - transform.position;
-        dir = dir.normalized;
+        Vector3 dir_two = targetPos - transform.position;
+        dir_two = dir_two.normalized;
 
-        Transform knife = GameManager.instance.pool.Get(prefabId).transform;
-        knife.position = transform.position;
+        Transform passive_Sub_Wand_two = GameManager.instance.pool.Get(15).transform;
+        passive_Sub_Wand_two.position = transform.position;
         // Quaternion.FromToRotation: 지정된 축을 중심으로 목표를 향해 회전하는 함수
-        knife.rotation = Quaternion.FromToRotation(Vector3.up, dir);
-        knife.GetComponent<Weapon>().Init(damage, count, dir);
+        passive_Sub_Wand_two.rotation = Quaternion.FromToRotation(Vector3.right, dir_two);
+        passive_Sub_Wand_two.GetComponent<Weapon>().Init(4, 1, dir_two, atkSpeed);
     }
+    #endregion
 
-    // 화살 발사(원거리 공격)
-    void FireArrow()
-    {
-        if (!player.scanner.nearestTarget)
-        {
-            Transform knifeTwo = GameManager.instance.pool.Get(prefabId).transform;
-            knifeTwo.position = transform.position;
+    #region 평타 - 도끼
 
-            Vector3 dirTwo = player.inputVec;
-            dirTwo.x = (-1) * player.transform.localScale.x;
+    #endregion
 
-            knifeTwo.rotation = Quaternion.FromToRotation(Vector3.up, dirTwo);
-            knifeTwo.GetComponent<Weapon>().Init(damage, count, dirTwo);
-            //rigid.AddForce(transform.position, ForceMode2D.Impulse);
+    #region 평타 - 방패
 
-            return;
-        }
+    #endregion
 
 
-        Vector3 targetPos = player.scanner.nearestTarget.position;
-        Vector3 dir = targetPos - transform.position;
-        dir = dir.normalized;
-
-        Transform knife = GameManager.instance.pool.Get(prefabId).transform;
-        knife.position = transform.position;
-        // Quaternion.FromToRotation: 지정된 축을 중심으로 목표를 향해 회전하는 함수
-        knife.rotation = Quaternion.FromToRotation(Vector3.up, dir);
-        knife.GetComponent<Weapon>().Init(damage, count, dir);
-    }
 }
