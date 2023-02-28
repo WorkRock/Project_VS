@@ -30,7 +30,8 @@ public class WeaponManager : MonoBehaviour
     [Space(10f)]
     [Header("Wand")]
     public Transform passivePos_Wand;    // 평타 생성 위치
-    public GameObject passive_Main_Wand;   // 완드-평타-주무기
+    public GameObject passive_Main_Wand_Setup;  // 완드-평타-주무기-마법진
+    public GameObject passive_Main_Wand;   // 완드-평타-주무기-폭발
     public GameObject passive_Sub_Wand;    // 완드-평타-보조무기
 
     [Space(10f)]
@@ -55,7 +56,7 @@ public class WeaponManager : MonoBehaviour
     // 관통 가능 적 개수
     public int count;
     public int maxCount = 7;
-    // 방패: 스피드, 단검: 공격주기
+    // 방패: 쿨타임, 단검: 공격주기
     public float CT;
     public float maxCT = 230;
     // 방패: 스피드, 단검: 투사체 속도
@@ -82,7 +83,7 @@ public class WeaponManager : MonoBehaviour
     private void Start()
     {
         player = GameManager.instance.player;
-        Init();
+        //Init();
         // 시작 시에는 좌측으로 초기화
         lastDir = new Vector3(-1, 0);
     }
@@ -155,40 +156,48 @@ public class WeaponManager : MonoBehaviour
                         Passive_Sub_Wand();
                 }
                 break;
-               
-            // 방패
+            // 도끼
+            case 5:
+                timer += Time.deltaTime;
+
+                if (timer > CT)
+                {
+                    timer = 0f;
+                    if (player.isMain)
+                        Passive_Main_Axe();
+                    else
+                        Passive_Sub_Axe();
+                }
+                break;
+            // 방패 - 서브 (뱀서 성서)
             case 6:
+                timer += Time.deltaTime;
+
+                if (timer > CT)
+                {
+                    timer = 0f;
+                    SetShieldPosition();
+                }
+                // 축 회전
                 transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 0.35f, player.transform.position.z);
-                transform.Rotate(Vector3.back * CT * Time.deltaTime);
+                transform.Rotate(Vector3.back * atkSpeed * Time.deltaTime);
+                break;
+            // 방패 - 메인
+            case 7:
+                timer += Time.deltaTime;
+
+                if (timer > CT)
+                {
+                    timer = 0f;
+                    if (player.isMain)
+                        Passive_Main_Shield();
+                }
                 break;
 
         }
 
         // 레벨에 따라 방패 스프라이트 변경하기
-        if (level >= 3 && level < 5)
-        {
-            nowShieldSprites = GetComponentsInChildren<SpriteRenderer>();
-            for (int i = 0; i < nowShieldSprites.Length; i++)
-            {
-                nowShieldSprites[i].sprite = shields[0];
-            }
-        }
-        else if (level >= 5 && level < 7)
-        {
-            nowShieldSprites = GetComponentsInChildren<SpriteRenderer>();
-            for (int i = 0; i < nowShieldSprites.Length; i++)
-            {
-                nowShieldSprites[i].sprite = shields[1];
-            }
-        }
-        else if (level >= 7)
-        {
-            nowShieldSprites = GetComponentsInChildren<SpriteRenderer>();
-            for (int i = 0; i < nowShieldSprites.Length; i++)
-            {
-                nowShieldSprites[i].sprite = shields[2];
-            }
-        }
+        ChangeShieldSprite();
 
         // 방패 업그레이드
         if (Input.GetKeyDown(KeyCode.Space))
@@ -199,21 +208,21 @@ public class WeaponManager : MonoBehaviour
                 damage = maxDamage;
             if (count >= maxCount)
                 count = maxCount;
-            if (CT >= maxCT)
-                CT = maxCT;
+            if (atkSpeed >= maxatkSpeed)
+                atkSpeed = maxatkSpeed;
             if (level >= maxLevel)
                 level = maxLevel;
         }
     }
 
-    public void LevelUp(float damage, int count, float CT)
+    public void LevelUp(float damage, int count, float atkSpeed)
     {
         level++;
         this.damage += damage;
         this.count += count;
-        this.CT += CT;
+        this.atkSpeed += atkSpeed;
 
-        if (id == 0)
+        if (id == 6)
         {
             SetShieldPosition();
         }      
@@ -236,8 +245,8 @@ public class WeaponManager : MonoBehaviour
 
             // 방패
             case 6:
-                CT = 150;    // 방패 회전 스피드
-                level = 1;
+                //atkSpeed = 150;    // 방패 회전 스피드
+                //level = 1;          
                 SetShieldPosition();
                 break;
         }
@@ -270,7 +279,7 @@ public class WeaponManager : MonoBehaviour
             shield.Rotate(rotVec);
             shield.Translate(shield.up * 1.5f, Space.World);
 
-            shield.GetComponent<Weapon>().Init(damage, -1, Vector3.zero,CT); // -1은 무한으로 관통함을 의미.
+            shield.GetComponent<Weapon>().Init(damage, -1, Vector3.zero, atkSpeed); // -1은 무한으로 관통함을 의미.
         }
     }
 
@@ -409,9 +418,6 @@ public class WeaponManager : MonoBehaviour
     // 평타 - 단검 - 주무기
     void Passive_Main_Knife()
     {
-        if (!player.isMain)
-            return;
-
         if (!player.isSlash)
         {
             // 사운드 재생
@@ -433,9 +439,6 @@ public class WeaponManager : MonoBehaviour
     // 단검 발사(원거리 공격)
     void Passive_Sub_Knife()
     {
-        if (player.isMain)
-            return;
-
         Transform knife = GameManager.instance.pool.Get(7).transform;
         knife.position = transform.position;
         Vector3 dir = player.inputVec.normalized;
@@ -495,7 +498,35 @@ public class WeaponManager : MonoBehaviour
     // 평타 - 완드 - 주무기(익스플로전)
     void Passive_Main_Wand()
     {
+        // 1. 마법진 생성
+        Vector3 dir = player.inputVec.normalized;
+        if (dir == new Vector3(0, 0))
+            dir = lastDir;
+        
+        lastDir = dir;
 
+        passive_Main_Wand_Setup = GameManager.instance.pool.Get(16);
+        passive_Main_Wand_Setup.transform.position = transform.position + dir * 5;  // 마법진의 위치 = 플레이어위치 + (입력방향 * 거리(5); 거리는 변수화해서 변경 가능)
+        passive_Main_Wand_Setup.transform.rotation = Quaternion.identity;   // 마법진은 로테이션 바꿀필요 X
+
+        Invoke("Passive_Main_Wand_Setup_Off", 1f);  // 마법진 비활성화 및 폭발 생성      
+
+        return;
+    }
+
+    void Passive_Main_Wand_Setup_Off()
+    {
+        // 2. 마법진 위치에 폭발 생성
+        passive_Main_Wand = GameManager.instance.pool.Get(17);
+        passive_Main_Wand.transform.position = passive_Main_Wand_Setup.transform.position;  // 폭발의 위치 = 마법진의 위치
+        passive_Main_Wand.transform.rotation = Quaternion.identity;
+        passive_Main_Wand_Setup.SetActive(false);   // 마법진이 먼저 사라져버리면 폭발 위치를 받아오지 못하므로 폭발 생성 후 비활성화
+        Invoke("ExplosionOff", 0.3f);     // 폭발 비활성화
+    }
+
+    void ExplosionOff()
+    {
+        passive_Main_Wand.SetActive(false);
     }
 
     // 평타 - 완드 - 보조무기(에너지 볼트)
@@ -535,12 +566,117 @@ public class WeaponManager : MonoBehaviour
     #endregion
 
     #region 평타 - 도끼
+    // 평타 - 도끼 - 주무기(내려찍기)
+    void Passive_Main_Axe()
+    {
+        if (!player.isSlash)
+        {
+            // 사운드 재생
+            SoundManager.instance.PlaySE("Passive Atk_Sword");
+            player.isSlash = true;
+        }
+        passive_Main_Axe = GameManager.instance.pool.Get(18);  // 풀에서 평타-도끼(주무기) 꺼내오기
+        passive_Main_Axe.transform.position = passivePos_Axe.position;    // 평타의 위치 지정
+        passive_Main_Axe.GetComponent<SpriteRenderer>().flipX = player.playerDir == 1; // 플레이어의 좌우반전에 따라 평타도 반전시키기
+        Invoke("Passive_Main_Axe_Off", 0.4f);
+    }
 
+    void Passive_Main_Axe_Off()
+    {
+        passive_Main_Axe.SetActive(false);
+        player.isSlash = false;
+    }
+
+    // 평타 - 도끼 - 보조무기(튕기는 도끼)
+    void Passive_Sub_Axe()
+    {
+        passive_Sub_Axe = GameManager.instance.pool.Get(19);   // 풀에서 평타-도끼(보조무기) 꺼내오기
+        passive_Sub_Axe.transform.position = transform.position;
+        Vector3 dir = player.inputVec.normalized;
+        if (dir == new Vector3(0, 0))
+            dir = lastDir;
+        passive_Sub_Axe.transform.rotation = Quaternion.FromToRotation(Vector3.up, dir);
+        lastDir = dir;
+        passive_Sub_Axe.GetComponent<Weapon>().Init(1, 1, dir, atkSpeed);
+
+        return;
+    }
     #endregion
 
     #region 평타 - 방패
+    // 평타 - 방패 - 주무기(돌아오는 방패)
+    void Passive_Main_Shield()
+    {
+        if (!player.isSlash)
+        {
+            // 사운드 재생
+            SoundManager.instance.PlaySE("Passive Atk_Sword");
+            player.isSlash = true;
+        }
 
+        if (!player.scanner.nearestTarget)
+        {
+            Transform passive_Main_Shield = GameManager.instance.pool.Get(20).transform;
+            passive_Main_Shield.position = transform.position;
+            Vector3 dir = player.inputVec;
+            if (dir == new Vector3(0, 0))
+                dir = lastDir;
+            passive_Main_Shield.rotation = Quaternion.FromToRotation(Vector3.up, dir);
+            lastDir = dir;
+            passive_Main_Shield.GetComponent<Weapon>().Init(4, 1, dir, atkSpeed);
+
+            return;
+        }
+
+        Vector3 targetPos = player.scanner.nearestTarget.position;
+        Vector3 dirTwo = targetPos - transform.position;
+        dirTwo = dirTwo.normalized;
+
+        Transform passive_Main_Shield_two = GameManager.instance.pool.Get(20).transform;
+        passive_Main_Shield_two.position = passivePos_Sword.position;
+        // Quaternion.FromToRotation: 지정된 축을 중심으로 목표를 향해 회전하는 함수
+        passive_Main_Shield_two.rotation = Quaternion.FromToRotation(Vector3.up, dirTwo);
+        passive_Main_Shield_two.GetComponent<Weapon>().Init(4, 1, dirTwo, atkSpeed);
+    }
+
+    // 평타 - 방패 - 보조무기(뱀서 성서)
+    void Passive_Sub_Shield()
+    {
+        
+    }
+
+    void Passive_Sub_Shield_Off()
+    {
+       
+    }
     #endregion
 
-
+    // 방패 스프라이트 변경
+    void ChangeShieldSprite()
+    {
+        if (level >= 3 && level < 5)
+        {
+            nowShieldSprites = GetComponentsInChildren<SpriteRenderer>();
+            for (int i = 0; i < nowShieldSprites.Length; i++)
+            {
+                nowShieldSprites[i].sprite = shields[0];
+            }
+        }
+        else if (level >= 5 && level < 7)
+        {
+            nowShieldSprites = GetComponentsInChildren<SpriteRenderer>();
+            for (int i = 0; i < nowShieldSprites.Length; i++)
+            {
+                nowShieldSprites[i].sprite = shields[1];
+            }
+        }
+        else if (level >= 7)
+        {
+            nowShieldSprites = GetComponentsInChildren<SpriteRenderer>();
+            for (int i = 0; i < nowShieldSprites.Length; i++)
+            {
+                nowShieldSprites[i].sprite = shields[2];
+            }
+        }
+    }
 }

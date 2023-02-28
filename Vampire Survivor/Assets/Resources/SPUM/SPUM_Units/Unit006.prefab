@@ -3016,6 +3016,17 @@ MonoBehaviour:
   passivePos_Spear: {fileID: 0}
   passive_Main_Spear: {fileID: 0}
   passive_Sub_Spear: {fileID: 0}
+  passivePos_Wand: {fileID: 0}
+  passive_Main_Wand_Setup: {fileID: 0}
+  passive_Main_Wand: {fileID: 0}
+  passive_Sub_Wand: {fileID: 0}
+  passivePos_Axe: {fileID: 0}
+  passive_Main_Axe: {fileID: 0}
+  passive_Sub_Axe: {fileID: 0}
+  passivePos_Shield: {fileID: 0}
+  passive_Main_Shield: {fileID: 0}
+  passive_Sub_Shield: {fileID: 0}
+  shield: {fileID: 0}
   id: 0
   prefabId: 8
   damage: 5
@@ -4044,6 +4055,17 @@ MonoBehaviour:
   passivePos_Spear: {fileID: 0}
   passive_Main_Spear: {fileID: 0}
   passive_Sub_Spear: {fileID: 0}
+  passivePos_Wand: {fileID: 0}
+  passive_Main_Wand_Setup: {fileID: 0}
+  passive_Main_Wand: {fileID: 0}
+  passive_Sub_Wand: {fileID: 0}
+  passivePos_Axe: {fileID: 0}
+  passive_Main_Axe: {fileID: 0}
+  passive_Sub_Axe: {fileID: 0}
+  passivePos_Shield: {fileID: 0}
+  passive_Main_Shield: {fileID: 0}
+  passive_Sub_Shield: {fileID: 0}
+  shield: {fileID: 0}
   id: 1
   prefabId: 7
   damage: 3
@@ -4824,6 +4846,17 @@ MonoBehaviour:
   passivePos_Spear: {fileID: 0}
   passive_Main_Spear: {fileID: 0}
   passive_Sub_Spear: {fileID: 0}
+  passivePos_Wand: {fileID: 0}
+  passive_Main_Wand_Setup: {fileID: 0}
+  passive_Main_Wand: {fileID: 0}
+  passive_Sub_Wand: {fileID: 0}
+  passivePos_Axe: {fileID: 0}
+  passive_Main_Axe: {fileID: 0}
+  passive_Sub_Axe: {fileID: 0}
+  passivePos_Shield: {fileID: 0}
+  passive_Main_Shield: {fileID: 0}
+  passive_Sub_Shield: {fileID: 0}
+  shield: {fileID: 0}
   id: 1
   prefabId: 7
   damage: 3
@@ -5193,6 +5226,17 @@ MonoBehaviour:
   passivePos_Spear: {fileID: 0}
   passive_Main_Spear: {fileID: 0}
   passive_Sub_Spear: {fileID: 0}
+  passivePos_Wand: {fileID: 0}
+  passive_Main_Wand_Setup: {fileID: 0}
+  passive_Main_Wand: {fileID: 0}
+  passive_Sub_Wand: {fileID: 0}
+  passivePos_Axe: {fileID: 0}
+  passive_Main_Axe: {fileID: 0}
+  passive_Sub_Axe: {fileID: 0}
+  passivePos_Shield: {fileID: 0}
+  passive_Main_Shield: {fileID: 0}
+  passive_Sub_Shield: {fileID: 0}
+  shield: {fileID: 0}
   id: 2
   prefabId: 8
   damage: 5
@@ -5661,6 +5705,7 @@ Transform:
   - {fileID: 7737206497201112801}
   - {fileID: 3732638725432085887}
   - {fileID: 4621087499839253823}
+  - {fileID: 5457400631238445943}
   m_Father: {fileID: 7586330572396024177}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5755,25 +5800,6 @@ MonoBehaviour:
   weaponNum: 0
   isMain: 0
   playerDir: 0
-  curSlashTime: 0
-  maxSlashTime: 1.5
-  passivePos: {fileID: 8118284291745976279}
-  passive_Main_Sword: {fileID: 0}
-  passive_Sub_Sword: {fileID: 0}
-  curBowTime: 0
-  maxBowTime: 1.5
-  passive_Main_Bow: {fileID: 0}
-  passive_Sub_Bow: {fileID: 0}
-  curKnifeTime: 0
-  maxKnifeTime: 1.5
-  passivePos_Knife: {fileID: 0}
-  passive_Main_Knife: {fileID: 0}
-  passive_Sub_Knife: {fileID: 0}
-  curSpearTime: 0
-  maxSpearTime: 1.5
-  passivePos_Spear: {fileID: 0}
-  passive_Main_Spear: {fileID: 0}
-  passive_Sub_Spear: {fileID: 0}
   playerLV: 0
   baseExp: 5
   nowExp: 0
@@ -5793,7 +5819,7 @@ GameObject:
   - component: {fileID: 7587889356986849201}
   - component: {fileID: 6670008875293282524}
   m_Layer: 0
-  m_Name: Weapon 6_Shield
+  m_Name: Weapon 6_Shield_Sub
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5837,6 +5863,17 @@ MonoBehaviour:
   passivePos_Spear: {fileID: 0}
   passive_Main_Spear: {fileID: 0}
   passive_Sub_Spear: {fileID: 0}
+  passivePos_Wand: {fileID: 0}
+  passive_Main_Wand_Setup: {fileID: 0}
+  passive_Main_Wand: {fileID: 0}
+  passive_Sub_Wand: {fileID: 0}
+  passivePos_Axe: {fileID: 0}
+  passive_Main_Axe: {fileID: 0}
+  passive_Sub_Axe: {fileID: 0}
+  passivePos_Shield: {fileID: 0}
+  passive_Main_Shield: {fileID: 0}
+  passive_Sub_Shield: {fileID: 0}
+  shield: {fileID: 0}
   id: 0
   prefabId: 6
   damage: 1
@@ -6258,6 +6295,17 @@ MonoBehaviour:
   passivePos_Spear: {fileID: 0}
   passive_Main_Spear: {fileID: 0}
   passive_Sub_Spear: {fileID: 0}
+  passivePos_Wand: {fileID: 0}
+  passive_Main_Wand_Setup: {fileID: 0}
+  passive_Main_Wand: {fileID: 0}
+  passive_Sub_Wand: {fileID: 0}
+  passivePos_Axe: {fileID: 0}
+  passive_Main_Axe: {fileID: 0}
+  passive_Sub_Axe: {fileID: 0}
+  passivePos_Shield: {fileID: 0}
+  passive_Main_Shield: {fileID: 0}
+  passive_Sub_Shield: {fileID: 0}
+  shield: {fileID: 0}
   id: 1
   prefabId: 7
   damage: 3
@@ -6526,6 +6574,17 @@ MonoBehaviour:
   passivePos_Spear: {fileID: 0}
   passive_Main_Spear: {fileID: 0}
   passive_Sub_Spear: {fileID: 0}
+  passivePos_Wand: {fileID: 0}
+  passive_Main_Wand_Setup: {fileID: 0}
+  passive_Main_Wand: {fileID: 0}
+  passive_Sub_Wand: {fileID: 0}
+  passivePos_Axe: {fileID: 0}
+  passive_Main_Axe: {fileID: 0}
+  passive_Sub_Axe: {fileID: 0}
+  passivePos_Shield: {fileID: 0}
+  passive_Main_Shield: {fileID: 0}
+  passive_Sub_Shield: {fileID: 0}
+  shield: {fileID: 0}
   id: 1
   prefabId: 7
   damage: 3
@@ -6725,6 +6784,90 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &8149235301369780502
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5457400631238445943}
+  - component: {fileID: 7754843260017702935}
+  m_Layer: 0
+  m_Name: Weapon 7_Shield_Main
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &5457400631238445943
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8149235301369780502}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.25, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5353998924799196723}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7754843260017702935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8149235301369780502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec6a81fbe832fc242979cad78b560d32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  passivePos_Sword: {fileID: 0}
+  passive_Main_Sword: {fileID: 0}
+  passive_Sub_Sword: {fileID: 0}
+  passive_Main_Bow: {fileID: 0}
+  passive_Sub_Bow: {fileID: 0}
+  passivePos_Knife: {fileID: 0}
+  passive_Main_Knife: {fileID: 0}
+  passive_Sub_Knife: {fileID: 0}
+  passivePos_Spear: {fileID: 0}
+  passive_Main_Spear: {fileID: 0}
+  passive_Sub_Spear: {fileID: 0}
+  passivePos_Wand: {fileID: 0}
+  passive_Main_Wand_Setup: {fileID: 0}
+  passive_Main_Wand: {fileID: 0}
+  passive_Sub_Wand: {fileID: 0}
+  passivePos_Axe: {fileID: 0}
+  passive_Main_Axe: {fileID: 0}
+  passive_Sub_Axe: {fileID: 0}
+  passivePos_Shield: {fileID: 0}
+  passive_Main_Shield: {fileID: 0}
+  passive_Sub_Shield: {fileID: 0}
+  shield: {fileID: 0}
+  id: 1
+  prefabId: 7
+  damage: 3
+  maxDamage: 10
+  count: 0
+  maxCount: 5
+  CT: 1
+  maxCT: 0.5
+  atkSpeed: 10
+  maxatkSpeed: 30
+  level: 0
+  maxLevel: 8
+  shields:
+  - {fileID: 21300000, guid: d90b86f6d80074f47a69e64a2d4dc9b5, type: 3}
+  - {fileID: 21300000, guid: a24176236f91b25498d38edba6de7c76, type: 3}
+  - {fileID: 21300000, guid: 75937e74469bcb648b0e50ac3e9bb5de, type: 3}
+  rotVec: {x: 0, y: 0, z: 0}
+  lastDir: {x: 0, y: 0, z: 0}
 --- !u!1 &8179943353549162690
 GameObject:
   m_ObjectHideFlags: 0

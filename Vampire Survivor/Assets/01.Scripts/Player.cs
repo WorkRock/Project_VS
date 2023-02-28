@@ -30,37 +30,6 @@ public class Player : MonoBehaviour
     public bool isMain;
     public float playerDir; // 플레이어가 바라보는 방향(transform.localScale.x)값 저장
 
-    [Space(10f)]
-    [Header("Sword")]
-    public float curSlashTime;      // 공격 주기
-    public float maxSlashTime = 1.5f;  
-    public Transform passivePos;    // 평타 생성 위치
-    public GameObject passive_Main_Sword;   // 검-평타-주무기
-    public GameObject passive_Sub_Sword;    // 검-평타-보조무기
-
-    [Space(10f)]
-    [Header("Bow")]
-    public float curBowTime;
-    public float maxBowTime = 1.5f;
-    public GameObject passive_Main_Bow;     // 활-평타-주무기
-    public GameObject passive_Sub_Bow;      // 활-평타-보조무기
-
-    [Space(10f)]
-    [Header("Knife")]
-    public float curKnifeTime;
-    public float maxKnifeTime = 1.5f;
-    public Transform passivePos_Knife;    // 평타 생성 위치
-    public GameObject passive_Main_Knife;   // 단검-평타-주무기
-    public GameObject passive_Sub_Knife;    // 단검-평타-보조무기
-
-    [Space(10f)]
-    [Header("Spear")]
-    public float curSpearTime;
-    public float maxSpearTime = 1.5f;
-    public Transform passivePos_Spear;    // 평타 생성 위치
-    public GameObject passive_Main_Spear;   // 창-평타-주무기
-    public GameObject passive_Sub_Spear;    // 창-평타-보조무기
-
     // 플레이어 레벨, 경험치
     [Space(10f)]
     [Header("Lv & Exp")]  
@@ -115,10 +84,6 @@ public class Player : MonoBehaviour
         isLive = true;
         isAtk = false;
         atkTime = 0f;
-        curSlashTime = 0f;
-        curKnifeTime = 0f;
-        curBowTime = 0f;
-        curSpearTime = 0f;
 
         isMain = true;
         
@@ -157,12 +122,13 @@ public class Player : MonoBehaviour
         // update에서 플레이어가 바라보는 방향을 지속적으로 받아오기
         playerDir = transform.localScale.x;
 
+        /*
         // 업그레이드 테스트
         if (Input.GetKeyDown(KeyCode.U))
             UpgradeDefaultAtkSpeed();   // 공격 속도 강화
         if (Input.GetKeyDown(KeyCode.R))
             UpgradeDefaultAtkRange();   // 공격 범위 강화
-
+        */
         // 무기 종류에 따라 다른 평타가 나가도록 검사
         switch (weaponNum)
         {
@@ -268,254 +234,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    #region 평타 - 검
-    // 평타 - 검 - 주무기(뱀서 채찍)
-    void SlashOn()
-    {
-        if (!isMain)
-            return;
-
-        curSlashTime += Time.deltaTime;
-        if (curSlashTime >= maxSlashTime)
-        {
-            if(!isSlash)
-            {
-                // 사운드 재생
-                SoundManager.instance.PlaySE("Passive Atk_Sword");
-                isSlash = true;
-            }
-            passive_Main_Sword = GameManager.instance.pool.Get(9);  // 풀에서 평타-검(주무기) 꺼내오기
-            passive_Main_Sword.transform.position = passivePos.position;    // 평타의 위치 지정
-            passive_Main_Sword.GetComponent<SpriteRenderer>().flipX = playerDir == -1; // 플레이어의 좌우반전에 따라 평타도 반전시키기
-            Invoke("SlashOff", 0.4f);
-            curSlashTime = 0f;
-        }
-    }
-    void SlashOff()
-    {
-        passive_Main_Sword.SetActive(false);
-        isSlash = false;
-    }
-
-    // 평타 - 검 - 보조무기(검기 발사)
-    void Passive_Sub_Sword_On()
-    {
-        if (isMain)
-            return;
-
-        curSlashTime += Time.deltaTime;
-        if (curSlashTime >= maxSlashTime)
-        {
-            if (!isSlash)
-            {
-                // 사운드 재생
-                SoundManager.instance.PlaySE("Passive Atk_Sword");
-                isSlash = true;
-            }
-            passive_Sub_Sword = GameManager.instance.pool.Get(10);  // 풀에서 평타-검(보조무기) 꺼내오기
-            passive_Sub_Sword.transform.position = passivePos.position; // 평타의 위치 지정
-            passive_Sub_Sword.GetComponent<SpriteRenderer>().flipX = playerDir == 1; // 플레이어의 좌우반전에 따라 평타도 반전시키기                                                                                  
-            passive_Sub_Sword.GetComponent<Rigidbody2D>().AddForce(Vector2.left * playerDir * 4.5f, ForceMode2D.Impulse);   // 플레이어가 바라보는 방향(playerDir)으로 검기 발사
-            curSlashTime = 0f;
-        }
-    }
-
-    #endregion
-    /*
-    #region 평타 - 활(석궁)
-    // 평타 - 활 - 주무기
-    void Passive_Main_Bow()
-    {
-        if (!isMain)
-            return;
-
-        curBowTime += Time.deltaTime;
-
-        if (curBowTime > maxBowTime)
-        {
-            curBowTime = 0f;
-            if (!this.scanner.nearestTarget)
-            {
-                Transform bowTwo = GameManager.instance.pool.Get(12).transform;
-                bowTwo.position = transform.position;
-
-                Vector3 dirTwo = this.inputVec;
-                dirTwo.x = (-1) * this.transform.localScale.x;
-
-                bowTwo.rotation = Quaternion.FromToRotation(Vector3.up, dirTwo);
-                bowTwo.GetComponent<Weapon>().Init(4, 1, dirTwo);
-                //rigid.AddForce(transform.position, ForceMode2D.Impulse);
-
-                return;
-            }
-
-            Vector3 targetPos = this.scanner.nearestTarget.position;
-            Vector3 dir = targetPos - transform.position;
-            dir = dir.normalized;
-
-            Transform bow = GameManager.instance.pool.Get(12).transform;
-            bow.position = transform.position;
-            // Quaternion.FromToRotation: 지정된 축을 중심으로 목표를 향해 회전하는 함수
-            bow.rotation = Quaternion.FromToRotation(Vector3.up, dir);
-            bow.GetComponent<Weapon>().Init(4, 1, dir);
-        }
-    }
-
-    // 평타 - 활 - 보조무기
-    void Passive_Sub_Bow()
-    {
-        if (isMain)
-            return;
-
-        curBowTime += Time.deltaTime;
-
-        if (curBowTime > maxBowTime)
-        {
-            curBowTime = 0f;
-            if (!this.scanner.nearestTarget)
-            {
-                Transform bowTwo = GameManager.instance.pool.Get(8).transform;
-                bowTwo.position = transform.position;
-
-                Vector3 dirTwo = this.inputVec;
-                dirTwo.x = (-1) * this.transform.localScale.x;
-
-                bowTwo.rotation = Quaternion.FromToRotation(Vector3.up, dirTwo);
-                bowTwo.GetComponent<Weapon>().Init(1, 1, dirTwo);
-                //rigid.AddForce(transform.position, ForceMode2D.Impulse);
-
-                return;
-            }
-
-            Vector3 targetPos = this.scanner.nearestTarget.position;
-            Vector3 dir = targetPos - transform.position;
-            dir = dir.normalized;
-
-            Transform bow = GameManager.instance.pool.Get(8).transform;
-            bow.position = transform.position;
-            // Quaternion.FromToRotation: 지정된 축을 중심으로 목표를 향해 회전하는 함수
-            bow.rotation = Quaternion.FromToRotation(Vector3.up, dir);
-            bow.GetComponent<Weapon>().Init(1, 1, dir);
-        }
-    }
-    #endregion
-
-    #region 평타 - 단검
-    // 평타 - 단검 - 주무기
-    void Passive_Main_Knife()
-    {
-        if (!isMain)
-            return;
-
-        curKnifeTime += Time.deltaTime;
-        if (curKnifeTime >= maxKnifeTime)
-        {
-            if (!isSlash)
-            {
-                // 사운드 재생
-                SoundManager.instance.PlaySE("Passive Atk_Sword");
-                isSlash = true;
-            }
-            passive_Main_Knife = GameManager.instance.pool.Get(11);  // 풀에서 평타-단검(주무기) 꺼내오기
-            passive_Main_Knife.transform.position = passivePos_Knife.position;    // 평타의 위치 지정
-            passive_Main_Knife.GetComponent<SpriteRenderer>().flipX = playerDir == -1; // 플레이어의 좌우반전에 따라 평타도 반전시키기
-            Invoke("Passive_Main_Knife_Off", 0.3f);
-            curKnifeTime = 0f;
-        }
-    }
-    void Passive_Main_Knife_Off()
-    {
-        passive_Main_Knife.SetActive(false);
-        isSlash = false;
-    }
-
-    // 평타 - 단검 - 보조무기
-    // 단검 발사(원거리 공격)
-    void Passive_Sub_Knife()
-    {
-        if (isMain)
-            return;
-
-        curKnifeTime += Time.deltaTime;
-
-        if (curKnifeTime > maxKnifeTime)
-        {
-            curKnifeTime = 0f;
-            if (!this.scanner.nearestTarget)
-            {
-                Transform knifeTwo = GameManager.instance.pool.Get(7).transform;
-                knifeTwo.position = transform.position;
-
-                Vector3 dirTwo = this.inputVec;
-                dirTwo.x = (-1) * this.transform.localScale.x;
-
-                knifeTwo.rotation = Quaternion.FromToRotation(Vector3.up, dirTwo);
-                knifeTwo.GetComponent<Weapon>().Init(1, 1, dirTwo);
-                //rigid.AddForce(transform.position, ForceMode2D.Impulse);
-
-                return;
-            }
-        }    
-    }
-    #endregion
-    */
-    #region 평타 - 창
-    // 평타 - 창 - 주무기(길게 찌르기)
-    void Passive_Main_Spear()
-    {
-        if (!isMain)
-            return;
-
-        curSpearTime += Time.deltaTime;
-        if (curSpearTime >= maxSpearTime)
-        {
-            if (!isSlash)
-            {
-                // 사운드 재생
-                SoundManager.instance.PlaySE("Passive Atk_Sword");
-                isSlash = true;
-            }
-            passive_Main_Spear = GameManager.instance.pool.Get(14);  // 풀에서 평타-창(주무기) 꺼내오기
-            passive_Main_Spear.transform.position = passivePos_Spear.position;    // 평타의 위치 지정
-            passive_Main_Spear.GetComponent<SpriteRenderer>().flipX = playerDir == -1; // 플레이어의 좌우반전에 따라 평타도 반전시키기
-            Invoke("Passive_Main_Spear_Off", 0.4f);
-            curSpearTime = 0f;
-        }
-    }
-
-    void Passive_Main_Spear_Off()
-    {
-        passive_Main_Spear.SetActive(false);
-        isSlash = false;
-    }
-    // 평타 - 창 - 보조무기(원형 휘두르기)
-    void Passive_Sub_Spear()
-    {
-        if (isMain)
-            return;
-
-        curSpearTime += Time.deltaTime;
-        if (curSpearTime >= maxSpearTime)
-        {
-            if (!isSlash)
-            {
-                // 사운드 재생
-                SoundManager.instance.PlaySE("Passive Atk_Sword");
-                isSlash = true;
-            }
-            passive_Sub_Spear = GameManager.instance.pool.Get(13);  // 풀에서 평타-창(보조무기) 꺼내오기
-            passive_Sub_Spear.transform.position = transform.position;    // 평타의 위치 지정
-            passive_Sub_Spear.GetComponent<SpriteRenderer>().flipX = playerDir == 1; // 플레이어의 좌우반전에 따라 평타도 반전시키기
-            Invoke("Passive_Sub_Spear_Off", 0.4f);
-            curSpearTime = 0f;
-        }
-    }
-    void Passive_Sub_Spear_Off()
-    {
-        passive_Sub_Spear.SetActive(false);
-        isSlash = false;
-    }
-    #endregion
     void OnMove()
     {
         float h = Input.GetAxisRaw("Horizontal");
@@ -590,6 +308,7 @@ public class Player : MonoBehaviour
         }
     }
 
+    /*
     // 평타 공격 속도 증가 함수
     void UpgradeDefaultAtkSpeed()
     {
@@ -605,7 +324,7 @@ public class Player : MonoBehaviour
         if (passive_Main_Sword.transform.localScale.x >= maxRange.x)
             passive_Main_Sword.transform.localScale = maxRange;
     }
-
+    */
     // 무기 변경 함수
     void ChangeWeapon()
     {
@@ -670,12 +389,22 @@ public class Player : MonoBehaviour
                 selectedWeapon[i].SetActive(false);
             selectedWeapon[5].SetActive(true);
         }
-        // 7. 방패
+        // 7. 방패 - 메인
         else if (Input.GetKeyDown(KeyCode.F7))
         {
             isMain = true;
             rightWeapon.sprite = weaponsSprites[6];
             leftWeapon.sprite = null;
+            for (int i = 0; i < selectedWeapon.Length; i++)
+                selectedWeapon[i].SetActive(false);
+            selectedWeapon[7].SetActive(true);
+        }
+        // 8. 방패 - 서브
+        else if (Input.GetKeyDown(KeyCode.F8))
+        {
+            isMain = true;
+            leftWeapon.sprite = weaponsSprites[6];
+            rightWeapon.sprite = null;
             for (int i = 0; i < selectedWeapon.Length; i++)
                 selectedWeapon[i].SetActive(false);
             selectedWeapon[6].SetActive(true);
