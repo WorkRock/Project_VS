@@ -22,18 +22,14 @@ public class Player : MonoBehaviour
     public float player_Atk;    // 공격력
     public BoxCollider2D hitBox;    // 히트박스(스킬)
 
-    public GameObject slashEffect;  // 슬래시(평타)
-    public float curSlashTime;      // 공격 주기
-    public float maxSlashTime = 1.5f;
+    public GameObject[] selectedWeapon;
+
+    // 0-검 1-활 2-단검 3-창 4-완드 5-도끼 6-방패
+    public int weaponNum;
+    // 현재 무기가 주무기인지, 보조무기인지 저장(테스트용)
+    public bool isMain;
     public float playerDir; // 플레이어가 바라보는 방향(transform.localScale.x)값 저장
 
-    public Transform passivePos;    // 평타 생성 위치
-    public GameObject passive_Main_Sword;   // 검-평타-주무기
-    public GameObject passive_Sub_Sword;    // 검-평타-보조무기
-
-    // 현재 무기가 주무기인지, 보조무기인지 저장(테스트용)
-    private bool isMain;
-   
     // 플레이어 레벨, 경험치
     [Space(10f)]
     [Header("Lv & Exp")]  
@@ -61,7 +57,7 @@ public class Player : MonoBehaviour
     private float atkTime;  // 히트박스 활성화 시간 체크 
     private SpriteRenderer[] playerBodies;  // 피격 효과(알파값 조정)을 위해 플레이어의 자식으로 있는 스프라이트 렌더러들을 연결
     private Color[] originColor;    // 원래 색깔 저장  
-    private bool isSlash;   // 사운드 한번만 사용되도록 체크  
+    public bool isSlash;   // 사운드 한번만 사용되도록 체크  
     private Vector3 maxRange = new Vector3(12f, 12f, 12f);   // 최대 공격 범위
     private Vector3 plusRange = new Vector3(1.5f, 1.5f, 1.5f);  // 공격 범위 증가 폭(기본 3, 50%증가)
 
@@ -78,6 +74,9 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        // 무기 번호 초기화 (기본-0, 검)
+        weaponNum = 0;
+        selectedWeapon[0].SetActive(true);
         // 플레이어 관련 옵션 초기화
         player_Hp = player_MaxHp;
         playerLV = 1;
@@ -85,7 +84,6 @@ public class Player : MonoBehaviour
         isLive = true;
         isAtk = false;
         atkTime = 0f;
-        curSlashTime = 0f;
 
         isMain = true;
         
@@ -102,8 +100,11 @@ public class Player : MonoBehaviour
         if (!isLive)
             return;
 
+        // 무기 변경
+        ChangeWeapon();
+
         // @@@@@@@@주무기(오른쪽) 보조무기(왼쪽) 스왑에 따른 평타 변경 테스트
-        if(Input.GetKeyDown(KeyCode.O))
+        if (Input.GetKeyDown(KeyCode.O))
         {
             isMain = !isMain;
             if(rightWeapon.sprite != null)
@@ -121,18 +122,42 @@ public class Player : MonoBehaviour
         // update에서 플레이어가 바라보는 방향을 지속적으로 받아오기
         playerDir = transform.localScale.x;
 
+        /*
         // 업그레이드 테스트
         if (Input.GetKeyDown(KeyCode.U))
             UpgradeDefaultAtkSpeed();   // 공격 속도 강화
         if (Input.GetKeyDown(KeyCode.R))
             UpgradeDefaultAtkRange();   // 공격 범위 강화
-
-        SlashOn();  // 검-메인-평타
-        Passive_Sub_Sword_On(); // 검-서브-평타
-        OnMove();
-        Flip();
-        Dead();
-        ActiveAttack();
+        */
+        // 무기 종류에 따라 다른 평타가 나가도록 검사
+        switch (weaponNum)
+        {
+            // 검
+            case 0:
+                //SlashOn();              // 검-메인-평타
+                //Passive_Sub_Sword_On(); // 검-서브-평타
+                break;
+            // 활
+            case 1:
+                //Passive_Main_Bow();     // 활-메인-평타
+                //Passive_Sub_Bow();      // 활-서브-평타
+                break;
+            // 단검
+            case 2:
+                //Passive_Main_Knife();   // 단검-메인-평타          
+                //Passive_Sub_Knife();    // 단검-서브-평타
+                break;
+            // 창
+            case 3:
+                //Passive_Main_Spear();   // 창-메인-평타
+                //Passive_Sub_Spear();    // 창-서브-평타
+                break;
+        }
+        
+        OnMove();   // 이동
+        Flip();     // 좌우 반전
+        Dead();     // 사망 체크
+        ActiveAttack(); // 수동 공격
 
         // 공격 테스트
         if (Input.GetKeyDown(KeyCode.Z))
@@ -168,48 +193,6 @@ public class Player : MonoBehaviour
         {
             isAtk = true;
             animator.SetTrigger("SMagic");
-        }
-
-
-
-        // 무기 스왑 테스트 
-        // 왼손 무기 : L키 + 숫자 1 2 3 4 5
-        if (Input.GetKey(KeyCode.L))
-        {
-            // 1. 도끼
-            if (Input.GetKeyDown(KeyCode.F1))
-                leftWeapon.sprite = weaponsSprites[0];
-            // 2. 활
-            else if (Input.GetKeyDown(KeyCode.F2))       
-                leftWeapon.sprite = weaponsSprites[1];
-            // 3. 창 
-            else if (Input.GetKeyDown(KeyCode.F3))
-                leftWeapon.sprite = weaponsSprites[2];
-            // 4. 완드
-            else if (Input.GetKeyDown(KeyCode.F4))
-                leftWeapon.sprite = weaponsSprites[3];
-            // 5. 방패
-            else if (Input.GetKeyDown(KeyCode.F5))
-                leftWeapon.sprite = weaponsSprites[4];
-        }
-        // 오른손 무기 : R키 + 숫자 1 2 3 4 5
-        else if(Input.GetKey(KeyCode.R))
-        {
-            // 1. 도끼
-            if (Input.GetKeyDown(KeyCode.F1))
-                rightWeapon.sprite = weaponsSprites[0];
-            // 2. 활
-            else if (Input.GetKeyDown(KeyCode.F2))
-                rightWeapon.sprite = weaponsSprites[1];
-            // 3. 창 
-            else if (Input.GetKeyDown(KeyCode.F3))
-                rightWeapon.sprite = weaponsSprites[2];
-            // 4. 완드
-            else if (Input.GetKeyDown(KeyCode.F4))
-                rightWeapon.sprite = weaponsSprites[3];
-            // 5. 방패
-            else if (Input.GetKeyDown(KeyCode.F5))
-                rightWeapon.sprite = weaponsSprites[4];
         }   
     }
 
@@ -250,61 +233,6 @@ public class Player : MonoBehaviour
             }
         }
     }
-
-    #region 평타-검
-    // 평타 - 검 - 주무기(뱀서 채찍)
-    void SlashOn()
-    {
-        if (!isMain)
-            return;
-
-        curSlashTime += Time.deltaTime;
-        if (curSlashTime >= maxSlashTime)
-        {
-            if(!isSlash)
-            {
-                // 사운드 재생
-                SoundManager.instance.PlaySE("Passive Atk_Sword");
-                isSlash = true;
-            }
-            passive_Main_Sword = GameManager.instance.pool.Get(9);  // 풀에서 평타-검(주무기) 꺼내오기
-            passive_Main_Sword.transform.position = passivePos.position;    // 평타의 위치 지정
-            passive_Main_Sword.GetComponent<SpriteRenderer>().flipX = playerDir == -1; // 플레이어의 좌우반전에 따라 평타도 반전시키기
-            Invoke("SlashOff", 0.4f);
-            curSlashTime = 0f;
-        }
-    }
-    void SlashOff()
-    {
-        passive_Main_Sword.SetActive(false);
-        isSlash = false;
-    }
-
-    // 평타 - 검 - 보조무기(검기 발사)
-    void Passive_Sub_Sword_On()
-    {
-        if (isMain)
-            return;
-
-        curSlashTime += Time.deltaTime;
-        if (curSlashTime >= maxSlashTime)
-        {
-            if (!isSlash)
-            {
-                // 사운드 재생
-                SoundManager.instance.PlaySE("Passive Atk_Sword");
-                isSlash = true;
-            }
-            passive_Sub_Sword = GameManager.instance.pool.Get(10);  // 풀에서 평타-검(보조무기) 꺼내오기
-            passive_Sub_Sword.transform.position = passivePos.position; // 평타의 위치 지정
-            passive_Sub_Sword.GetComponent<SpriteRenderer>().flipX = playerDir == -1; // 플레이어의 좌우반전에 따라 평타도 반전시키기
-                                                                                      // 플레이어가 바라보는 방향(playerDir)으로 검기 발사
-            passive_Sub_Sword.GetComponent<Rigidbody2D>().AddForce(Vector2.left * playerDir * 4.5f, ForceMode2D.Impulse);
-            curSlashTime = 0f;
-        }
-    }
-
-    #endregion
 
     void OnMove()
     {
@@ -380,6 +308,7 @@ public class Player : MonoBehaviour
         }
     }
 
+    /*
     // 평타 공격 속도 증가 함수
     void UpgradeDefaultAtkSpeed()
     {
@@ -394,5 +323,91 @@ public class Player : MonoBehaviour
         passive_Main_Sword.transform.localScale += plusRange;
         if (passive_Main_Sword.transform.localScale.x >= maxRange.x)
             passive_Main_Sword.transform.localScale = maxRange;
+    }
+    */
+    // 무기 변경 함수
+    void ChangeWeapon()
+    {
+        // F1 ~ 5
+        // 1. 검
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            isMain = true;
+            rightWeapon.sprite = weaponsSprites[0];
+            leftWeapon.sprite = null;
+            for (int i = 0; i < selectedWeapon.Length; i++)
+                selectedWeapon[i].SetActive(false);
+            selectedWeapon[0].SetActive(true);
+        }
+        // 2. 활
+        else if (Input.GetKeyDown(KeyCode.F2))
+        {
+            isMain = true;
+            rightWeapon.sprite = weaponsSprites[1];
+            leftWeapon.sprite = null;
+            for (int i = 0; i < selectedWeapon.Length; i++)
+                selectedWeapon[i].SetActive(false);
+            selectedWeapon[1].SetActive(true);
+        }
+        // 3. 단검
+        else if (Input.GetKeyDown(KeyCode.F3))
+        {
+            isMain = true;
+            rightWeapon.sprite = weaponsSprites[2];
+            leftWeapon.sprite = null;
+            for (int i = 0; i < selectedWeapon.Length; i++)
+                selectedWeapon[i].SetActive(false);
+            selectedWeapon[2].SetActive(true);
+        }
+        // 4. 창
+        else if (Input.GetKeyDown(KeyCode.F4))
+        {
+            isMain = true;
+            rightWeapon.sprite = weaponsSprites[3];
+            leftWeapon.sprite = null;
+            for (int i = 0; i < selectedWeapon.Length; i++)
+                selectedWeapon[i].SetActive(false);
+            selectedWeapon[3].SetActive(true);
+        }
+        // 5. 완드
+        else if (Input.GetKeyDown(KeyCode.F5))
+        {
+            isMain = true;
+            rightWeapon.sprite = weaponsSprites[4];
+            leftWeapon.sprite = null;
+            for (int i = 0; i < selectedWeapon.Length; i++)
+                selectedWeapon[i].SetActive(false);
+            selectedWeapon[4].SetActive(true);
+        }
+        // 6. 도끼
+        else if (Input.GetKeyDown(KeyCode.F6))
+        {
+            isMain = true;
+            rightWeapon.sprite = weaponsSprites[5];
+            leftWeapon.sprite = null;
+            for (int i = 0; i < selectedWeapon.Length; i++)
+                selectedWeapon[i].SetActive(false);
+            selectedWeapon[5].SetActive(true);
+        }
+        // 7. 방패 - 메인
+        else if (Input.GetKeyDown(KeyCode.F7))
+        {
+            isMain = true;
+            rightWeapon.sprite = weaponsSprites[6];
+            leftWeapon.sprite = null;
+            for (int i = 0; i < selectedWeapon.Length; i++)
+                selectedWeapon[i].SetActive(false);
+            selectedWeapon[7].SetActive(true);
+        }
+        // 8. 방패 - 서브
+        else if (Input.GetKeyDown(KeyCode.F8))
+        {
+            isMain = true;
+            leftWeapon.sprite = weaponsSprites[6];
+            rightWeapon.sprite = null;
+            for (int i = 0; i < selectedWeapon.Length; i++)
+                selectedWeapon[i].SetActive(false);
+            selectedWeapon[6].SetActive(true);
+        }
     }
 }
