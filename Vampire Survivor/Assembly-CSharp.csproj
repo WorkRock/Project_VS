@@ -61,17 +61,28 @@
     <Compile Include="Assets\01.Scripts\Player.cs" />
     <Compile Include="Assets\01.Scripts\Magnet.cs" />
     <Compile Include="Assets\SPUM\Script\SPUM_AnimationController.cs" />
+    <Compile Include="Assets\08.Controller\PerkInven\PerkInvenManager.cs" />
     <Compile Include="Assets\SPUM\Script\Plugin\Moments Recorder\Scripts\Gif\NeuQuant.cs" />
     <Compile Include="Assets\SPUM\Script\Plugin\Moments Recorder\Scripts\Gif\GifFrame.cs" />
+    <Compile Include="Assets\08.Controller\PerkInven\PerkController.cs" />
+    <Compile Include="Assets\01.Scripts\Inventory\SynergyInven\Slot.cs" />
+    <Compile Include="Assets\08.Controller\SynergyInven\ItemController.cs" />
     <Compile Include="Assets\01.Scripts\GameManager.cs" />
     <Compile Include="Assets\SPUM\Script\Plugin\Moments Recorder\Scripts\ReflectionUtils.cs" />
     <Compile Include="Assets\01.Scripts\PoolManager.cs" />
+    <Compile Include="Assets\01.Scripts\Inventory\SynergyInven\ItemPickUp.cs" />
+    <Compile Include="Assets\01.Scripts\Inventory\PerkInven\Slot_Perk.cs" />
+    <Compile Include="Assets\08.Controller\SynergyInven\IObjectItem.cs" />
     <Compile Include="Assets\01.Scripts\Reposition.cs" />
+    <Compile Include="Assets\01.Scripts\Inventory\SynergyInven\WeaponChange.cs" />
     <Compile Include="Assets\01.Scripts\SoundManager.cs" />
+    <Compile Include="Assets\01.Scripts\Inventory\SynergyInven\Item.cs" />
     <Compile Include="Assets\01.Scripts\Spawner.cs" />
     <Compile Include="Assets\SPUM\Sprite_Editor(Beta)\Script\SpriteSyncManager.cs" />
     <Compile Include="Assets\SPUM\Script\Plugin\Moments Recorder\Scripts\Gif\GifEncoder.cs" />
     <Compile Include="Assets\SPUM\Script\SPUM_PreviewItem.cs" />
+    <Compile Include="Assets\01.Scripts\Inventory\PerkInven\Perk.cs" />
+    <Compile Include="Assets\01.Scripts\Inventory\PerkInven\RandomPerk.cs" />
     <Compile Include="Assets\01.Scripts\Enemy.cs" />
     <Compile Include="Assets\SPUM\Script\SPUM_Prefabs.cs" />
     <Compile Include="Assets\SPUM\Script\SPUM_Manager.cs" />
@@ -81,11 +92,16 @@
     <Compile Include="Assets\SPUM\Sprite_Editor(Beta)\Script\SpriteSync.cs" />
     <Compile Include="Assets\SPUM\Script\Ect\SpritePos.cs" />
     <Compile Include="Assets\SPUM\Script\SPUM_SpriteList.cs" />
+    <Compile Include="Assets\01.Scripts\Inventory\TestPlayer.cs" />
     <Compile Include="Assets\SPUM\Script\SPUM_PackageButton.cs" />
     <Compile Include="Assets\SPUM\Sample\Script\PlayerObj.cs" />
+    <Compile Include="Assets\08.Controller\SynergyInven\InventoryItemController.cs" />
     <Compile Include="Assets\01.Scripts\Weapon.cs" />
+    <Compile Include="Assets\01.Scripts\TestWeaponManager.cs" />
     <Compile Include="Assets\SPUM\Sprite_Editor(Beta)\Script\SpriteEyeSync.cs" />
     <Compile Include="Assets\SPUM\Script\SPUM_SpriteButtonST.cs" />
+    <Compile Include="Assets\01.Scripts\Inventory\SynergyInven\OpenInven.cs" />
+    <Compile Include="Assets\08.Controller\SynergyInven\InventoryManager.cs" />
     <Compile Include="Assets\01.Scripts\WeaponManager.cs" />
     <Compile Include="Assets\SPUM\Sprite_Editor(Beta)\Script\SPUM_SpriteEditManager.cs" />
     <Compile Include="Assets\SPUM\Script\SPUM_HorseSpriteList.cs" />
@@ -96,6 +112,7 @@
     <Compile Include="Assets\SPUM\SoonsoonData\SoonsoonData.cs" />
     <Compile Include="Assets\01.Scripts\Exp.cs" />
     <Compile Include="Assets\SPUM\Script\Plugin\Moments Recorder\Scripts\Gif\LzwEncoder.cs" />
+    <Compile Include="Assets\08.Controller\PerkInven\IObjectPerk.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

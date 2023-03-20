@@ -16,6 +16,8 @@ TagManager:
   - Knife
   - Border
   - Player_Atk
+  - Weapon
+  - Axe
   layers:
   - Default
   - TransparentFX

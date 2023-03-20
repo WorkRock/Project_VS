@@ -159,3 +159,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 0
   per: 0
+  isRotate: 0
+  rotateSpeed: 0
+  isPing: 0
+  isReturn: 0

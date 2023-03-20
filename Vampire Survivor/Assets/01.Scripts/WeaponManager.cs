@@ -65,7 +65,7 @@ public class WeaponManager : MonoBehaviour
     // 레벨 업(레벨에 따라 방패 변경)
     public int level;
     public int maxLevel = 10;
-   
+
     SpriteRenderer[] nowShieldSprites;
     public Sprite[] shields;
 
@@ -76,7 +76,7 @@ public class WeaponManager : MonoBehaviour
     public Vector3 lastDir;
 
     private void Awake()
-    {    
+    {
         //player = GetComponentInParent<Player>();
     }
 
@@ -121,7 +121,7 @@ public class WeaponManager : MonoBehaviour
             case 2:
                 timer += Time.deltaTime;
 
-                if(timer > CT)
+                if (timer > CT)
                 {
                     timer = 0f;
                     if (player.isMain)
@@ -225,7 +225,7 @@ public class WeaponManager : MonoBehaviour
         if (id == 6)
         {
             SetShieldPosition();
-        }      
+        }
     }
 
     public void Init()
@@ -241,7 +241,7 @@ public class WeaponManager : MonoBehaviour
             case 2:
                 //CT = 3f;   // 단검 투척 주기
                 break;
-            
+
 
             // 방패
             case 6:
@@ -252,7 +252,7 @@ public class WeaponManager : MonoBehaviour
         }
     }
 
-    
+
     // 방패 배치 함수
     void SetShieldPosition()
     {
@@ -260,7 +260,7 @@ public class WeaponManager : MonoBehaviour
 
         for (int i = 0; i < count; i++)
         {
-            if(i < transform.childCount)
+            if (i < transform.childCount)
             {
                 shield = transform.GetChild(i);
             }
@@ -270,7 +270,7 @@ public class WeaponManager : MonoBehaviour
                 // Transform의 parent 속성을 통해 부모를 변경(Poolmanager -> WeaponManager)
                 shield.parent = transform;
             }
-          
+
             shield.localPosition = Vector3.zero;
             shield.localRotation = Quaternion.identity;
 
@@ -313,7 +313,7 @@ public class WeaponManager : MonoBehaviour
             SoundManager.instance.PlaySE("Passive Atk_Sword");
             player.isSlash = true;
         }
-        
+
         if (!player.scanner.nearestTarget)
         {
             Transform passive_Sub_Sword = GameManager.instance.pool.Get(10).transform;
@@ -443,10 +443,10 @@ public class WeaponManager : MonoBehaviour
         knife.position = transform.position;
         Vector3 dir = player.inputVec.normalized;
         if (dir == new Vector3(0, 0))
-            dir = lastDir; 
+            dir = lastDir;
         knife.rotation = Quaternion.FromToRotation(Vector3.up, dir);
         lastDir = dir;
-        knife.GetComponent<Weapon>().Init(1, 1, dir,atkSpeed);
+        knife.GetComponent<Weapon>().Init(1, 1, dir, atkSpeed);
 
         return;
     }
@@ -502,7 +502,7 @@ public class WeaponManager : MonoBehaviour
         Vector3 dir = player.inputVec.normalized;
         if (dir == new Vector3(0, 0))
             dir = lastDir;
-        
+
         lastDir = dir;
 
         passive_Main_Wand_Setup = GameManager.instance.pool.Get(16);
@@ -642,12 +642,12 @@ public class WeaponManager : MonoBehaviour
     // 평타 - 방패 - 보조무기(뱀서 성서)
     void Passive_Sub_Shield()
     {
-        
+
     }
 
     void Passive_Sub_Shield_Off()
     {
-       
+
     }
     #endregion
 
@@ -680,3 +680,5 @@ public class WeaponManager : MonoBehaviour
         }
     }
 }
+
+

@@ -34,22 +34,19 @@ public class Exp : MonoBehaviour
 
             // 경험치 증가(일단 1개당 3씩 증가하게)
             GameManager.instance.player.nowExp += 3;
-            // UI 갱신
-            GameManager.instance.nowExp.text = "Exp: " + GameManager.instance.player.nowExp.ToString();
+            
             // 레벨 업
             if(GameManager.instance.player.nowExp >= GameManager.instance.player.needExpPerLV)
             {
                 GameManager.instance.player.playerLV++;
                 // 현재 경험치 0으로 초기화
                 GameManager.instance.player.nowExp = 0;
-                GameManager.instance.nowExp.text = "Exp: " + GameManager.instance.player.nowExp.ToString();
-             
+                
                 // UI 갱신
                 GameManager.instance.level.text = "Level: " + GameManager.instance.player.playerLV.ToString();
                 // 경험치 필요량 갱신
                 GameManager.instance.player.needExpPerLV += 10;
-                // UI 갱신
-                GameManager.instance.needExp.text = "Need Exp: " + GameManager.instance.player.needExpPerLV.ToString();
+                
             }
         }
     }

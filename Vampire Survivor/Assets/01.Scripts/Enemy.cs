@@ -150,7 +150,7 @@ public class Enemy : MonoBehaviour
         }
 
         // 4. 단검과 충돌
-        if (collision.gameObject.tag == "Knife")
+        if (collision.gameObject.tag == "Knife" || collision.gameObject.tag == "Axe")
         {
             // 적 히트 사운드 재생
             SoundManager.instance.PlaySE("Enemy Hit");

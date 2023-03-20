@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e531921e42f6804dbcd9d338c778240, type: 3}
+  m_Name: 23.Ice_Summon
+  m_EditorClassIdentifier: 
+  id: 523
+  perkName: Ice_Summon
+  SynergyImage: {fileID: 21300000, guid: dc609117e8b8ed84ead2a01085dbbaa4, type: 3}
+  SpecialImage: {fileID: 21300008, guid: ecd359c045351424082d2ba03ec132df, type: 3}
+  basicX: 5
+  incX: -0.25
+  maxX: 3
+  basicY: 4
+  incY: 2
+  maxY: 20
+  perkExplan: "\uC5BC\uC74C\uC744 \uBC1C\uC0AC\uD558\uB294 \uC5BC\uC74C \uC815\uB839
+    \uC18C\uD658(\uACF5\uACA9 \uCFE8\uD0C0\uC784 x\uCD08, \uB370\uBBF8\uC9C0 y)"
+  ugPerk: 0
+  synergy: 2
+  special: 5

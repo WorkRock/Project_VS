@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e531921e42f6804dbcd9d338c778240, type: 3}
+  m_Name: 13.Electro_Util
+  m_EditorClassIdentifier: 
+  id: 513
+  perkName: Electro_Util
+  SynergyImage: {fileID: 21300000, guid: 5c08bbcce060bf24c8074d9f4d593e63, type: 3}
+  SpecialImage: {fileID: 21300000, guid: 944eece0a3c26194d96c7c96dd48f94a, type: 3}
+  basicX: 4
+  incX: -0.25
+  maxX: 2
+  basicY: 5
+  incY: 3
+  maxY: 29
+  perkExplan: "x\uCD08\uC5D0 \uD55C\uBC88 \uBB34\uC791\uC704 \uC801\uC5D0\uAC8C y\uC758
+    \uB370\uBBF8\uC9C0\uB97C \uC8FC\uB294 \uBC88\uAC1C\uB97C \uB5A8\uC5B4\uB728\uB9BD\uB2C8\uB2E4."
+  ugPerk: 0
+  synergy: 1
+  special: 4

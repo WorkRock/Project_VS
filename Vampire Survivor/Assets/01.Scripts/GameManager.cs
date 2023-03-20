@@ -2,10 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Cinemachine;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
+    // 플레이어 배열
+    public GameObject[] players;
+
+    public CinemachineVirtualCamera cinemachine;
 
     public Player player;
     public PoolManager pool;
@@ -29,10 +34,9 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        cinemachine.Follow = player.GetComponentInChildren<Transform>();
         // UI 갱신
         level.text = "Level: " + player.playerLV.ToString();
-        nowExp.text = "Exp: " + player.nowExp.ToString(); 
-        needExp.text = "Need Exp: " + player.needExpPerLV.ToString();
     }
 
     void Update()

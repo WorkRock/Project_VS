@@ -124,5 +124,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb056c8288462ce4890d7acf24c1f840, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
+  damage: 0
   per: 0
+  isRotate: 1
+  rotateSpeed: 300
+  isPing: 0
+  isReturn: 0

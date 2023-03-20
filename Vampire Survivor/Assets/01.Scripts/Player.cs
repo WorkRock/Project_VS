@@ -24,6 +24,9 @@ public class Player : MonoBehaviour
 
     public GameObject[] selectedWeapon;
 
+    public WeaponChange weaponChange;
+    public Item mainWeapon;
+    public Item subWeapon;
     // 0-검 1-활 2-단검 3-창 4-완드 5-도끼 6-방패
     public int weaponNum;
     // 현재 무기가 주무기인지, 보조무기인지 저장(테스트용)
@@ -43,8 +46,8 @@ public class Player : MonoBehaviour
     [Header("Swap")]
     public Sprite[] weaponsSprites; // 무기 스왑용 스프라이트 배열 -> 나중에 최적화 고려하면 게임매니저에다 만드는게 나을듯
     // 현재 착용 중인 무기 스프라이트
-    public SpriteRenderer rightWeapon;
-    public SpriteRenderer leftWeapon;
+    public SpriteRenderer mainWeaponSprite;
+    public SpriteRenderer subWeaponSprite;
 
     // 컴포넌트
     Rigidbody2D rigid;
@@ -74,6 +77,11 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        // 시작 시 main무기와 sub무기 정보를 받아온다.
+        mainWeapon = weaponChange.getMainWeapoon();
+        subWeapon = weaponChange.getSubWeapoon();
+
+
         // 무기 번호 초기화 (기본-0, 검)
         weaponNum = 0;
         selectedWeapon[0].SetActive(true);
@@ -100,100 +108,34 @@ public class Player : MonoBehaviour
         if (!isLive)
             return;
 
-        // 무기 변경
-        ChangeWeapon();
 
         // @@@@@@@@주무기(오른쪽) 보조무기(왼쪽) 스왑에 따른 평타 변경 테스트
         if (Input.GetKeyDown(KeyCode.O))
         {
+            weaponChange.swapWeapon();
+          
+            /*
             isMain = !isMain;
-            if(rightWeapon.sprite != null)
+            if(mainWeaponSprite.sprite != null)
             {
-                leftWeapon.sprite = rightWeapon.sprite;
-                rightWeapon.sprite = null;
+                subWeaponSprite.sprite = mainWeaponSprite.sprite;
+                mainWeaponSprite.sprite = null;
             }
-            else if(rightWeapon.sprite == null)
+            else if(mainWeaponSprite.sprite == null)
             {
-                rightWeapon.sprite = leftWeapon.sprite;
-                leftWeapon.sprite = null;
-            }         
+                mainWeaponSprite.sprite = subWeaponSprite.sprite;
+                subWeaponSprite.sprite = null;
+            }
+            */
         }
 
         // update에서 플레이어가 바라보는 방향을 지속적으로 받아오기
         playerDir = transform.localScale.x;
-
-        /*
-        // 업그레이드 테스트
-        if (Input.GetKeyDown(KeyCode.U))
-            UpgradeDefaultAtkSpeed();   // 공격 속도 강화
-        if (Input.GetKeyDown(KeyCode.R))
-            UpgradeDefaultAtkRange();   // 공격 범위 강화
-        */
-        // 무기 종류에 따라 다른 평타가 나가도록 검사
-        switch (weaponNum)
-        {
-            // 검
-            case 0:
-                //SlashOn();              // 검-메인-평타
-                //Passive_Sub_Sword_On(); // 검-서브-평타
-                break;
-            // 활
-            case 1:
-                //Passive_Main_Bow();     // 활-메인-평타
-                //Passive_Sub_Bow();      // 활-서브-평타
-                break;
-            // 단검
-            case 2:
-                //Passive_Main_Knife();   // 단검-메인-평타          
-                //Passive_Sub_Knife();    // 단검-서브-평타
-                break;
-            // 창
-            case 3:
-                //Passive_Main_Spear();   // 창-메인-평타
-                //Passive_Sub_Spear();    // 창-서브-평타
-                break;
-        }
         
         OnMove();   // 이동
         Flip();     // 좌우 반전
         Dead();     // 사망 체크
         ActiveAttack(); // 수동 공격
-
-        // 공격 테스트
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            isAtk = true;
-            // 플레이어 수동공격 사운드 재생
-            SoundManager.instance.PlaySE("Active Atk_Sword");
-            animator.SetTrigger("isNormal");
-        }
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            isAtk = true;
-            animator.SetTrigger("isBow");
-        }
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            isAtk = true;
-            animator.SetTrigger("isMagic");
-        }
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            isAtk = true;
-            // 플레이어 특수공격 사운드 재생
-            SoundManager.instance.PlaySE("Special Atk_Sword");
-            animator.SetTrigger("SNormal");
-        }
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            isAtk = true;
-            animator.SetTrigger("SBow");
-        }
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            isAtk = true;
-            animator.SetTrigger("SMagic");
-        }   
     }
 
     // rigid 관련 로직은 fixedUpdate에서 수행
@@ -207,11 +149,29 @@ public class Player : MonoBehaviour
         rigid.MovePosition(rigid.position + nextVec);
     }
 
-    void LateUpdate()
+    public void setMainWeapon(Item mainWeapon)
     {
-        
+        this.mainWeapon = mainWeapon;
     }
 
+    public void setSubWeapon(Item subWeapon)
+    {
+        this.subWeapon = subWeapon;
+    }
+    public Item getMainWeapoon()
+    {
+        return mainWeapon;
+    }
+
+    public Item getSubWeapoon()
+    {
+        return subWeapon;
+    }
+
+    public void setIsMain(bool isMain)
+    {
+        this.isMain = isMain;
+    }
     // 수동 공격
     void ActiveAttack()
     {
@@ -236,15 +196,19 @@ public class Player : MonoBehaviour
 
     void OnMove()
     {
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
+        if(Time.timeScale != 0)
+        {
+            float h = Input.GetAxisRaw("Horizontal");
+            float v = Input.GetAxisRaw("Vertical");
 
-        inputVec = new Vector2(h, v);
+            inputVec = new Vector2(h, v);
 
-        if (inputVec != new Vector2(0, 0))
-            animator.SetBool("isRun", true);
-        else
-            animator.SetBool("isRun", false);
+            if (inputVec != new Vector2(0, 0))
+                animator.SetBool("isRun", true);
+            else
+                animator.SetBool("isRun", false);
+        }
+        
     }
 
     void Flip()
@@ -308,106 +272,53 @@ public class Player : MonoBehaviour
         }
     }
 
-    /*
-    // 평타 공격 속도 증가 함수
-    void UpgradeDefaultAtkSpeed()
+    // 무기 변경 함수
+    public void ChangeWeapon()
     {
-        maxSlashTime -= 0.3f;
-        if (maxSlashTime <= 0.6f)
-            maxSlashTime = 0.6f;
+        if(isMain) 
+            mainWeaponSprite.sprite = mainWeapon.itemImage;
+        else
+            subWeaponSprite.sprite = subWeapon.itemImage;
     }
 
-    // 평타 공격 범위 증가 함수
-    void UpgradeDefaultAtkRange()
+    void ActiveAtkTest()
     {
-        passive_Main_Sword.transform.localScale += plusRange;
-        if (passive_Main_Sword.transform.localScale.x >= maxRange.x)
-            passive_Main_Sword.transform.localScale = maxRange;
-    }
-    */
-    // 무기 변경 함수
-    void ChangeWeapon()
-    {
-        // F1 ~ 5
-        // 1. 검
-        if (Input.GetKeyDown(KeyCode.F1))
+        /*
+        // 공격 테스트
+        if (Input.GetKeyDown(KeyCode.Z))
         {
-            isMain = true;
-            rightWeapon.sprite = weaponsSprites[0];
-            leftWeapon.sprite = null;
-            for (int i = 0; i < selectedWeapon.Length; i++)
-                selectedWeapon[i].SetActive(false);
-            selectedWeapon[0].SetActive(true);
+            isAtk = true;
+            // 플레이어 수동공격 사운드 재생
+            SoundManager.instance.PlaySE("Active Atk_Sword");
+            animator.SetTrigger("isNormal");
         }
-        // 2. 활
-        else if (Input.GetKeyDown(KeyCode.F2))
+        if (Input.GetKeyDown(KeyCode.X))
         {
-            isMain = true;
-            rightWeapon.sprite = weaponsSprites[1];
-            leftWeapon.sprite = null;
-            for (int i = 0; i < selectedWeapon.Length; i++)
-                selectedWeapon[i].SetActive(false);
-            selectedWeapon[1].SetActive(true);
+            isAtk = true;
+            animator.SetTrigger("isBow");
         }
-        // 3. 단검
-        else if (Input.GetKeyDown(KeyCode.F3))
+        if (Input.GetKeyDown(KeyCode.C))
         {
-            isMain = true;
-            rightWeapon.sprite = weaponsSprites[2];
-            leftWeapon.sprite = null;
-            for (int i = 0; i < selectedWeapon.Length; i++)
-                selectedWeapon[i].SetActive(false);
-            selectedWeapon[2].SetActive(true);
+            isAtk = true;
+            animator.SetTrigger("isMagic");
         }
-        // 4. 창
-        else if (Input.GetKeyDown(KeyCode.F4))
+        if (Input.GetKeyDown(KeyCode.V))
         {
-            isMain = true;
-            rightWeapon.sprite = weaponsSprites[3];
-            leftWeapon.sprite = null;
-            for (int i = 0; i < selectedWeapon.Length; i++)
-                selectedWeapon[i].SetActive(false);
-            selectedWeapon[3].SetActive(true);
+            isAtk = true;
+            // 플레이어 특수공격 사운드 재생
+            SoundManager.instance.PlaySE("Special Atk_Sword");
+            animator.SetTrigger("SNormal");
         }
-        // 5. 완드
-        else if (Input.GetKeyDown(KeyCode.F5))
+        if (Input.GetKeyDown(KeyCode.B))
         {
-            isMain = true;
-            rightWeapon.sprite = weaponsSprites[4];
-            leftWeapon.sprite = null;
-            for (int i = 0; i < selectedWeapon.Length; i++)
-                selectedWeapon[i].SetActive(false);
-            selectedWeapon[4].SetActive(true);
+            isAtk = true;
+            animator.SetTrigger("SBow");
         }
-        // 6. 도끼
-        else if (Input.GetKeyDown(KeyCode.F6))
+        if (Input.GetKeyDown(KeyCode.N))
         {
-            isMain = true;
-            rightWeapon.sprite = weaponsSprites[5];
-            leftWeapon.sprite = null;
-            for (int i = 0; i < selectedWeapon.Length; i++)
-                selectedWeapon[i].SetActive(false);
-            selectedWeapon[5].SetActive(true);
-        }
-        // 7. 방패 - 메인
-        else if (Input.GetKeyDown(KeyCode.F7))
-        {
-            isMain = true;
-            rightWeapon.sprite = weaponsSprites[6];
-            leftWeapon.sprite = null;
-            for (int i = 0; i < selectedWeapon.Length; i++)
-                selectedWeapon[i].SetActive(false);
-            selectedWeapon[7].SetActive(true);
-        }
-        // 8. 방패 - 서브
-        else if (Input.GetKeyDown(KeyCode.F8))
-        {
-            isMain = true;
-            leftWeapon.sprite = weaponsSprites[6];
-            rightWeapon.sprite = null;
-            for (int i = 0; i < selectedWeapon.Length; i++)
-                selectedWeapon[i].SetActive(false);
-            selectedWeapon[6].SetActive(true);
-        }
+            isAtk = true;
+            animator.SetTrigger("SMagic");
+        }   
+        */
     }
 }
