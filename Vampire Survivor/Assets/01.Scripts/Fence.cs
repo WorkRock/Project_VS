@@ -16,7 +16,7 @@ public class Fence : MonoBehaviour
             // 플레이어 히트 사운드 재생
             SoundManager.instance.PlaySE("Player Hit");
             GameManager.instance.player.GetComponent<Animator>().SetTrigger("isHit");
-            GameManager.instance.player.player_Hp--;
+            GameManager.instance.player.NowHP--;
 
             GameManager.instance.player.HurtEffectOn();
         }

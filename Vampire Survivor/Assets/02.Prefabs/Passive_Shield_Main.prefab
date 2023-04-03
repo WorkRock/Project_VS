@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5258038508585243912}
   m_Layer: 0
   m_Name: Passive_Shield_Main
-  m_TagString: HitBox
+  m_TagString: Shield
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -147,8 +147,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 0
-  per: 0
+  per: 1
   isRotate: 1
   rotateSpeed: 300
   isPing: 0
   isReturn: 0
+  rigid: {fileID: 0}

@@ -5,11 +5,13 @@ using UnityEngine.UI;
 
 public class Slot_Perk : MonoBehaviour
 {
-    [SerializeField] Image image_Synergy;
-    [SerializeField] Image image_Special;
-    [SerializeField] Text text;
-    //[SerializeField] GameObject Equip;
+    public Text perkName;
+    public Text perkLevel;
+    public Image synergyImage;
+    public Image specialImage;
+
     private Perk _perk;
+
     public Perk perk
     {
         get { return _perk; }
@@ -18,17 +20,19 @@ public class Slot_Perk : MonoBehaviour
             _perk = value;
             if (_perk != null)
             {
-                image_Synergy.sprite = perk.SynergyImage;
-                image_Special.sprite = perk.SpecialImage;
-                text.text = perk.perkName;
-                image_Synergy.color = new Color(1, 1, 1, 1);
-                image_Special.color = new Color(1, 1, 1, 1);
+                perkName.text = perk.perkName;
+                perkLevel.text = perk.perkLevel;
+                synergyImage.sprite = perk.SynergyImage;
+                specialImage.sprite = perk.SpecialImage;
+                synergyImage.color = new Color(1, 1, 1, 1);
+                specialImage.color = new Color(1, 1, 1, 1);
             }
             else
             {
-                text.text = "";
-                image_Synergy.color = new Color(1, 1, 1, 0);
-                image_Special.color = new Color(1, 1, 1, 0);
+                perkName.text = "";
+                perkLevel.text = "";
+                synergyImage.color = new Color(1, 1, 1, 0);
+                specialImage.color = new Color(1, 1, 1, 0);
             }
         }
     }

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1638896388956563965}
   m_Layer: 0
   m_Name: Arrow
-  m_TagString: Player_Atk
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -152,3 +152,4 @@ MonoBehaviour:
   rotateSpeed: 0
   isPing: 0
   isReturn: 0
+  rigid: {fileID: 0}

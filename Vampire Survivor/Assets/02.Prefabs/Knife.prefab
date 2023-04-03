@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1638896388956563965}
   m_Layer: 0
   m_Name: Knife
-  m_TagString: Knife
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -138,3 +138,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 1
   per: 0
+  isRotate: 0
+  rotateSpeed: 0
+  isPing: 0
+  isReturn: 0
+  rigid: {fileID: 0}

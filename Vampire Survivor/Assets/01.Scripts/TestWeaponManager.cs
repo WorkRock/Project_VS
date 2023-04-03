@@ -8,11 +8,18 @@ public class TestWeaponManager : MonoBehaviour
     public Item subWeapon;
 
     GameObject passive_Main_Setup;  // 마법진 등 준비 동작
-    GameObject passive_Main;    // 메인 공격
-    GameObject passive_Sub;     // 서브 공격
+    public GameObject passive_Main;    // 메인 공격
+    public GameObject passive_Sub;     // 서브 공격
 
+    // 평타 방향(도끼_sub 에 사용중)
+    public Vector3 mainDir;
+    public Vector3 subDir;
+
+    // 방패(보조)
     Transform passive;
-
+    // 도끼(보조)
+    GameObject passiveAxe;
+    
     // Item 옵션 - Main
     public int id;
     public string itemName;
@@ -41,19 +48,32 @@ public class TestWeaponManager : MonoBehaviour
 
     // 플레이어
     Player player;
-    // 플레이어의 마지막 입력방향 값
+    // 플레이어가 마지막으로 입력한 방향
     public Vector3 lastDir;
+    // 플레이어 이미지가 마지막으로 바라본 방향
+    Vector3 lastSpriteDir;
 
     public Vector3 rotVec;
     private bool isWeaponChangeCheck;
 
     bool isStatic;
 
+    // 도끼 발사 플래그
+    bool Thrown;
+    // 도끼 리턴 플래그
+    bool Back;
+    // 도끼 발사 시간
+    public float thrownTime;
+    // 도끼 체공 시간
+    public float keepThrownTime;
+    // 도끼 발사 속도
+    public float ThrowSpeed;
+
     void Start()
     {
         //mainWeapon = WeaponChange.Instance.getMainWeapoon();
         //subWeapon = WeaponChange.Instance.getSubWeapoon();
-
+      
         player = GameManager.instance.player;
         lastDir = new Vector3(-1, 0);
         isWeaponChangeCheck = false;
@@ -62,6 +82,9 @@ public class TestWeaponManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // 플레이어 이미지가 바라보는 방향을 받아옴
+        lastSpriteDir.x = player.transform.localScale.x;
+        
         transform.position = player.transform.position;
 
         isWeaponChangeCheck = WeaponChange.Instance.getWeaponUION();
@@ -148,7 +171,7 @@ public class TestWeaponManager : MonoBehaviour
                 if (invokeTime_Sub > CT_Sub)
                 {
                     invokeTime_Sub = 0f;
-                    StaticAtk();
+                    StaticAtk();                 
                 }
                 // 축 회전
                 transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 0.35f, player.transform.position.z);
@@ -158,44 +181,51 @@ public class TestWeaponManager : MonoBehaviour
             case "atkBoomerang":
                 invokeTime_Sub += Time.deltaTime;
                 if (invokeTime_Sub > CT_Sub)
-                {
-                    invokeTime_Sub = 0f;
+                {      
                     BoomerangAtk_Sub();
+                    Thrown = true;
+                    invokeTime_Sub = 0f;
                 }
+
+                ThrowAndReturn();
                 break;
         }
 
+        
         // 방패(보조) ON OFF
-        ShieldOnOff();       
+        ShieldOnOff();
+
+        // 도끼 돌아오게하기
+        ForceBack();
     }
 
     public void WeaponChangeCheck()
     {
-        Debug.Log("WeaponChangeCheck");
+        //Debug.Log("WeaponChangeCheck");
         mainWeapon = WeaponChange.Instance.getMainWeapoon();
         subWeapon = WeaponChange.Instance.getSubWeapoon();
 
-        id = mainWeapon.id;
+        id = mainWeapon.id_Main;
         itemName = mainWeapon.itemName;
-        damage = mainWeapon.dmg;
-        count = mainWeapon.count;
-        CT = mainWeapon.CT;
-        atkSpeed = mainWeapon.atkSpeed;
-        atkType = mainWeapon.atkType.ToString();
-        prefabId = mainWeapon.prefId;
-        animTime = mainWeapon.animTime;
+        damage = mainWeapon.dmg_Main;
+        count = mainWeapon.count_Main;
+        CT = mainWeapon.CT_Main;
+        atkSpeed = mainWeapon.atkSpeed_Main;
+        atkType = mainWeapon.atkType_Main.ToString();
+        prefabId = mainWeapon.prefId_Main;
+        animTime = mainWeapon.animTime_Main;
 
         if (subWeapon == null)
             return;
-        id_Sub = subWeapon.id;
+        id_Sub = subWeapon.id_Sub;
         itemName_Sub = subWeapon.itemName;
-        damage_Sub = subWeapon.dmg;
-        count_Sub = subWeapon.count;
-        CT_Sub = subWeapon.CT;
-        atkSpeed_Sub = subWeapon.atkSpeed;
-        atkType_Sub = subWeapon.atkType.ToString();
-        prefabId_Sub = subWeapon.prefId;
-        animTime_Sub = subWeapon.animTime;
+        damage_Sub = subWeapon.dmg_Sub;
+        count_Sub = subWeapon.count_Sub;
+        CT_Sub = subWeapon.CT_Sub;
+        atkSpeed_Sub = subWeapon.atkSpeed_Sub;
+        atkType_Sub = subWeapon.atkType_Sub.ToString();
+        prefabId_Sub = subWeapon.prefId_Sub;
+        animTime_Sub = subWeapon.animTime_Sub;
     }
 
     // 횡방향 공격
@@ -267,10 +297,10 @@ public class TestWeaponManager : MonoBehaviour
         // 1. 마법진 생성
         Vector3 dir = player.inputVec.normalized;
         if (dir == new Vector3(0, 0))
-            dir = lastDir;
-
-        lastDir = dir;
-
+            //dir = lastDir;
+            dir = lastSpriteDir * -1;
+        //lastDir = dir;
+       
         passive_Main_Setup = GameManager.instance.pool.Get(prefabId - 1);
         passive_Main_Setup.transform.position = player.transform.position + dir * 5;  // 마법진의 위치 = 플레이어위치 + (입력방향 * 거리(5); 거리는 변수화해서 변경 가능)
         passive_Main_Setup.transform.rotation = Quaternion.identity;   // 마법진은 로테이션 바꿀필요 X
@@ -287,7 +317,7 @@ public class TestWeaponManager : MonoBehaviour
         passive_Main.transform.position = passive_Main_Setup.transform.position;  // 폭발의 위치 = 마법진의 위치
         passive_Main.transform.rotation = Quaternion.identity;
         passive_Main_Setup.SetActive(false);   // 마법진이 먼저 사라져버리면 폭발 위치를 받아오지 못하므로 폭발 생성 후 비활성화
-        Invoke("ExplosionOff", 0.3f);     // 폭발 비활성화
+        Invoke("ExplosionOff", 0.6f);     // 폭발 비활성화
     }
     void ExplosionOff()
     {
@@ -306,7 +336,7 @@ public class TestWeaponManager : MonoBehaviour
                 dir = lastDir;
             passive.rotation = Quaternion.FromToRotation(Vector3.up, dir);
             lastDir = dir;
-            passive.GetComponent<Weapon>().Init(4, 1, dir, atkSpeed);
+            passive.GetComponent<Weapon>().Init(damage, count, dir, atkSpeed);
 
             return;
         }
@@ -319,7 +349,7 @@ public class TestWeaponManager : MonoBehaviour
         passive_two.position = player.transform.position;
         // Quaternion.FromToRotation: 지정된 축을 중심으로 목표를 향해 회전하는 함수
         passive_two.rotation = Quaternion.FromToRotation(Vector3.up, dir_two);
-        passive_two.GetComponent<Weapon>().Init(4, 1, dir_two, atkSpeed);
+        passive_two.GetComponent<Weapon>().Init(damage, count, dir_two, atkSpeed);
     }
 
     // 유도 공격 - 보조
@@ -332,9 +362,9 @@ public class TestWeaponManager : MonoBehaviour
             Vector3 dir = player.inputVec;
             if (dir == new Vector3(0, 0))
                 dir = lastDir;
-            passive.rotation = subWeapon.itemName == "Wand" ? Quaternion.FromToRotation(Vector3.right, dir) : Quaternion.FromToRotation(Vector3.up, dir);
+            passive.rotation = Quaternion.FromToRotation(Vector3.up, dir);
             lastDir = dir;
-            passive.GetComponent<Weapon>().Init(4, 1, dir, atkSpeed_Sub);
+            passive.GetComponent<Weapon>().Init(damage_Sub, count_Sub, dir, atkSpeed_Sub);
 
             return;
         }
@@ -346,8 +376,8 @@ public class TestWeaponManager : MonoBehaviour
         Transform passive_two = GameManager.instance.pool.Get(prefabId_Sub).transform;
         passive_two.position = transform.position;
         // Quaternion.FromToRotation: 지정된 축을 중심으로 목표를 향해 회전하는 함수
-        passive_two.rotation = Quaternion.FromToRotation(Vector3.right, dir_two);
-        passive_two.GetComponent<Weapon>().Init(4, 1, dir_two, atkSpeed_Sub);
+        passive_two.rotation = Quaternion.FromToRotation(Vector3.up, dir_two);
+        passive_two.GetComponent<Weapon>().Init(damage_Sub, count_Sub, dir_two, atkSpeed_Sub);
     }
 
     // 고정 공격
@@ -382,13 +412,20 @@ public class TestWeaponManager : MonoBehaviour
     void ShieldOnOff()
     {
         // 0. main이나 sub 중 하나라도 shield일 때만 실행
-        if (subWeapon != null && (mainWeapon.itemName == "Shield" || subWeapon.itemName == "Shield"))
+        if (subWeapon != null)
         {
             // 1. 현재 보조무기가 방패가 아니면 -> 돌고있는 방패를 비활성화
-            if (subWeapon != null && subWeapon.atkType != Item.AtkType.atkStatic)
-                passive.gameObject.SetActive(false);
+            if (subWeapon.atkType_Sub != Item.AtkType.atkStatic)
+            {
+                int getChildCount = gameObject.transform.childCount;
+                for (int i = 0; i < getChildCount; i++)
+                {
+                    gameObject.transform.GetChild(i).gameObject.SetActive(false);
+                }
+            }
+            
             // 2. 현재 보조무기가 방패라면 -> 방패를 다시 활성화
-            else if (subWeapon != null && subWeapon.atkType == Item.AtkType.atkStatic)
+            else if (subWeapon.atkType_Sub == Item.AtkType.atkStatic)
             {
                 // 비활성화된 오브젝트를 활성화 시키려면 활성화된 부모를 찾아서 자식을 찾는 형식으로 접근해야함
                 // GetChild함수는 주어진 매개변수의 숫자에 해당하는 자식을 반환한다.
@@ -409,14 +446,57 @@ public class TestWeaponManager : MonoBehaviour
     // 부메랑 공격_sub (도끼-보조) -> 랜덤한 방향으로 날아가서 적과 충돌하면 포물선을 그리며 플레이어에게 돌아옴
     void BoomerangAtk_Sub()
     {
-        Transform passive_Sub = GameManager.instance.pool.Get(prefabId_Sub).transform;
-        passive_Sub.position = player.transform.position;
-        Vector3 dir = new Vector3(Random.Range(-1, 2), Random.Range(-1, 2)).normalized;
-        passive_Sub.rotation = Quaternion.FromToRotation(Vector3.up, dir);
-        passive_Sub.GetComponent<Weapon>().Init(1, 1, dir, atkSpeed_Sub);
+        passiveAxe = GameManager.instance.pool.Get(prefabId_Sub);
+        passiveAxe.transform.position = player.transform.position;
 
-        
+        // 8방향 랜덤
+        subDir = new Vector3(Random.Range(-1, 2), Random.Range(-1, 2)).normalized;
+        if (subDir == new Vector3(0, 0))
+            subDir = new Vector3(1, 0);
 
-        return;
+        passiveAxe.transform.rotation = Quaternion.FromToRotation(Vector3.up, subDir);  // 프리팹의 방향을 조정
+    }
+
+    void ThrowAndReturn()
+    {
+        if (Thrown)
+        {
+            // 도끼를 던진다.
+            //passiveAxe.GetComponent<Weapon>().Init(1, -1, subDir, atkSpeed_Sub);
+            passiveAxe.transform.position = Vector3.Slerp(passiveAxe.transform.position, passiveAxe.transform.position + (subDir * 1.5f), 0.04f);
+
+            thrownTime += Time.deltaTime;
+            if (thrownTime >= keepThrownTime)
+            {
+                Thrown = false;
+                Back = true;
+                thrownTime = 0f;
+            }
+        }
+
+        if (!Thrown && Back)
+        {
+            // 도끼를 플레이어에게 되돌아오게 한다.
+            //passiveAxe.GetComponent<Weapon>().rigid.velocity = Vector3.zero;
+            passiveAxe.transform.position = Vector3.MoveTowards(passiveAxe.transform.position, GameManager.instance.player.transform.position, ThrowSpeed * Time.deltaTime);
+            if (passiveAxe.transform.position == GameManager.instance.player.transform.position)
+            {
+                Back = false;
+                passiveAxe.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    void ForceBack()
+    {
+        if(Thrown && subWeapon.itemName != "Axe")
+        {
+            passiveAxe.transform.position = Vector3.MoveTowards(passiveAxe.transform.position, GameManager.instance.player.transform.position, ThrowSpeed * Time.deltaTime);
+            if (passiveAxe.transform.position == GameManager.instance.player.transform.position)
+            {
+                Back = false;
+                passiveAxe.gameObject.SetActive(false);
+            }
+        }
     }
 }

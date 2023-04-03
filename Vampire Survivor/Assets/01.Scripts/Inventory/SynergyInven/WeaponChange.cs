@@ -7,7 +7,8 @@ public class WeaponChange : MonoBehaviour
 {
     public static WeaponChange Instance;
     public TestWeaponManager weaponManager;
-    
+
+    public GameObject Inventory;
     public GameObject weaponChangeCheck;
     public GameObject Alert;
 
@@ -113,6 +114,7 @@ public class WeaponChange : MonoBehaviour
         else
         {
             alertText.text = "주 무기는 비워 놓을 수 없습니다!".ToString();
+            GameManager.instance.player.canSwap = true;
             Time.timeScale = 0;
             Alert.SetActive(true);
         }
@@ -169,7 +171,7 @@ public class WeaponChange : MonoBehaviour
     public void AlertOff()
     {
         Alert.SetActive(false);
-        Time.timeScale = 1;
+        if(!Inventory.activeSelf) Time.timeScale = 1;
     }
 
     public void weaponUI()
@@ -190,6 +192,7 @@ public class WeaponChange : MonoBehaviour
                 ///////////// 테스트
                 if (!isSwapWeapon)
                 {
+                    Time.timeScale = 1;
                     mainWeapon = getItemDatas[0];
                     for (int i = 0; i < 2; i++)
                     {
@@ -206,7 +209,6 @@ public class WeaponChange : MonoBehaviour
                 GameManager.instance.player.ChangeWeapon();
                 
                 //inventory.DeleteItem(saveItemData);
-                Time.timeScale = 1;
                 weaponManager.WeaponChangeCheck();
                 break;
 
@@ -224,6 +226,7 @@ public class WeaponChange : MonoBehaviour
                 ////////// 테스트
                 if (!isSwapWeapon)
                 {
+                    Time.timeScale = 1;
                     subWeapon = getItemDatas[1];
                     for (int i = 0; i < 2; i++)
                     {
@@ -236,9 +239,7 @@ public class WeaponChange : MonoBehaviour
                 nowSubWeaponImg.sprite = subWeapon.itemImage;
                 GameManager.instance.player.setSubWeapon(subWeapon);
                 GameManager.instance.player.setIsMain(isMain);
-                GameManager.instance.player.ChangeWeapon();
-
-                Time.timeScale = 1;
+                GameManager.instance.player.ChangeWeapon();             
                 weaponManager.WeaponChangeCheck();
                 break;
         }

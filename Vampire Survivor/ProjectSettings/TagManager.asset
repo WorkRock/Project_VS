@@ -7,17 +7,17 @@ TagManager:
   - Enemy
   - Ground
   - Area
-  - HitBox
   - AtkArea
   - Exp
   - Magnet
   - Fence
   - Shield
-  - Knife
   - Border
-  - Player_Atk
   - Weapon
-  - Axe
+  - returnPoints
+  - Perk
+  - BasicAtk
+  - Projectile
   layers:
   - Default
   - TransparentFX
