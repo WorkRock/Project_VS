@@ -287,12 +287,10 @@ public class WeaponManager : MonoBehaviour
     // 평타 - 검 - 주무기(뱀서 채찍)
     void Passive_Main_Sword()
     {
-        if (!player.isSlash)
-        {
-            // 사운드 재생
-            SoundManager.instance.PlaySE("Passive Atk_Sword");
-            player.isSlash = true;
-        }
+        // 사운드 재생
+        SoundManager.instance.PlaySE("Passive Atk_Sword");
+
+
         passive_Main_Sword = GameManager.instance.pool.Get(9);  // 풀에서 평타-검(주무기) 꺼내오기
         passive_Main_Sword.transform.position = passivePos_Sword.position;    // 평타의 위치 지정
         passive_Main_Sword.GetComponent<SpriteRenderer>().flipX = player.playerDir == -1; // 플레이어의 좌우반전에 따라 평타도 반전시키기
@@ -301,18 +299,13 @@ public class WeaponManager : MonoBehaviour
     void Passive_Main_Sword_Off()
     {
         passive_Main_Sword.SetActive(false);
-        player.isSlash = false;
     }
 
     // 평타 - 검 - 보조무기(검기 발사)
     void Passive_Sub_Sword()
     {
-        if (!player.isSlash)
-        {
-            // 사운드 재생
-            SoundManager.instance.PlaySE("Passive Atk_Sword");
-            player.isSlash = true;
-        }
+        // 사운드 재생
+        SoundManager.instance.PlaySE("Passive Atk_Sword");
 
         if (!player.scanner.nearestTarget)
         {
@@ -345,12 +338,8 @@ public class WeaponManager : MonoBehaviour
     // 평타 - 활 - 주무기
     void Passive_Main_Bow()
     {
-        if (!player.isSlash)
-        {
-            // 사운드 재생
-            SoundManager.instance.PlaySE("Passive Atk_Sword");
-            player.isSlash = true;
-        }
+        // 사운드 재생
+        SoundManager.instance.PlaySE("Passive Atk_Sword");
 
         if (!player.scanner.nearestTarget)
         {
@@ -380,12 +369,8 @@ public class WeaponManager : MonoBehaviour
     // 평타 - 활 - 보조무기
     void Passive_Sub_Bow()
     {
-        if (!player.isSlash)
-        {
-            // 사운드 재생
-            SoundManager.instance.PlaySE("Passive Atk_Sword");
-            player.isSlash = true;
-        }
+        // 사운드 재생
+        SoundManager.instance.PlaySE("Passive Atk_Sword");
 
         if (!player.scanner.nearestTarget)
         {
@@ -418,12 +403,9 @@ public class WeaponManager : MonoBehaviour
     // 평타 - 단검 - 주무기
     void Passive_Main_Knife()
     {
-        if (!player.isSlash)
-        {
-            // 사운드 재생
-            SoundManager.instance.PlaySE("Passive Atk_Sword");
-            player.isSlash = true;
-        }
+        // 사운드 재생
+        SoundManager.instance.PlaySE("Passive Atk_Sword");
+
         passive_Main_Knife = GameManager.instance.pool.Get(11);  // 풀에서 평타-단검(주무기) 꺼내오기
         passive_Main_Knife.transform.position = passivePos_Knife.position;    // 평타의 위치 지정
         passive_Main_Knife.GetComponent<SpriteRenderer>().flipX = player.playerDir == -1; // 플레이어의 좌우반전에 따라 평타도 반전시키기
@@ -432,7 +414,6 @@ public class WeaponManager : MonoBehaviour
     void Passive_Main_Knife_Off()
     {
         passive_Main_Knife.SetActive(false);
-        player.isSlash = false;
     }
 
     // 평타 - 단검 - 보조무기
@@ -456,12 +437,9 @@ public class WeaponManager : MonoBehaviour
     // 평타 - 창 - 주무기(길게 찌르기)
     void Passive_Main_Spear()
     {
-        if (!player.isSlash)
-        {
-            // 사운드 재생
-            SoundManager.instance.PlaySE("Passive Atk_Sword");
-            player.isSlash = true;
-        }
+        // 사운드 재생
+        SoundManager.instance.PlaySE("Passive Atk_Sword");
+
         passive_Main_Spear = GameManager.instance.pool.Get(14);  // 풀에서 평타-창(주무기) 꺼내오기
         passive_Main_Spear.transform.position = passivePos_Spear.position;    // 평타의 위치 지정
         passive_Main_Spear.GetComponent<SpriteRenderer>().flipX = player.playerDir == -1; // 플레이어의 좌우반전에 따라 평타도 반전시키기
@@ -471,17 +449,13 @@ public class WeaponManager : MonoBehaviour
     void Passive_Main_Spear_Off()
     {
         passive_Main_Spear.SetActive(false);
-        player.isSlash = false;
     }
     // 평타 - 창 - 보조무기(원형 휘두르기)
     void Passive_Sub_Spear()
     {
-        if (!player.isSlash)
-        {
-            // 사운드 재생
-            SoundManager.instance.PlaySE("Passive Atk_Sword");
-            player.isSlash = true;
-        }
+        // 사운드 재생
+        SoundManager.instance.PlaySE("Passive Atk_Sword");
+
         passive_Sub_Spear = GameManager.instance.pool.Get(13);  // 풀에서 평타-창(보조무기) 꺼내오기
         passive_Sub_Spear.transform.position = transform.position;    // 평타의 위치 지정
         passive_Sub_Spear.GetComponent<SpriteRenderer>().flipX = player.playerDir == 1; // 플레이어의 좌우반전에 따라 평타도 반전시키기
@@ -490,7 +464,6 @@ public class WeaponManager : MonoBehaviour
     void Passive_Sub_Spear_Off()
     {
         passive_Sub_Spear.SetActive(false);
-        player.isSlash = false;
     }
     #endregion
 
@@ -532,12 +505,8 @@ public class WeaponManager : MonoBehaviour
     // 평타 - 완드 - 보조무기(에너지 볼트)
     void Passive_Sub_Wand()
     {
-        if (!player.isSlash)
-        {
-            // 사운드 재생
-            SoundManager.instance.PlaySE("Passive Atk_Sword");
-            player.isSlash = true;
-        }
+        // 사운드 재생
+        SoundManager.instance.PlaySE("Passive Atk_Sword");
 
         if (!player.scanner.nearestTarget)
         {
@@ -569,12 +538,8 @@ public class WeaponManager : MonoBehaviour
     // 평타 - 도끼 - 주무기(내려찍기)
     void Passive_Main_Axe()
     {
-        if (!player.isSlash)
-        {
-            // 사운드 재생
-            SoundManager.instance.PlaySE("Passive Atk_Sword");
-            player.isSlash = true;
-        }
+        // 사운드 재생
+        SoundManager.instance.PlaySE("Passive Atk_Sword");
         passive_Main_Axe = GameManager.instance.pool.Get(18);  // 풀에서 평타-도끼(주무기) 꺼내오기
         passive_Main_Axe.transform.position = passivePos_Axe.position;    // 평타의 위치 지정
         passive_Main_Axe.GetComponent<SpriteRenderer>().flipX = player.playerDir == 1; // 플레이어의 좌우반전에 따라 평타도 반전시키기
@@ -584,7 +549,6 @@ public class WeaponManager : MonoBehaviour
     void Passive_Main_Axe_Off()
     {
         passive_Main_Axe.SetActive(false);
-        player.isSlash = false;
     }
 
     // 평타 - 도끼 - 보조무기(튕기는 도끼)
@@ -607,12 +571,8 @@ public class WeaponManager : MonoBehaviour
     // 평타 - 방패 - 주무기(돌아오는 방패)
     void Passive_Main_Shield()
     {
-        if (!player.isSlash)
-        {
-            // 사운드 재생
-            SoundManager.instance.PlaySE("Passive Atk_Sword");
-            player.isSlash = true;
-        }
+        // 사운드 재생
+        SoundManager.instance.PlaySE("Passive Atk_Sword");
 
         if (!player.scanner.nearestTarget)
         {

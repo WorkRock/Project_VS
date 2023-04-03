@@ -7,6 +7,9 @@ using System.IO;
 using Moments.Encoder;
 using ThreadPriority = System.Threading.ThreadPriority;
 
+// 콘솔 경고메세지 끄기
+#pragma warning disable CS0414
+
 public class SPUM_Exporter : MonoBehaviour
 {
     public GameObject _unitPrefab;

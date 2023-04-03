@@ -121,8 +121,8 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 14
+        y: 32
+        width: 16
         height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -141,9 +141,9 @@ TextureImporter:
       name: slash_effect_anim_spritesheet_1
       rect:
         serializedVersion: 2
-        x: 16
-        y: 0
-        width: 14
+        x: 0
+        y: 16
+        width: 16
         height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -162,9 +162,9 @@ TextureImporter:
       name: slash_effect_anim_spritesheet_2
       rect:
         serializedVersion: 2
-        x: 32
+        x: 0
         y: 0
-        width: 14
+        width: 16
         height: 16
       alignment: 0
       pivot: {x: 0, y: 0}

@@ -64,6 +64,7 @@
     <Compile Include="Assets\08.Controller\PerkInven\PerkInvenManager.cs" />
     <Compile Include="Assets\SPUM\Script\Plugin\Moments Recorder\Scripts\Gif\NeuQuant.cs" />
     <Compile Include="Assets\SPUM\Script\Plugin\Moments Recorder\Scripts\Gif\GifFrame.cs" />
+    <Compile Include="Assets\01.Scripts\Inventory\PerkInven\PerkValueCheck.cs" />
     <Compile Include="Assets\08.Controller\PerkInven\PerkController.cs" />
     <Compile Include="Assets\01.Scripts\Inventory\SynergyInven\Slot.cs" />
     <Compile Include="Assets\08.Controller\SynergyInven\ItemController.cs" />

@@ -21,6 +21,13 @@ public class Enemy : MonoBehaviour
 
     // 플레이어 추적
     Rigidbody2D target;
+    public GameObject fireDotEffect;    // 불 도트뎀 이펙트
+    bool isFire;    // 불타고 있는지 체크
+    float fireTime;
+
+    // 무엇에 맞았는지 체크
+    public bool byPyroAtk;     // 불 공격에 맞음
+    public bool byBasicAtk;    // 평타에 맞음
 
     void Awake()
     {
@@ -36,12 +43,37 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        
+        // 불 도트뎀 받는 상태이면 1초마다 hp감소
+        if (isFire)
+        {
+            fireTime += Time.deltaTime;
+            if (fireTime >= 1f)
+            {
+                fireTime = 0;
+                enemy_Hp -= 2f;
+                if(enemy_Hp <= 0)
+                    EnemyDie();
+                //Debug.Log(enemy_Hp);          
+            }
+        }
     }
 
+    // Invoke로 참조중이므로 삭제x
     void Delete()
     {
         gameObject.SetActive(false);
+    }
+    void EnemyDie()
+    {
+        // 콜라이더 비활성화
+        this.GetComponent<CapsuleCollider2D>().enabled = false;
+        // 적 사망 사운드 재생
+        SoundManager.instance.PlaySE("Enemy Die");
+        animator.SetTrigger("isDead");
+        Invoke("Delete", 0.5f);
+        // 경험치 드랍(풀의 인덱스 5번)
+        GameObject exp = GameManager.instance.pool.Get(5);
+        exp.transform.position = this.transform.position;
     }
 
     // 물리적인 이동(rigid)은 fixedUpdate 사용
@@ -78,97 +110,60 @@ public class Enemy : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        // 1. 플레이어 평타와 충돌
-        if(collision.gameObject.tag == "HitBox")
+        // 1. 평타와 충돌
+        if (collision.gameObject.tag == "BasicAtk")
         {
+            // 평타에 맞았다고 체크
+            byBasicAtk = true;
             // 적 히트 사운드 재생
             SoundManager.instance.PlaySE("Enemy Hit");
             animator.SetTrigger("isHit");
-            enemy_Hp -= GameManager.instance.player.player_Atk;
+            // 체력 감소
+            enemy_Hp -= GameManager.instance.player.AllDmg;
 
             if (enemy_Hp <= 0)
             {
-                // 콜라이더 비활성화
-                this.GetComponent<CapsuleCollider2D>().enabled = false;
-                // 적 사망 사운드 재생
-                SoundManager.instance.PlaySE("Enemy Die");
-                animator.SetTrigger("isDead");
-                Invoke("Delete", 0.5f);
-                // 경험치 드랍(풀의 인덱스 5번)
-                GameObject exp = GameManager.instance.pool.Get(5);
-                exp.transform.position = this.transform.position;
+                EnemyDie();
             }
+
+            // 발화 테스트
+            int igniPer = Random.Range(0, 100);
+            //if(igniPer < GameManager.instance.perkInven.perks[i].basicX)
         }
 
-        // 2. 플레이어 평타-보조무기 와 충돌
-        if (collision.gameObject.tag == "Player_Atk")
+        // 2. 평타-투사체와 충돌
+        if (collision.gameObject.tag == "Projectile")
         {
-            GameManager.instance.player.isSlash = false;
-            // 평타 비활성화
-            collision.gameObject.SetActive(false);
-
+            // 평타에 맞았다고 체크
+            byBasicAtk = true;
             // 적 히트 사운드 재생
             SoundManager.instance.PlaySE("Enemy Hit");
             animator.SetTrigger("isHit");
-            enemy_Hp -= GameManager.instance.player.player_Atk;
+            enemy_Hp -= GameManager.instance.player.AllDmg;
 
             if (enemy_Hp <= 0)
             {
-                // 콜라이더 비활성화
-                this.GetComponent<CapsuleCollider2D>().enabled = false;
-                // 적 사망 사운드 재생
-                SoundManager.instance.PlaySE("Enemy Die");
-                animator.SetTrigger("isDead");
-                Invoke("Delete", 0.5f);
-                // 경험치 드랍(풀의 인덱스 5번)
-                GameObject exp = GameManager.instance.pool.Get(5);
-                exp.transform.position = this.transform.position;
+                EnemyDie();
             }
         }
 
-        // 3. 방패와 충돌
+        // 3. 방패와 충돌(방패는 튕김 체크 때문에 별도의 태그 사용)
         if (collision.gameObject.tag == "Shield")
         {
+            //// 불 도트 효과 테스트 /////
+            // fireDotEffectOn();
+            // Invoke("fireDotEffectOff", 3f);
+
+            // 평타에 맞았다고 체크
+            byBasicAtk = true;
             // 적 히트 사운드 재생
             SoundManager.instance.PlaySE("Enemy Hit");
             animator.SetTrigger("isHit");
-            // 쉴드의 현 데미지 만큼 감소
-            enemy_Hp -= collision.GetComponent<Weapon>().damage;
+            enemy_Hp -= GameManager.instance.player.AllDmg;
 
             if (enemy_Hp <= 0)
             {
-                // 콜라이더 비활성화
-                this.GetComponent<CapsuleCollider2D>().enabled = false;
-                // 적 사망 사운드 재생
-                SoundManager.instance.PlaySE("Enemy Die");
-                animator.SetTrigger("isDead");
-                Invoke("Delete", 0.5f);
-                // 경험치 드랍(풀의 인덱스 5번)
-                GameObject exp = GameManager.instance.pool.Get(5);
-                exp.transform.position = this.transform.position;
-            }
-        }
-
-        // 4. 단검과 충돌
-        if (collision.gameObject.tag == "Knife" || collision.gameObject.tag == "Axe")
-        {
-            // 적 히트 사운드 재생
-            SoundManager.instance.PlaySE("Enemy Hit");
-            animator.SetTrigger("isHit");
-            // 현 데미지 만큼 감소
-            enemy_Hp -= collision.GetComponent<Weapon>().damage;
-
-            if (enemy_Hp <= 0)
-            {
-                // 콜라이더 비활성화
-                this.GetComponent<CapsuleCollider2D>().enabled = false;
-                // 적 사망 사운드 재생
-                SoundManager.instance.PlaySE("Enemy Die");
-                animator.SetTrigger("isDead");
-                Invoke("Delete", 0.5f);
-                // 경험치 드랍(풀의 인덱스 5번)
-                GameObject exp = GameManager.instance.pool.Get(5);
-                exp.transform.position = this.transform.position;
+                EnemyDie();
             }
         }
     }
@@ -182,4 +177,17 @@ public class Enemy : MonoBehaviour
             animator.SetTrigger("isNormal");
         }
     }
+
+    void fireDotEffectOn()
+    {
+        fireDotEffect.SetActive(true);
+        isFire = true;
+    }
+
+    void fireDotEffectOff()
+    {
+        fireDotEffect.SetActive(false);
+        isFire = false;
+    }
 }
+

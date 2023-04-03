@@ -6,14 +6,19 @@ using Cinemachine;
 
 public class GameManager : MonoBehaviour
 {
+    // 싱글톤
     public static GameManager instance = null;
     // 플레이어 배열
     public GameObject[] players;
 
     public CinemachineVirtualCamera cinemachine;
 
+    // 인스턴스
     public Player player;
     public PoolManager pool;
+    public TestWeaponManager weaponManager;
+    public PerkInvenManager perkInven;
+    public PerkValueCheck perkValueCheck;
 
     public Text level;
     public Text nowExp;
@@ -26,6 +31,7 @@ public class GameManager : MonoBehaviour
     public GameObject fence;
     private float fenceTime;
     public bool nowFence;
+
 
     void Awake()
     {

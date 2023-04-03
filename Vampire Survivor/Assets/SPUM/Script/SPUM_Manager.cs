@@ -13,6 +13,9 @@ using System.Linq;
 using UnityEngine.InputSystem;
 #endif
 
+// 콘솔 경고메세지 끄기
+#pragma warning disable CS0219
+
 public class SPUM_Manager : MonoBehaviour
 {
     #if UNITY_EDITOR

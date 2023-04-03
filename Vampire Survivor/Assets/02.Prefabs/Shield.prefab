@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1125363384452108890}
   m_Layer: 0
   m_Name: Shield
-  m_TagString: Shield
+  m_TagString: BasicAtk
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -130,3 +130,4 @@ MonoBehaviour:
   rotateSpeed: 300
   isPing: 0
   isReturn: 0
+  rigid: {fileID: 0}
