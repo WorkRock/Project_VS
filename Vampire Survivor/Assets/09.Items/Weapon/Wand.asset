@@ -12,8 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd08041b8bf63a84fb4e2f9952b6f9ef, type: 3}
   m_Name: Wand
   m_EditorClassIdentifier: 
-  id: 109
-  prefId: 16
   itemName: Wand
   itemImage: {fileID: 21300000, guid: f2086542e5f493c4cb54b5d26344ba46, type: 3}
   id_Main: 109
@@ -24,6 +22,7 @@ MonoBehaviour:
   CT_Main: 5
   animTime_Main: 0.9
   atkType_Main: 1
+  projectileCount_Main: 1
   id_Sub: 110
   prefId_Sub: 17
   dmg_Sub: 7
@@ -32,9 +31,4 @@ MonoBehaviour:
   CT_Sub: 3
   animTime_Sub: 0.4
   atkType_Sub: 3
-  dmg: 15
-  count: -1
-  atkSpeed: 1
-  CT: 5
-  animTime: 0.9
-  atkType: 1
+  projectileCount_Sub: 1

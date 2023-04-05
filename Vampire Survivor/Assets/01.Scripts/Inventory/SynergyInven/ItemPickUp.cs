@@ -7,7 +7,7 @@ public class ItemPickUp : MonoBehaviour
 {
     [Header("Inventory")]
     public PerkInvenManager perkInven;
-
+   
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // ÆÜ È¹µæ

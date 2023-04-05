@@ -5,6 +5,9 @@ using UnityEditor;
 using System.IO;
 using System.Linq;
 
+// 콘솔 경고메세지 끄기
+#pragma warning disable CS0414
+
 [CustomEditor(typeof(SPUM_Exporter))]
 [CanEditMultipleObjects]
 public class SPUM_ExporterEditor : Editor

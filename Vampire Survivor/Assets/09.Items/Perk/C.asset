@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e531921e42f6804dbcd9d338c778240, type: 3}
+  m_Name: C
+  m_EditorClassIdentifier: 
+  perkID: 201010
+  perkImage: {fileID: 0}
+  SynergyImage: {fileID: 21300000, guid: 80e159dab3e6f1142bc5062eb184ccaf, type: 3}
+  SpecialImage: {fileID: 21300000, guid: 8a14f58b4b600a24ab3fcf9cb3bc82fb, type: 3}
+  perkName: C
+  perkInfo: "\uC2A4\uD0AC \uC0AC\uC6A9 \uC2DC \uD50C\uB808\uC774\uC5B4 \uC8FC\uC704\uC5D0
+    x\uCD08\uAC04 \uC720\uC9C0\uB418\uB294 \uC6D0\uD615 \uBD88\uAF43 \uB9C1 \uC0DD\uC131(\uD50C\uB808\uC774\uC5B4
+    \uACF5\uACA9\uB825 y%)"
+  perkLevel: Basic
+  isActive: 1
+  isCount: 1
+  basicX: 0.8
+  addX: 0.4
+  basicY: 0.6
+  addY: 0.05
+  synergy: 0
+  special: 1
+  active: 0
+  addTargetX: 24
+  addTargetY: 26
+  requireTarget: 2

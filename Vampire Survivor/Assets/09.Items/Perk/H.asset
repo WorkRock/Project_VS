@@ -10,25 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e531921e42f6804dbcd9d338c778240, type: 3}
-  m_Name: Pyro_Ignition
+  m_Name: H
   m_EditorClassIdentifier: 
-  perkID: 0
+  perkID: 201031
   perkImage: {fileID: 0}
   SynergyImage: {fileID: 21300000, guid: 80e159dab3e6f1142bc5062eb184ccaf, type: 3}
-  SpecialImage: {fileID: 21300000, guid: 06140cc248b05d2488fbb6493ce5fd11, type: 3}
-  perkName: Pyro_Ignition
-  perkInfo: "\uD3C9\uD0C0 \uACF5\uACA9\uC2DC \uC77C\uC815\uD655\uB960\uB85C \uC77C\uC815\uC2DC\uAC04
-    \uC801\uC744 \uC5F0\uC18C\uC0C1\uD0DC\uB85C \uB9CC\uB4ED\uB2C8\uB2E4."
-  perkLevel: Basic
+  SpecialImage: {fileID: -2407324949086632672, guid: 0d7d0bf8307514eaf81aa72f558d3fb4, type: 3}
+  perkName: H
+  perkInfo: "\uC5F0\uC18C \uC0C1\uD0DC\uC758 \uC801\uC5D0\uAC8C \uAC00\uD558\uB294
+    \uD53C\uD574\uB7C9 x% \uC99D\uAC00"
+  perkLevel: Upgrade
   isActive: 0
-  isCount: 1
-  basicX: 32
-  addX: 8.5
+  isCount: 0
+  basicX: 0.12
+  addX: 0.01
   basicY: 0
   addY: 0
   synergy: 0
-  special: 0
-  active: 0
-  addTargetX: 21
-  addTargetY: 0
-  requireTarget: 1
+  special: 3
+  active: 10
+  addTargetX: 0
+  addTargetY: 41
+  requireTarget: 3

@@ -22,11 +22,13 @@ MonoBehaviour:
   CT_Main: 3
   animTime_Main: 0
   atkType_Main: 3
+  projectileCount_Main: 1
   id_Sub: 114
   prefId_Sub: 6
   dmg_Sub: 3
-  count_Sub: 1
+  count_Sub: 2
   atkSpeed_Sub: 150
-  CT_Sub: 3
+  CT_Sub: 0
   animTime_Sub: 0
   atkType_Sub: 4
+  projectileCount_Sub: 1

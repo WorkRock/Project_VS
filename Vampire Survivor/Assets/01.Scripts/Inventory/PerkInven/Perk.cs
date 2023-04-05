@@ -68,7 +68,8 @@ public class Perk : ScriptableObject
         aSummon_Ice,        // 소환(얼음)
         aSummon_Wind,       // 소환(바람)
         aSpellShield,       // 보호막
-        aIceBall            // 얼음 투사체
+        aIceBall,           // 얼음 투사체
+        None                // 없음
     }
 
     // 발동 조건 목록
@@ -129,7 +130,8 @@ public class Perk : ScriptableObject
         atGainMax,                  // 증가량 max
         atSwapMaxCT,                // 스왑 최대 쿨타임 감소
         atSkillMaxCT,               // 스킬 최대 쿨타임 감소
-        atFixHPRegen                // 체력 회복
+        atFixHPRegen,               // 체력 회복
+        atNone                      // 증가 대상 x
     }
 
     

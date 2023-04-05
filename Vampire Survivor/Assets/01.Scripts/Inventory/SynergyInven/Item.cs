@@ -16,6 +16,7 @@ public class Item : ScriptableObject
     public float CT_Main;
     public float animTime_Main;
     public AtkType atkType_Main;
+    public int projectileCount_Main;
 
     [Header("Sub")]
     public int id_Sub;
@@ -26,6 +27,7 @@ public class Item : ScriptableObject
     public float CT_Sub;
     public float animTime_Sub;
     public AtkType atkType_Sub;
+    public int projectileCount_Sub;
 
     public enum AtkType
     {

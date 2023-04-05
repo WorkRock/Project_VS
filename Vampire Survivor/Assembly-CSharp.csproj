@@ -111,6 +111,7 @@
     <Compile Include="Assets\SPUM\Sprite_SheetExporter(Beta)\Script\SPUM_Exporter.cs" />
     <Compile Include="Assets\SPUM\Script\Plugin\Moments Recorder\Scripts\Recorder.cs" />
     <Compile Include="Assets\SPUM\SoonsoonData\SoonsoonData.cs" />
+    <Compile Include="Assets\01.Scripts\LevelUp\LevelUp.cs" />
     <Compile Include="Assets\01.Scripts\Exp.cs" />
     <Compile Include="Assets\SPUM\Script\Plugin\Moments Recorder\Scripts\Gif\LzwEncoder.cs" />
     <Compile Include="Assets\08.Controller\PerkInven\IObjectPerk.cs" />

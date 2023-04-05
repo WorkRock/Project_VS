@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+    [Header("Level Up UI")]
+    public GameObject levelUpUI;
+
     [Header("Player Stat")]
     public float AllDmg;            // 전체 피해량
     public float BasicAtkDmg;       // 평타 피해량
@@ -109,6 +112,13 @@ public class Player : MonoBehaviour
         if (!isLive)
             return;
         
+        // 레벨업 UI 테스트
+        if(Input.GetKeyDown(KeyCode.F1))
+        {
+            levelUpUI.SetActive(levelUpUI.activeSelf ? false : true);
+            Time.timeScale = levelUpUI.activeSelf ? 0f : 1f;
+        }
+        
         // @@@@@@@@주무기(오른쪽) 보조무기(왼쪽) 스왑에 따른 평타 변경 테스트
         if (Time.timeScale > 0 && canSwap &&Input.GetKeyDown(KeyCode.O))
         {
@@ -129,7 +139,6 @@ public class Player : MonoBehaviour
             swap_Cnt = 0;
             canSwap = true;
             GameManager.instance.perkValueCheck.swapCheck = false;
-
         }
 
         // update에서 플레이어가 바라보는 방향을 지속적으로 받아오기

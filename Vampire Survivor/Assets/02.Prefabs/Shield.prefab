@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3513987656953927975}
   - component: {fileID: 2647615706015338544}
   - component: {fileID: 7716437781374236323}
-  - component: {fileID: 1125363384452108890}
+  - component: {fileID: 4737710571286734747}
   m_Layer: 0
   m_Name: Shield
   m_TagString: BasicAtk
@@ -112,7 +112,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.45, y: 0.45}
   m_EdgeRadius: 0
---- !u!114 &1125363384452108890
+--- !u!114 &4737710571286734747
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -125,9 +125,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 0
-  per: 0
-  isRotate: 1
-  rotateSpeed: 300
+  per: -1
+  isRotate: 0
+  rotateSpeed: 0
   isPing: 0
   isReturn: 0
   rigid: {fileID: 0}
