@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 public class PlayerData : Singleton<PlayerData>
 {
+    protected int _charNum;
+
     protected int _Gold;
 
     #region Lobby UG
@@ -55,6 +57,12 @@ public class PlayerData : Singleton<PlayerData>
     protected float Reflect;
     protected float GainDMG; 
     #endregion
+
+    public static int charNum
+    {
+        get { return GetInstance()._charNum; }
+        set { GetInstance()._charNum = value; }
+    }
 
     public static int Gold
     {

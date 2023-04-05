@@ -83,8 +83,9 @@ public class LobbyManager : MonoBehaviour
         InfoActiveAndDelChild();
         startChar = i;
         Instantiate(prefabs[i], prefabParent);
+        PlayerData.charNum = startChar;
 
-        switch(i)
+        switch (i)
         {
             case 0:
                 className.text = "기사";
@@ -133,13 +134,13 @@ public class LobbyManager : MonoBehaviour
     public void startIngame()
     {
         Debug.Log("Load Scene : Ingame");
-        SceneManager.LoadScene("Lobby");
+        // SceneManager.LoadScene("Lobby");
         /*
         CharacterSel.SetActive(false);
         Info.SetActive(false);
         delChild();
          */
         // 싱글톤 전달해줄 값 스크립트 작성 필요
-        //SceneManager.LoadScene("Ingame");
+        SceneManager.LoadScene("Ingame");
     }
 }
