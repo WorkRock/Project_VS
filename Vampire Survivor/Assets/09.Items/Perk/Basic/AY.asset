@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e531921e42f6804dbcd9d338c778240, type: 3}
+  m_Name: AY
+  m_EditorClassIdentifier: 
+  perkID: 212030
+  perkImage: {fileID: 0}
+  SynergyImage: {fileID: 21300000, guid: 9e5e200069c8ec14b857e10db776c146, type: 3}
+  SpecialImage: {fileID: -2407324949086632672, guid: 0d7d0bf8307514eaf81aa72f558d3fb4, type: 3}
+  perkName: AY
+  perkInfo: "\uBAA8\uB4E0 \uD53C\uD574\uB7C9 \uC99D\uAC00 +x%"
+  perkLevel: Basic
+  isActive: 0
+  isCount: 0
+  basicX: 0.1
+  addX: 0.025
+  basicY: 0
+  addY: 0
+  synergy: 5
+  special: 3
+  active: 10
+  addTargetX: 0
+  addTargetY: 41
+  requireTarget: 0

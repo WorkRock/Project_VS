@@ -18,6 +18,7 @@ TagManager:
   - Perk
   - BasicAtk
   - Projectile
+  - ActivePerk
   layers:
   - Default
   - TransparentFX

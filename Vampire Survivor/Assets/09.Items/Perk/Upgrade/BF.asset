@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e531921e42f6804dbcd9d338c778240, type: 3}
+  m_Name: BF
+  m_EditorClassIdentifier: 
+  perkID: 211001
+  perkImage: {fileID: 0}
+  SynergyImage: {fileID: 21300000, guid: 9e5e200069c8ec14b857e10db776c146, type: 3}
+  SpecialImage: {fileID: 21300000, guid: 06140cc248b05d2488fbb6493ce5fd11, type: 3}
+  perkName: BF
+  perkInfo: "\uC801 \uCC98\uCE58 \uC2DC x\uCD08\uAC04 \uACF5\uACA9\uC18D\uB3C4 \uCD94\uAC00
+    y% \uC99D\uAC00"
+  perkLevel: Upgrade
+  isActive: 0
+  isCount: 1
+  basicX: 2
+  addX: 0.25
+  basicY: 0.04
+  addY: 0.02
+  synergy: 5
+  special: 0
+  active: 10
+  addTargetX: 24
+  addTargetY: 3
+  requireTarget: 10

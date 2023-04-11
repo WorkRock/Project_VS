@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 6138715626857733173}
   - component: {fileID: 6138715626857733178}
   - component: {fileID: 1102944110223155582}
+  - component: {fileID: -6666836888570557829}
   m_Layer: 0
   m_Name: ThunderDrop
-  m_TagString: Untagged
+  m_TagString: ActivePerk
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -122,7 +123,7 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5, y: 0.15}
     oldSize: {x: 0.32, y: 0.95}
     newSize: {x: 0.95, y: 0.32}
     adaptiveTilingThreshold: 0.5
@@ -132,3 +133,16 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.2, y: 0.95}
   m_EdgeRadius: 0
+--- !u!114 &-6666836888570557829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6138715626857733179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bd2bb59420d504479cfb3755c9e0ee0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  perk: {fileID: 11400000, guid: 7c90ba95daee46d48aa6507f1ee39f74, type: 2}

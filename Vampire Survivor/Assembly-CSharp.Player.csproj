@@ -57,21 +57,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\SPUM\Script\Plugin\Moments Recorder\Scripts\MinAttribute.cs" />
+    <Compile Include="Assets\01.Scripts\CheckItem.cs" />
     <Compile Include="Assets\SPUM\Script\SPUM_EyeSet.cs" />
+    <Compile Include="Assets\01.Scripts\DamageText.cs" />
     <Compile Include="Assets\01.Scripts\Player.cs" />
     <Compile Include="Assets\01.Scripts\Magnet.cs" />
     <Compile Include="Assets\SPUM\Script\SPUM_AnimationController.cs" />
+    <Compile Include="Assets\01.Scripts\Lobby\ClassBtn.cs" />
     <Compile Include="Assets\08.Controller\PerkInven\PerkInvenManager.cs" />
     <Compile Include="Assets\SPUM\Script\Plugin\Moments Recorder\Scripts\Gif\NeuQuant.cs" />
     <Compile Include="Assets\SPUM\Script\Plugin\Moments Recorder\Scripts\Gif\GifFrame.cs" />
     <Compile Include="Assets\01.Scripts\Inventory\PerkInven\PerkValueCheck.cs" />
     <Compile Include="Assets\08.Controller\PerkInven\PerkController.cs" />
+    <Compile Include="Assets\08.Controller\Singleton.cs" />
     <Compile Include="Assets\01.Scripts\Inventory\SynergyInven\Slot.cs" />
     <Compile Include="Assets\08.Controller\SynergyInven\ItemController.cs" />
     <Compile Include="Assets\01.Scripts\GameManager.cs" />
     <Compile Include="Assets\SPUM\Script\Plugin\Moments Recorder\Scripts\ReflectionUtils.cs" />
     <Compile Include="Assets\01.Scripts\PoolManager.cs" />
     <Compile Include="Assets\01.Scripts\Inventory\SynergyInven\ItemPickUp.cs" />
+    <Compile Include="Assets\01.Scripts\Lobby\LobbyManager.cs" />
     <Compile Include="Assets\01.Scripts\Inventory\PerkInven\Slot_Perk.cs" />
     <Compile Include="Assets\08.Controller\SynergyInven\IObjectItem.cs" />
     <Compile Include="Assets\01.Scripts\Reposition.cs" />
@@ -105,16 +110,20 @@
     <Compile Include="Assets\08.Controller\SynergyInven\InventoryManager.cs" />
     <Compile Include="Assets\01.Scripts\WeaponManager.cs" />
     <Compile Include="Assets\SPUM\Sprite_Editor(Beta)\Script\SPUM_SpriteEditManager.cs" />
+    <Compile Include="Assets\01.Scripts\PlayerSel.cs" />
     <Compile Include="Assets\SPUM\Script\SPUM_HorseSpriteList.cs" />
     <Compile Include="Assets\01.Scripts\Scanner.cs" />
     <Compile Include="Assets\SPUM\Script\SPUM_Button.cs" />
     <Compile Include="Assets\SPUM\Sprite_SheetExporter(Beta)\Script\SPUM_Exporter.cs" />
     <Compile Include="Assets\SPUM\Script\Plugin\Moments Recorder\Scripts\Recorder.cs" />
+    <Compile Include="Assets\08.Controller\DataManager.cs" />
+    <Compile Include="Assets\08.Controller\PlayerData.cs" />
     <Compile Include="Assets\SPUM\SoonsoonData\SoonsoonData.cs" />
     <Compile Include="Assets\01.Scripts\LevelUp\LevelUp.cs" />
     <Compile Include="Assets\01.Scripts\Exp.cs" />
     <Compile Include="Assets\SPUM\Script\Plugin\Moments Recorder\Scripts\Gif\LzwEncoder.cs" />
     <Compile Include="Assets\08.Controller\PerkInven\IObjectPerk.cs" />
+    <Compile Include="Assets\01.Scripts\CheckPerk.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

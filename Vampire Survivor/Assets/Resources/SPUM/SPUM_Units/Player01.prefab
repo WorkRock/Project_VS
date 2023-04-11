@@ -5305,6 +5305,7 @@ GameObject:
   - component: {fileID: 2739529631617872692}
   - component: {fileID: 9006203329749311985}
   - component: {fileID: 7466887306183435798}
+  - component: {fileID: 7254342356984290544}
   m_Layer: 0
   m_Name: UnitRoot
   m_TagString: Player
@@ -5412,44 +5413,60 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ec8999990965a641a9ba650ffbd5877, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AllDmg: 0
-  BasicAtkDmg: 0
-  SynergyDmg: 0
-  AtkSpeed: 0
-  AtkRange: 0
-  ProjectileSpeed: 0
-  ProjectileCount: 0
-  SkillCT: 0
-  SwapCT: 0
-  GainUlt: 0
-  Pent: 0
-  MovementSpeed: 0
-  GainGold: 0
-  GainExp: 0
-  Cri: 0
-  Magnet: 0
-  Revive: 0
-  MaxHP: 0
+  AllDmg: 1
+  BasicAtkDmg: 1
+  SynergyDmg: 1
+  AtkSpeed: 1
+  AtkRange: 1
+  ProjectileSpeed: 1
+  ProjectileCount: 1
+  SkillCT: 5
+  SwapCT: 5
+  GainUlt: 1
+  Pent: 1
+  MovementSpeed: 5
+  GainGold: 1
+  GainExp: 1
+  Cri: 1
+  Magnet: 1
+  Revive: 1
+  MaxHP: 10
   NowHP: 0
   HPRegen: 0
   Reflect: 0
   GainDmg: 0
   inputVec: {x: 0, y: 0}
-  scanner: {fileID: 0}
+  scanner: {fileID: 7254342356984290544}
   playerDir: 0
   playerLV: 0
   baseExp: 5
   nowExp: 0
   needExpPerLV: 0
-  mainWeaponSprite: {fileID: 0}
-  subWeaponSprite: {fileID: 0}
-  weaponChange: {fileID: 0}
+  mainWeaponSprite: {fileID: 6374246375620990808}
+  subWeaponSprite: {fileID: 7835093225657549800}
   mainWeapon: {fileID: 0}
   subWeapon: {fileID: 0}
   weaponNum: 0
   isMain: 0
   canSwap: 0
   swap_Cnt: 0
+--- !u!114 &7254342356984290544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6590061351518603684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d2b5fcae0c13af4baaa868cf97d75c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scanRange: 7
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  nearestTarget: {fileID: 0}
 --- !u!1 &6855723864824829440
 GameObject:
   m_ObjectHideFlags: 0
