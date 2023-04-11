@@ -7,9 +7,9 @@ public class ClassBtn : MonoBehaviour
 {
     public int value;
 
-    /*
-    public void initPrefab()
+
+    public void clickEvent()
     {
-        LobbyManager.Instance.InitPrefab(value);
-    }*/
+        LobbyManager.instance.InitPrefab(value);
+    }
 }

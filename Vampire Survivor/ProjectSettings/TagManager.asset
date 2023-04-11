@@ -27,7 +27,7 @@ TagManager:
   - UI
   - Enemy
   - BG
-  - 
+  - Alert
   - 
   - 
   - 
@@ -63,4 +63,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 2132052479
+    locked: 0
+  - name: Alert
+    uniqueID: 3817010243
     locked: 0

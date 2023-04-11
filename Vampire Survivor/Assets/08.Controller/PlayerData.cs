@@ -6,6 +6,16 @@ public class PlayerData : Singleton<PlayerData>
 
     protected int _Gold;
 
+    #region CharGet
+    protected bool _isKnightGet;
+    protected bool _isArcherGet;
+    protected bool _isThiefGet;
+    protected bool _isMagicianGet;
+    protected bool _isSpearWarriorGet;
+    protected bool _isShieldGuyGet;
+    protected bool _isBabarianGet;
+    #endregion
+
     #region Lobby UG
     // Lobby UG
     protected int _UGLv_AllDmg;
@@ -64,12 +74,51 @@ public class PlayerData : Singleton<PlayerData>
         set { GetInstance()._charNum = value; }
     }
 
+    #region CharOn Get/Set
+    public static bool isKnightGet
+    {
+        get { return GetInstance()._isKnightGet; }
+        set { GetInstance()._isKnightGet = value; }
+    }
+    public static bool isArcherGet
+    {
+        get { return GetInstance()._isArcherGet; }
+        set { GetInstance()._isArcherGet = value; }
+    }
+    public static bool isThiefGet
+    {
+        get { return GetInstance()._isThiefGet; }
+        set { GetInstance()._isThiefGet = value; }
+    }
+    public static bool isMagicianGet
+    {
+        get { return GetInstance()._isMagicianGet; }
+        set { GetInstance()._isMagicianGet = value; }
+    }
+    public static bool isSpearWarriorGet
+    {
+        get { return GetInstance()._isSpearWarriorGet; }
+        set { GetInstance()._isSpearWarriorGet = value; }
+    }
+    public static bool isShieldGuyGet
+    {
+        get { return GetInstance()._isShieldGuyGet; }
+        set { GetInstance()._isShieldGuyGet = value; }
+    }
+    public static bool isBabarianGet
+    {
+        get { return GetInstance()._isBabarianGet; }
+        set { GetInstance()._isBabarianGet = value; }
+    }
+    #endregion
+
+
     public static int Gold
     {
         get { return GetInstance()._Gold; }
         set { GetInstance()._Gold = value; }
     }
-
+    #region LobbyUG_Get/Set
     public static int UGLv_AllDmg
     {
         get { return GetInstance()._UGLv_AllDmg; }
@@ -177,5 +226,5 @@ public class PlayerData : Singleton<PlayerData>
         get { return GetInstance()._UGLv_GainDMG; }
         set { GetInstance()._UGLv_GainDMG = value; }
     }
-            
+    #endregion
 }
