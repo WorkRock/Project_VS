@@ -48,8 +48,10 @@ public class WeaponChange : MonoBehaviour
     {
         ////////////// 테스트 ////////////
         // 시작 시 정보를 받아온다.
-        saveItemDatas[0] = startItems[0];
-        saveItemDatas[1] = startItems[1];
+        saveItemDatas[0] = GameManager.instance.allWeaponData[PlayerData.charNum];
+        saveItemDatas[1] = GameManager.instance.allWeaponData[PlayerData.charNum];
+        //saveItemDatas[0] = startItems[0];
+        //saveItemDatas[1] = startItems[1];
         getItemDatas[0] = saveItemDatas[0];
         getItemDatas[1] = saveItemDatas[1];
 

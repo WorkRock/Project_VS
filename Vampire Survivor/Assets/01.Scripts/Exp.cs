@@ -34,10 +34,16 @@ public class Exp : MonoBehaviour
 
             // 경험치 증가(일단 1개당 3씩 증가하게)
             GameManager.instance.player.nowExp += 3;
-            
+            GameManager.instance.expBar.value = GameManager.instance.player.nowExp / GameManager.instance.player.needExpPerLV;
+
             // 레벨 업
-            if(GameManager.instance.player.nowExp >= GameManager.instance.player.needExpPerLV)
+            if (GameManager.instance.player.nowExp >= GameManager.instance.player.needExpPerLV)
             {
+                GameManager.instance.expBar.value = 0f;
+                // 퍽 선택 UI 활성화
+                GameManager.instance.levelUpUI.SetActive(true);
+                Time.timeScale = 0f;
+
                 GameManager.instance.player.playerLV++;
                 // 현재 경험치 0으로 초기화
                 GameManager.instance.player.nowExp = 0;
@@ -45,8 +51,7 @@ public class Exp : MonoBehaviour
                 // UI 갱신
                 GameManager.instance.level.text = "Level: " + GameManager.instance.player.playerLV.ToString();
                 // 경험치 필요량 갱신
-                GameManager.instance.player.needExpPerLV += 10;
-                
+                GameManager.instance.player.needExpPerLV += 10;           
             }
         }
     }

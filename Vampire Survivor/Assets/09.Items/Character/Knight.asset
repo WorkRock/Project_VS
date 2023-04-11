@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7486a2f77047afe43a041b985f2fcc76, type: 3}
+  m_Name: Knight
+  m_EditorClassIdentifier: 
+  cAllDmg: 1
+  cBasicAtkDmg: 1
+  cSynergyDmg: 1
+  cAtkSpeed: 1
+  cAtkRange: 1
+  cProjectileSpeed: 1
+  cProjectileCount: 1
+  cSkillCT: 5
+  cSwapCT: 5
+  cGainUlt: 1
+  cPent: 1
+  cMovementSpeed: 5
+  cGainGold: 1
+  cGainExp: 1
+  cCri: 0.1
+  cMagnet: 1
+  cRevive: 1
+  cMaxHP: 10
+  cNowHP: 0
+  cHPRegen: 0
+  cReflect: 0
+  cGainDmg: 0
+  StartWeapon: 0

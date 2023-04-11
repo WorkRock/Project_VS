@@ -57,7 +57,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\SPUM\Script\Plugin\Moments Recorder\Scripts\MinAttribute.cs" />
+    <Compile Include="Assets\01.Scripts\CheckItem.cs" />
     <Compile Include="Assets\SPUM\Script\SPUM_EyeSet.cs" />
+    <Compile Include="Assets\01.Scripts\DamageText.cs" />
     <Compile Include="Assets\01.Scripts\Player.cs" />
     <Compile Include="Assets\01.Scripts\Magnet.cs" />
     <Compile Include="Assets\SPUM\Script\SPUM_AnimationController.cs" />
@@ -108,6 +110,7 @@
     <Compile Include="Assets\08.Controller\SynergyInven\InventoryManager.cs" />
     <Compile Include="Assets\01.Scripts\WeaponManager.cs" />
     <Compile Include="Assets\SPUM\Sprite_Editor(Beta)\Script\SPUM_SpriteEditManager.cs" />
+    <Compile Include="Assets\01.Scripts\PlayerSel.cs" />
     <Compile Include="Assets\SPUM\Script\SPUM_HorseSpriteList.cs" />
     <Compile Include="Assets\01.Scripts\Scanner.cs" />
     <Compile Include="Assets\SPUM\Script\SPUM_Button.cs" />
@@ -120,6 +123,7 @@
     <Compile Include="Assets\01.Scripts\Exp.cs" />
     <Compile Include="Assets\SPUM\Script\Plugin\Moments Recorder\Scripts\Gif\LzwEncoder.cs" />
     <Compile Include="Assets\08.Controller\PerkInven\IObjectPerk.cs" />
+    <Compile Include="Assets\01.Scripts\CheckPerk.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

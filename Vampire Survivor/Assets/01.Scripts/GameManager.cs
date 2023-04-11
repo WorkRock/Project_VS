@@ -6,10 +6,17 @@ using Cinemachine;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("Level Up")]
+    public GameObject levelUpUI;
+    public Slider expBar;
+
     // 싱글톤
     public static GameManager instance = null;
     // 플레이어 배열
     public GameObject[] players;
+    public int playerNum;
+    // 플레이어 부모
+    public Transform playerParent;
 
     public CinemachineVirtualCamera cinemachine;
 
@@ -19,6 +26,9 @@ public class GameManager : MonoBehaviour
     public TestWeaponManager weaponManager;
     public PerkInvenManager perkInven;
     public PerkValueCheck perkValueCheck;
+    public WeaponChange weaponChange;
+
+    public Item[] allWeaponData;
 
     public Text level;
     public Text nowExp;
@@ -32,17 +42,27 @@ public class GameManager : MonoBehaviour
     private float fenceTime;
     public bool nowFence;
 
-
     void Awake()
     {
-        instance = this;       
+        instance = this;
     }
 
     void Start()
-    {
-        cinemachine.Follow = player.GetComponentInChildren<Transform>();
+    {       
         // UI 갱신
         level.text = "Level: " + player.playerLV.ToString();
+        // Instantiate(prefabs[PlayerData.charNum],pos);
+        
+        playerNum = PlayerData.charNum;
+        // weaponChange켜주고
+        weaponChange.saveItemDatas[0] = allWeaponData[playerNum];
+        weaponChange.saveItemDatas[1] = allWeaponData[playerNum];
+        //var PrefPlayer = players[playerNum];
+        var PrefPlayer = Instantiate(players[playerNum]);
+        PrefPlayer.transform.SetParent(playerParent.transform);
+        player = FindObjectOfType<Player>();
+
+        cinemachine.Follow = player.GetComponentInChildren<Transform>();
     }
 
     void Update()

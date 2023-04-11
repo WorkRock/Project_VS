@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-    [Header("Level Up UI")]
-    public GameObject levelUpUI;
-
     [Header("Player Stat")]
     public float AllDmg;            // 전체 피해량
     public float BasicAtkDmg;       // 평타 피해량
@@ -43,16 +41,16 @@ public class Player : MonoBehaviour
     [Space(10f)]
     [Header("Lv & Exp")]  
     public int playerLV;
-    public int baseExp = 5;
-    public int nowExp;  // 현재 경험치
-    public int needExpPerLV; // 레벨 당 필요 경험치
+    public float baseExp = 5;
+    public float nowExp;  // 현재 경험치
+    public float needExpPerLV; // 레벨 당 필요 경험치
 
     [Space(10f)]
     [Header("Swap")]
     // 현재 착용 중인 무기 스프라이트
     public SpriteRenderer mainWeaponSprite;
     public SpriteRenderer subWeaponSprite;
-    public WeaponChange weaponChange;
+    // public WeaponChange weaponChange;
     public Item mainWeapon;
     public Item subWeapon;
     public int weaponNum;
@@ -83,8 +81,9 @@ public class Player : MonoBehaviour
     void Start()
     {
         // 시작 시 main무기와 sub무기 정보를 받아온다.
-        mainWeapon = weaponChange.getMainWeapoon();
-        subWeapon = weaponChange.getSubWeapoon();
+        mainWeapon = GameManager.instance.weaponChange.getMainWeapoon();
+        subWeapon = GameManager.instance.weaponChange.getSubWeapoon();
+        
         canSwap = true;
 
         // 무기 번호 초기화 (기본-0, 검)
@@ -110,20 +109,24 @@ public class Player : MonoBehaviour
     {
         // 모든 동작은 살아있을 때만
         if (!isLive)
+        {
+            SceneManager.LoadScene("Lobby");
             return;
-        
+        }
+            
+        /*
         // 레벨업 UI 테스트
         if(Input.GetKeyDown(KeyCode.F1))
         {
             levelUpUI.SetActive(levelUpUI.activeSelf ? false : true);
             Time.timeScale = levelUpUI.activeSelf ? 0f : 1f;
         }
-        
+        */
         // @@@@@@@@주무기(오른쪽) 보조무기(왼쪽) 스왑에 따른 평타 변경 테스트
         if (Time.timeScale > 0 && canSwap &&Input.GetKeyDown(KeyCode.O))
         {
             canSwap = false;
-            weaponChange.swapWeapon();
+            GameManager.instance.weaponChange.swapWeapon();
             // 스왑 시 쿨타임 초기화
             GameManager.instance.weaponManager.invokeTime_Main = 0f;
             GameManager.instance.weaponManager.invokeTime_Sub = 0f;

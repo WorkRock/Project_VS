@@ -84,7 +84,9 @@ public class Perk : ScriptableObject
         rtSwap,         // 스왑시 발동
         rtNotUseSkill,  // 스킬 미사용시 발동
         rtNotHit,       // 자동 (내가 안맞을 때 상시 발동?)
-        rtSynergyMix    // 속성 결합시 발동
+        rtSynergyMix,   // 속성 결합시 발동
+        rtKillEnemy,    // 적 처치시 발동
+        rtGainExp       // 경험치 획득시
     }
 
     // 증가 대상 목록

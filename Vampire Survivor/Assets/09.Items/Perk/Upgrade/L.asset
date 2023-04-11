@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e531921e42f6804dbcd9d338c778240, type: 3}
+  m_Name: L
+  m_EditorClassIdentifier: 
+  perkID: 202021
+  perkImage: {fileID: 0}
+  SynergyImage: {fileID: 21300000, guid: 4a4959eb899b31c4097fe4641558266a, type: 3}
+  SpecialImage: {fileID: 21300000, guid: 190ad88f3ccad064c9b02b9829bfbc4f, type: 3}
+  perkName: L
+  perkInfo: "\uBB34\uAE30 \uAD50\uCCB4\uC2DC \uB5A8\uC5B4\uB728\uB9AC\uB294 \uBC88\uAC1C\uC758
+    \uC218\uAC00 x\uAC1C\uB9CC\uD07C \uC99D\uAC00\uD569\uB2C8\uB2E4"
+  perkLevel: Upgrade
+  isActive: 1
+  isCount: 0
+  basicX: 1
+  addX: 0.25
+  basicY: 0
+  addY: 0
+  synergy: 1
+  special: 2
+  active: 1
+  addTargetX: 6
+  addTargetY: 41
+  requireTarget: 6

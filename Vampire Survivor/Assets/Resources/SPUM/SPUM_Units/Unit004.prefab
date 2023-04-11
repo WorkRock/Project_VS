@@ -2739,11 +2739,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a06daedc4f00ad49ad8433d788088d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageText: {fileID: 0}
+  dmgTextPos: {fileID: 0}
   speed: 1
   enemy_Hp: 0
   enemy_MaxHp: 6
   enemy_Atk: 2
   fireDotEffect: {fileID: 4283506949421416746}
+  byPyroAtk: 0
+  byBasicAtk: 0
+  knockBackPower: 3
 --- !u!114 &4278927495761437647
 MonoBehaviour:
   m_ObjectHideFlags: 0

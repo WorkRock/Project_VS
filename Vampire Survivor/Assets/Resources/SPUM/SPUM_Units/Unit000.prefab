@@ -3911,10 +3911,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5587487037052488235}
   - component: {fileID: 3426099417306546381}
-  - component: {fileID: 3031072451227376069}
+  - component: {fileID: 6998170002543864635}
   - component: {fileID: 563256167008639246}
   - component: {fileID: 4340611970067104767}
-  - component: {fileID: -417618361678228107}
+  - component: {fileID: 8111015463267657818}
   m_Layer: 6
   m_Name: Unit000
   m_TagString: Enemy
@@ -3931,7 +3931,7 @@ RectTransform:
   m_GameObject: {fileID: 9191232510040559069}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7194538477502467857}
@@ -3966,7 +3966,7 @@ MonoBehaviour:
   UnitTypeChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!50 &3031072451227376069
+--- !u!50 &6998170002543864635
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -4020,7 +4020,10 @@ MonoBehaviour:
   enemy_MaxHp: 20
   enemy_Atk: 2
   fireDotEffect: {fileID: 7898941493135256124}
---- !u!114 &-417618361678228107
+  byPyroAtk: 0
+  byBasicAtk: 0
+  knockBackPower: 3
+--- !u!114 &8111015463267657818
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

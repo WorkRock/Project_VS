@@ -51,50 +51,74 @@ public class PerkValueCheck : MonoBehaviour
     }
 
     // 액티브 퍽일 때 실행하는 메소드
-    void InitActive()
+    void InitActive(string activeValue)
     {
-
-
-        // isLightning 이면(낙뢰가 떨어지고 있으면 낙뢰를 생성 X)
-        if (isLightning)
-            return;
-
-        int perActive = Random.Range(0, 100);
-        if (perActive < 30)
+        // 전달받은 매개변수(액티브 종류)에 따라 다른 메소드를 실행한다. 
+        switch (activeValue)
         {
-            // 근처에 적이 없을 때
-            if (!GameManager.instance.player.scanner.nearestTarget)
-            {
-                isLightning = true;
+            case "aPyro":
+                break;
+            case "aElectro":
+                // isLightning 이면(낙뢰가 떨어지고 있으면 낙뢰를 생성 X)
+                if (isLightning)
+                    return;
 
-                // 낙뢰 생성
-                Debug.Log("30% 확률로 낙뢰 생성");
-                // 화면 안 랜덤 위치에 낙뢰 생성
-                float randomX = Random.Range(GameManager.instance.player.transform.position.x - 8f, GameManager.instance.player.transform.position.x + 9f);
-                float randomY = Random.Range(GameManager.instance.player.transform.position.x - 4f, GameManager.instance.player.transform.position.x + 5f);
+                int perActive = Random.Range(0, 100);
+                if (perActive < 30)
+                {
+                    // 근처에 적이 없을 때
+                    if (!GameManager.instance.player.scanner.nearestTarget)
+                    {
+                        isLightning = true;
 
-                lightning = GameManager.instance.pool.Get(21);
-                lightning.transform.position = new Vector3(randomX, randomY);
-                lightning.transform.rotation = Quaternion.identity;
+                        // 낙뢰 생성
+                        Debug.Log("30% 확률로 낙뢰 생성");
+                        // 화면 안 랜덤 위치에 낙뢰 생성
+                        float randomX = Random.Range(GameManager.instance.player.transform.position.x - 8f, GameManager.instance.player.transform.position.x + 9f);
+                        float randomY = Random.Range(GameManager.instance.player.transform.position.x - 4f, GameManager.instance.player.transform.position.x + 5f);
 
-                Invoke("LightningOff", 0.15f);
-            }
+                        lightning = GameManager.instance.pool.Get(21);
+                        lightning.transform.position = new Vector3(randomX, randomY);
+                        lightning.transform.rotation = Quaternion.identity;
 
-            // 적이 있을 때
-            else
-            {
-                isLightning = true;
+                        Invoke("LightningOff", 0.15f);
+                    }
 
-                Debug.Log("30% 확률로 낙뢰 생성");
-                Vector3 targetPos = GameManager.instance.player.scanner.nearestTarget.position;
+                    // 적이 있을 때
+                    else
+                    {
+                        isLightning = true;
 
-                lightning = GameManager.instance.pool.Get(21);
-                lightning.transform.position = targetPos;
-                lightning.transform.rotation = Quaternion.identity;
+                        Debug.Log("30% 확률로 낙뢰 생성");
+                        Vector3 targetPos = GameManager.instance.player.scanner.nearestTarget.position;
 
-                Invoke("LightningOff", 0.15f);
-            }         
-        }     
+                        lightning = GameManager.instance.pool.Get(21);
+                        lightning.transform.position = targetPos;
+                        lightning.transform.rotation = Quaternion.identity;
+
+                        Invoke("LightningOff", 0.15f);
+                    }
+                }
+                break;
+            case "aIce":
+                break;
+            case "aFireRing":
+                break;
+            case "aFireBall":
+                break;
+            case "aSummon_Electro":
+                break;
+            case "aSummon_Ice":
+                break;
+            case "aSummon_Wind":
+                break;
+            case "aSpellShield":
+                break;
+            case "aIceBall":
+                break;
+            case "None":
+                break;
+        }
     }
 
     // 저장된 Perk들의 발동 조건을 체크한다.
@@ -147,12 +171,48 @@ public class PerkValueCheck : MonoBehaviour
     private void isBasicAtk(int i)
     {
         Debug.Log("isBasicAtk");
-
         
         // 1. 유지시간 X, 액티브 퍽 O 인가?
         if (!GameManager.instance.perkInven.perks[i].isCount && GameManager.instance.perkInven.perks[i].isActive)
         {
-            InitActive();       
+            // 1-1. 액티브 퍽의 종류에 따라 매개 변수를 달리하여 전달한다.
+            switch (GameManager.instance.perkInven.perks[i].active)
+            {
+                case Perk.Active.aPyro:
+                    InitActive("aPyro");
+                    break;
+                case Perk.Active.aElectro:
+                    InitActive("aElectro");
+                    break;
+                case Perk.Active.aIce:
+                    InitActive("aIce");
+                    break;
+                case Perk.Active.aFireRing:
+                    InitActive("aFireRing");
+                    break;
+                case Perk.Active.aFireBall:
+                    InitActive("aFireBall");
+                    break;
+                case Perk.Active.aSummon_Electro:
+                    InitActive("aSummon_Electro");
+                    break;
+                case Perk.Active.aSummon_Ice:
+                    InitActive("aSummon_Ice");
+                    break;
+                case Perk.Active.aSummon_Wind:
+                    InitActive("aSummon_Wind");
+                    break;
+                case Perk.Active.aSpellShield:
+                    InitActive("aSpellShield");
+                    break;
+                case Perk.Active.aIceBall:
+                    InitActive("aIceBall");
+                    break;
+                case Perk.Active.None:
+                    InitActive("None");
+                    break;
+            }
+            //InitActive();       
         }
 
         // 2. 유지시간 O, 액티브 X 인가?
