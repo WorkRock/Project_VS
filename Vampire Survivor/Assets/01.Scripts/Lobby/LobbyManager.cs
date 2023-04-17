@@ -47,6 +47,10 @@ public class LobbyManager : MonoBehaviour
     public Button GainDMGBtn;
     #endregion
 
+    public GameObject Archer;
+    private SpriteRenderer[] ArcherBodies;
+    private Color[] originColorArcher;
+    public Text ArcherText;
     public GameObject CharacterSel;
     public GameObject Info;
     public GameObject UGPanel;
@@ -117,6 +121,12 @@ public class LobbyManager : MonoBehaviour
 
     void Start()
     {
+        ArcherBodies = Archer.GetComponentsInChildren<SpriteRenderer>();
+        originColorArcher = new Color[ArcherBodies.Length];
+        for (int i = 0; i < ArcherBodies.Length; i++)
+        {
+            originColorArcher[i] = ArcherBodies[i].color;
+        }
         CharacterSel.SetActive(false);
         UGPanel.SetActive(false);
         Info.SetActive(false);
@@ -291,178 +301,199 @@ public class LobbyManager : MonoBehaviour
     {
         if (!goldRequire((PlayerData.UGLv_AllDmg + 1) * AllDmgCoin) || PlayerData.UGLv_AllDmg >= AllDmgMaxLv)
             return;
-        btnRefresh();
+        PlayerData.UGLv_AllDmg = PlayerData.UGLv_AllDmg + 1;    
         goldChange((-1) * (PlayerData.UGLv_AllDmg + 1) * AllDmgCoin);
-        PlayerData.UGLv_AllDmg = PlayerData.UGLv_AllDmg + 1;
+        btnRefresh();
+        
     }
 
     public void BuyBasicAtkDmg()
     {
         if (!goldRequire((PlayerData.UGLv_BasicAtkDmg + 1) * BasicAtkDmgCoin) || PlayerData.UGLv_BasicAtkDmg >= BasicAtkDmgMaxLv)
             return;
-        btnRefresh();
-        goldChange((-1) * (PlayerData.UGLv_BasicAtkDmg + 1) * BasicAtkDmgCoin);
         PlayerData.UGLv_BasicAtkDmg = PlayerData.UGLv_BasicAtkDmg + 1;
+        goldChange((-1) * (PlayerData.UGLv_BasicAtkDmg + 1) * BasicAtkDmgCoin);
+        btnRefresh();
+        
     }
 
     public void BuySynergyDmg()
     {
         if (!goldRequire((PlayerData.UGLv_SynergyDmg + 1) * SynergyDmgCoin) || PlayerData.UGLv_SynergyDmg >= SynergyDmgMaxLv)
             return;
-        btnRefresh();
-        goldChange((-1) * (PlayerData.UGLv_SynergyDmg + 1) * SynergyDmgCoin);
         PlayerData.UGLv_SynergyDmg = PlayerData.UGLv_SynergyDmg + 1;
+        goldChange((-1) * (PlayerData.UGLv_SynergyDmg + 1) * SynergyDmgCoin);
+        btnRefresh();
+        
     }
 
     public void BuyAtkSpeed()
     {
         if (!goldRequire((PlayerData.UGLv_AtkSpeed + 1) * AtkSpeedCoin) || PlayerData.UGLv_AtkSpeed >= AtkSpeedMaxLv)
             return;
-        btnRefresh();
-        goldChange((-1) * (PlayerData.UGLv_AtkSpeed + 1) * AtkSpeedCoin);
         PlayerData.UGLv_AtkSpeed = PlayerData.UGLv_AtkSpeed + 1;
+        goldChange((-1) * (PlayerData.UGLv_AtkSpeed + 1) * AtkSpeedCoin);
+        btnRefresh();
+        
     }
 
     public void BuyAtkRange()
     {
         if (!goldRequire((PlayerData.UGLv_AtkRange + 1) * AtkRangeCoin) || PlayerData.UGLv_AtkRange >= AtkRangeMaxLv)
             return;
-        btnRefresh();
-        goldChange((-1) * (PlayerData.UGLv_AtkRange + 1) * AtkRangeCoin);
         PlayerData.UGLv_AtkRange = PlayerData.UGLv_AtkRange + 1;
+        goldChange((-1) * (PlayerData.UGLv_AtkRange + 1) * AtkRangeCoin);
+        btnRefresh();
+        
     }
 
     public void BuyProjectileSpeed()
     {
         if (!goldRequire((PlayerData.UGLv_ProjectileSpeed + 1) * ProjectileSpeedCoin) || PlayerData.UGLv_ProjectileSpeed >= ProjectileSpeedMaxLv)
             return;
-        btnRefresh();
-        goldChange((-1) * (PlayerData.UGLv_ProjectileSpeed + 1) * ProjectileSpeedCoin);
         PlayerData.UGLv_ProjectileSpeed = PlayerData.UGLv_ProjectileSpeed + 1;
+        goldChange((-1) * (PlayerData.UGLv_ProjectileSpeed + 1) * ProjectileSpeedCoin);
+        btnRefresh();
+        
     }
 
     public void BuyProjectileCount()
     {
         if (!goldRequire((PlayerData.UGLv_ProjectileCount + 1) * ProjectileCountCoin) || PlayerData.UGLv_ProjectileCount >= ProjectileCountMaxLv)
             return;
-        btnRefresh();
-        goldChange((-1) * (PlayerData.UGLv_ProjectileCount + 1) * ProjectileCountCoin);
         PlayerData.UGLv_ProjectileCount = PlayerData.UGLv_ProjectileCount + 1;
+        goldChange((-1) * (PlayerData.UGLv_ProjectileCount + 1) * ProjectileCountCoin);
+        btnRefresh();
+        
     }
 
     public void BuySkillCT()
     {
         if (!goldRequire((PlayerData.UGLv_SkillCT + 1) * SkillCTCoin) || PlayerData.UGLv_SkillCT >= SkillCTMaxLv)
             return;
-        btnRefresh();
-        goldChange((-1) * (PlayerData.UGLv_SkillCT + 1) * SkillCTCoin);
         PlayerData.UGLv_SkillCT = PlayerData.UGLv_SkillCT + 1;
+        goldChange((-1) * (PlayerData.UGLv_SkillCT + 1) * SkillCTCoin);
+        btnRefresh();
+        
     }
 
     public void BuySwapCT()
     {
         if (!goldRequire((PlayerData.UGLv_SwapCT + 1) * SwapCTCoin) || PlayerData.UGLv_SwapCT >= SwapCTMaxLv)
             return;
-        btnRefresh();
-        goldChange((-1) * (PlayerData.UGLv_SwapCT + 1) * SwapCTCoin);
         PlayerData.UGLv_SwapCT = PlayerData.UGLv_SwapCT + 1;
+        goldChange((-1) * (PlayerData.UGLv_SwapCT + 1) * SwapCTCoin);
+        btnRefresh();
+        
     }
 
     public void BuyGainUlt()
     {
         if (!goldRequire((PlayerData.UGLv_GainUlt + 1) * GainUltCoin) || PlayerData.UGLv_GainUlt >= GainUltMaxLv)
             return;
-        btnRefresh();
-        goldChange((-1) * (PlayerData.UGLv_GainUlt + 1) * GainUltCoin);
         PlayerData.UGLv_GainUlt = PlayerData.UGLv_GainUlt + 1;
+        goldChange((-1) * (PlayerData.UGLv_GainUlt + 1) * GainUltCoin);
+        btnRefresh();
+        
     }
     public void BuyPent()
     {
         if (!goldRequire((PlayerData.UGLv_Pent + 1) * PentCoin) || PlayerData.UGLv_Pent >= PentMaxLv)
             return;
-        btnRefresh();
-        goldChange((-1) * (PlayerData.UGLv_Pent + 1) * PentCoin);
         PlayerData.UGLv_Pent = PlayerData.UGLv_Pent + 1;
+        goldChange((-1) * (PlayerData.UGLv_Pent + 1) * PentCoin);
+        btnRefresh();
+        
     }
     public void BuyMovementSpeed()
     {
         if (!goldRequire((PlayerData.UGLv_MovementSpeed + 1) * MovementSpeedCoin) || PlayerData.UGLv_MovementSpeed >= MovementSpeedMaxLv)
             return;
-        btnRefresh();
-        goldChange((-1) * (PlayerData.UGLv_MovementSpeed + 1) * MovementSpeedCoin);
         PlayerData.UGLv_MovementSpeed = PlayerData.UGLv_MovementSpeed + 1;
+        goldChange((-1) * (PlayerData.UGLv_MovementSpeed + 1) * MovementSpeedCoin);
+        btnRefresh();
+        
     }
     public void BuyGainGold()
     {
         if (!goldRequire((PlayerData.UGLv_GainGold + 1) * GainGoldCoin) || PlayerData.UGLv_GainGold >= GainGoldMaxLv)
             return;
-        btnRefresh();
-        goldChange((-1) * (PlayerData.UGLv_GainGold + 1) * GainGoldCoin);
         PlayerData.UGLv_GainGold = PlayerData.UGLv_GainGold + 1;
+        goldChange((-1) * (PlayerData.UGLv_GainGold + 1) * GainGoldCoin);
+        btnRefresh();
+        
     }
     public void BuyGainExp()
     {
         if (!goldRequire((PlayerData.UGLv_GainExp + 1) * GainExpCoin) || PlayerData.UGLv_GainExp >= GainExpMaxLv)
             return;
-        btnRefresh();
-        goldChange((-1) * (PlayerData.UGLv_GainExp + 1) * GainExpCoin);
         PlayerData.UGLv_GainExp = PlayerData.UGLv_GainExp + 1;
+        goldChange((-1) * (PlayerData.UGLv_GainExp + 1) * GainExpCoin);
+        btnRefresh();
+        
     }
     public void BuyCri()
     {
         if (!goldRequire((PlayerData.UGLv_Cri + 1) * CriCoin) || PlayerData.UGLv_Cri >= CriMaxLv)
             return;
-        btnRefresh();
-        goldChange((-1) * (PlayerData.UGLv_Cri + 1) * CriCoin);
         PlayerData.UGLv_Cri = PlayerData.UGLv_Cri + 1;
+        goldChange((-1) * (PlayerData.UGLv_Cri + 1) * CriCoin);
+        btnRefresh();
+        
     }
     public void BuyMagnet()
     {
         if (!goldRequire((PlayerData.UGLv_Magnet + 1) * MagnetCoin) || PlayerData.UGLv_Magnet >= MagnetMaxLv)
             return;
-        btnRefresh();
-        goldChange((-1) * (PlayerData.UGLv_Magnet + 1) * MagnetCoin);
         PlayerData.UGLv_Magnet = PlayerData.UGLv_Magnet + 1;
+        goldChange((-1) * (PlayerData.UGLv_Magnet + 1) * MagnetCoin);
+        btnRefresh();
+        
     }
     public void BuyRevive()
     {
         if (!goldRequire((PlayerData.UGLv_Revive + 1) * ReviveCoin) || PlayerData.UGLv_Revive >= ReviveMaxLv)
             return;
-        btnRefresh();
-        goldChange((-1) * (PlayerData.UGLv_Revive + 1) * ReviveCoin);
         PlayerData.UGLv_Revive = PlayerData.UGLv_Revive + 1;
+        goldChange((-1) * (PlayerData.UGLv_Revive + 1) * ReviveCoin);
+        btnRefresh();
+        
     }
     public void BuyMaxHP()
     {
         if (!goldRequire((PlayerData.UGLv_MaxHP + 1) * MaxHPCoin) || PlayerData.UGLv_MaxHP >= MaxHPMaxLv)
             return;
-        btnRefresh();
-        goldChange((-1) * (PlayerData.UGLv_MaxHP + 1) * MaxHPCoin);
         PlayerData.UGLv_MaxHP = PlayerData.UGLv_MaxHP + 1;
+        goldChange((-1) * (PlayerData.UGLv_MaxHP + 1) * MaxHPCoin);
+        btnRefresh();
+        
     }
     public void BuyHPRegen()
     {
         if (!goldRequire((PlayerData.UGLv_HPRegen + 1) * HPRegenCoin) || PlayerData.UGLv_HPRegen >= HPRegenMaxLv)
             return;
-        btnRefresh();
-        goldChange((-1) * (PlayerData.UGLv_HPRegen + 1) * HPRegenCoin);
         PlayerData.UGLv_HPRegen = PlayerData.UGLv_HPRegen + 1;
+        goldChange((-1) * (PlayerData.UGLv_HPRegen + 1) * HPRegenCoin);
+        btnRefresh();
+        
     }
     public void BuyReflect()
     {
         if (!goldRequire((PlayerData.UGLv_Reflect + 1) * ReflectCoin) || PlayerData.UGLv_Reflect >= ReflectMaxLv)
             return;
-        btnRefresh();
-        goldChange((-1) * (PlayerData.UGLv_Reflect + 1) * ReflectCoin);
         PlayerData.UGLv_Reflect = PlayerData.UGLv_Reflect + 1;
+        goldChange((-1) * (PlayerData.UGLv_Reflect + 1) * ReflectCoin);
+        btnRefresh();
+        
     }
     public void BuyGainDMG()
     {
         if (!goldRequire((PlayerData.UGLv_GainDMG + 1) * GainDMGCoin) || PlayerData.UGLv_GainDMG >= GainDMGMaxLv)
             return;
-        btnRefresh();
-        goldChange((-1) * (PlayerData.UGLv_GainDMG + 1) * GainDMGCoin);
         PlayerData.UGLv_GainDMG = PlayerData.UGLv_GainDMG + 1;
+        goldChange((-1) * (PlayerData.UGLv_GainDMG + 1) * GainDMGCoin);
+        btnRefresh();
+       
     }
     #endregion
 
@@ -470,6 +501,26 @@ public class LobbyManager : MonoBehaviour
     public void btnRefresh()
     {
         buyArcherBtn.interactable = !PlayerData.isArcherGet;
+        if (PlayerData.isArcherGet)
+        {
+            
+            for (int i = 0; i < ArcherBodies.Length; i++)
+            {
+                ArcherText.text = "<color=lime>Archer</color>";
+                originColorArcher[i].a = 0.5f;
+                ArcherBodies[i].color = originColorArcher[i];
+            }
+        }
+
+        else
+        {
+            for (int i = 0; i < ArcherBodies.Length; i++)
+            {
+                ArcherText.text = "<color=white>Archer</color>";
+                originColorArcher[i].a = 1.0f;
+                ArcherBodies[i].color = originColorArcher[i];
+            }
+        }
         /*
         buyThiefBtn = !PlayerData.isThiefGet;
         buyMagicianBtn = !PlayerData.isMagicianGet;
@@ -477,8 +528,7 @@ public class LobbyManager : MonoBehaviour
         buyShieldGuyBtn = !PlayerData.isShieldGuyGet;
         buyBabarianBtn = !PlayerData.isBabarianGet;
         */
-        AllDmgBtn.interactable = PlayerData.UGLv_AllDmg != AllDmgMaxLv ? true : false;
-        /*
+        AllDmgBtn.interactable = PlayerData.UGLv_AllDmg != AllDmgMaxLv ? true : false;        
         BasicAtkDmgBtn.interactable = PlayerData.UGLv_BasicAtkDmg != BasicAtkDmgMaxLv ? true : false;
         SynergyDmgBtn.interactable = PlayerData.UGLv_SynergyDmg != SynergyDmgMaxLv ? true : false;
         AtkSpeedBtn.interactable = PlayerData.UGLv_AtkSpeed != AtkSpeedMaxLv ? true : false;
@@ -498,8 +548,7 @@ public class LobbyManager : MonoBehaviour
         MaxHPBtn.interactable = PlayerData.UGLv_MaxHP != MaxHPMaxLv ? true : false;
         HPRegenBtn.interactable = PlayerData.UGLv_HPRegen != HPRegenMaxLv ? true : false;
         ReflectBtn.interactable = PlayerData.UGLv_Reflect != ReflectMaxLv ? true : false;
-        GainDMGBtn.interactable = PlayerData.UGLv_GainDMG != GainDMGMaxLv ? true : false;
-        */
+        GainDMGBtn.interactable = PlayerData.UGLv_GainDMG != GainDMGMaxLv ? true : false;        
     }
     public bool goldRequire(int value)
     {
@@ -518,6 +567,7 @@ public class LobbyManager : MonoBehaviour
     public void goldChange(int value)
     {
         PlayerData.Gold += value;
+        saveData();
         nowGold.text = PlayerData.Gold.ToString();
     }
     public void clickGameStart()

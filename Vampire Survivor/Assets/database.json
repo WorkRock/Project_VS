@@ -1,5 +1,5 @@
 {
-    "Gold": 7800,
+    "Gold": 0,
     "isClassGet": [
         false,
         false,
@@ -16,7 +16,7 @@
     "isSpearWarriorGet": false,
     "isShieldGuyGet": false,
     "isBabarianGet": false,
-    "UGLv_AllDmg": 1,
+    "UGLv_AllDmg": 0,
     "UGLv_BasicAtkDmg": 0,
     "UGLv_SynergyDmg": 0,
     "UGLv_AtkSpeed": 0,

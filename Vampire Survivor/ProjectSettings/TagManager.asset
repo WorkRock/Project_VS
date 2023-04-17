@@ -29,7 +29,7 @@ TagManager:
   - Enemy
   - BG
   - Alert
-  - 
+  - Player_Btn
   - 
   - 
   - 
@@ -64,6 +64,9 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 2132052479
+    locked: 0
+  - name: Player_Btn
+    uniqueID: 939290625
     locked: 0
   - name: Alert
     uniqueID: 3817010243
