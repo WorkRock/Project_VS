@@ -17,18 +17,20 @@ MonoBehaviour:
   id_Main: 105
   prefId_Main: 9
   dmg_Main: 3
-  count_Main: -1
-  atkSpeed_Main: 1
-  CT_Main: 1
+  Pent_Main: -1
+  AtkSpeed_Main: 1
   animTime_Main: 0.9
   atkType_Main: 2
   projectileCount_Main: 1
+  projectileSpeed_Main: -1
+  knockBack_Main: 5
   id_Sub: 106
   prefId_Sub: 10
   dmg_Sub: 2
-  count_Sub: 0
-  atkSpeed_Sub: 5
-  CT_Sub: 1
+  Pent_Sub: 0
+  AtkSpeed_Sub: 1
   animTime_Sub: 0
   atkType_Sub: 0
   projectileCount_Sub: 1
+  projectileSpeed_Sub: 5
+  knockBack_Sub: 2

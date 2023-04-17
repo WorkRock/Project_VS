@@ -16,9 +16,11 @@ TagManager:
   - Weapon
   - returnPoints
   - Perk
-  - BasicAtk
   - Projectile
   - ActivePerk
+  - BasicAtk_Sub
+  - BasicAtk_Main
+  - UpgradeAtk
   layers:
   - Default
   - TransparentFX

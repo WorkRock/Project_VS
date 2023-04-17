@@ -21,7 +21,11 @@ public class PerkInvenManager : MonoBehaviour
     // 슬롯
     public Slot_Perk slot;
 
-   
+    // 테스트(synergy, special 등이 몇개 있는지 체크)
+    // -> 퍽을 획득할 때 카운트를 올려준다?
+    public int count_Special_BasicAtk;
+    public int count_Special_Swap;
+
     private void OnValidate()
     {
         // 퍽 슬롯 초기화
@@ -78,6 +82,27 @@ public class PerkInvenManager : MonoBehaviour
         {
             GameManager.instance.perkValueCheck.addTargetY(perks.Count - 1);    // perk.Count - 1은 마지막으로 먹은 퍽을 의미
             Debug.Log($"전체 피해량이 {_perk.basicX} 만큼 증가하였습니다.");
-        } 
+        }
+
+        // 퍽을 먹었을 때 먹은 퍽의 special(특화)가 무엇인지 체크해서 카운트를 올려줌
+        switch (_perk.special)
+        {
+            case Perk.Special.spBasicAtk:
+                count_Special_BasicAtk++;
+                break;
+            case Perk.Special.spSkill:
+                break;
+            case Perk.Special.spSwap:
+                count_Special_Swap++;
+                break;
+            case Perk.Special.spDmg:
+                break;
+            case Perk.Special.spUtil:
+                break;
+            case Perk.Special.spSummon:
+                break;
+            case Perk.Special.spHP:
+                break;
+        }
     }
 }

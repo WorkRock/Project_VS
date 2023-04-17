@@ -5,9 +5,11 @@ using UnityEngine.UI;
 
 public class LevelUp : MonoBehaviour
 {
-    // 퍽리스트_Basic : 33개
+    // 퍽리스트_Basic : 미획득퍽, 레벨 1~4, 기본 33개
     public List<Perk> perks;
-    // 퍽리스트_UG : 33개
+    // 퍽리스트_Hold: 획득(보유)퍽 -> 퍽인벤토리에서 관리?
+    //public List<Perk> perkList_Hold;
+    // 퍽리스트_UG : 만렙퍽, 레벨 1~4, 33개
     public List<Perk> perkList_UG;
 
     // 레벨업 시 3개 뽑아 저장할 퍽리스트
@@ -22,7 +24,9 @@ public class LevelUp : MonoBehaviour
     // 슬롯
     public Slot_Perk slot;
 
-
+    // 도끼 업그레이드 공격 테스트
+    public Synergy axeUpgrade;
+    public bool isAxeUpgraded;
 
     private void OnValidate()
     {
@@ -36,10 +40,11 @@ public class LevelUp : MonoBehaviour
         //FreshSlot(); 
     }
 
-    // 슬롯 갱신
+    // 슬롯 갱신 (보유 퍽 정보를 갱신)
     public void FreshSlot()
     {
         int i = 0;
+        
         for (; i < perks.Count; i++)
         {
             slots[i].perk = perks[i];
@@ -48,6 +53,17 @@ public class LevelUp : MonoBehaviour
         {
             slots[i].perk = null;
         }
+        
+        /*
+        for (; i < perkList_Hold.Count; i++)
+        {
+            slots[i].perk = perkList_Hold[i];
+        }
+        for (; i < slots.Length; i++)
+        {
+            slots[i].perk = null;
+        }
+        */
     }
 
     // 레벨업 창이 활성화 될때(레벨업을 할 때) perks(모든 퍽 리스트)에서 랜덤한 3개의 퍽을 뽑아 표출한다
@@ -80,7 +96,7 @@ public class LevelUp : MonoBehaviour
             // 랜덤리스트에 뽑은 퍽을 넣어줌
             randomPerks[i] = perks[randomIndex[i]];
             slots[i].perk = randomPerks[i];
-        }       
+        }
     }
 
     private void OnDisable()
@@ -94,10 +110,23 @@ public class LevelUp : MonoBehaviour
     // 슬롯을 클릭했을 때 호출 되는 함수 (여기서 Time.timeScale을 다시 1로 해준다)
     public void AddPerkCall(int num)
     {
-        // 퍽 인벤토리에 클릭한 퍽을 넣어줌
+        // 1. 퍽 인벤토리에 클릭한 퍽을 Add
         GameManager.instance.perkInven.AddPerk(randomPerks[num]);
+
+        // 2. 인벤토리에 넣었으면 퍽 리스트에서 획득한 퍽을 Remove
+        perks.Remove(randomPerks[num]);
+
         // 레벨업 ui 비활성화 및 시간 초기화
         GameManager.instance.levelUpUI.SetActive(false);
         Time.timeScale = 1f;
+
+        // 테스트: 현재 퍽-평타, 퍽-스왑 을 1개 이상 가지고 있으면 도끼 특화를 시너지 인벤토리에 추가
+        if(GameManager.instance.perkInven.count_Special_BasicAtk >= 1
+            && GameManager.instance.perkInven.count_Special_Swap >= 1
+            &&!isAxeUpgraded)
+        {
+            GameManager.instance.synergyInven.AddItem(axeUpgrade);
+            isAxeUpgraded = true;   // 1번만 추가하기 위해 플래그 세우기
+        }
     }
 }

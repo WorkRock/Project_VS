@@ -6,10 +6,13 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-    [Header("Player Stat")]
+    // 플레이어 고유 스탯(모든 캐릭터 동일)
+    [Header("Player Basic Stat")]
     public float AllDmg;            // 전체 피해량
-    public float BasicAtkDmg;       // 평타 피해량
-    public float SynergyDmg;        // 속성 피해량
+    public float BasicAtkDmg;  // 평타 피해량
+    public float SynergyDmg_Pyro;   // 속성 피해량_Pyro
+    public float SynergyDmg_Electro;// 속성 피해량_Electro
+    public float SynergyDmg_Ice;    // 속성 피해량_Ice
     public float AtkSpeed;          // 공격 속도
     public float AtkRange;          // 공격 범위
     public float ProjectileSpeed;   // 투사체 속도
@@ -24,11 +27,38 @@ public class Player : MonoBehaviour
     public float Cri;               // 치명타 확률
     public float Magnet;            // 자석력
     public int Revive;              // 부활
-    public float MaxHP;             // 최대 체력
-    public float NowHP;             // 현재 체력
+    public int MaxHP;               // 최대 체력
+    public int NowHP;               // 현재 체력
     public float HPRegen;           // 체력 재생
     public float Reflect;           // 피해량 반사
     public float GainDmg;           // 받는 피해량
+
+    // 캐릭터 보너스 스탯(캐릭터마다 상이)
+    [Header("Char Bonus Stat")]
+    public float AllDmg_CB;            // 전체 피해량
+    public float BasicAtkDmg_CB;  // 평타 피해량
+    public float SynergyDmg_Pyro_CB;   // 속성 피해량_Pyro
+    public float SynergyDmg_Electro_CB;// 속성 피해량_Electro
+    public float SynergyDmg_Ice_CB;    // 속성 피해량_Ice
+    public float AtkSpeed_CB;          // 공격 속도(쿨타임)
+    public float AtkRange_CB;          // 공격 범위
+    public float ProjectileSpeed_CB;   // 투사체 속도
+    public int ProjectileCount_CB;     // 투사체 수
+    public float SkillCT_CB;           // 스킬 쿨타임
+    public float SwapCT_CB;            // 스왑 쿨타임
+    public float GainUlt_CB;           // 궁극기 충전량
+    public int Pent_CB;                // 관통
+    public float MovementSpeed_CB;     // 이동 속도
+    public float GainGold_CB;          // 골드 획득량
+    public float GainExp_CB;           // 경험치 획득량
+    public float Cri_CB;               // 치명타 확률
+    public float Magnet_CB;            // 자석력
+    public int Revive_CB;              // 부활
+    public int MaxHP_CB;               // 최대 체력
+    public int NowHP_CB;               // 현재 체력
+    public float HPRegen_CB;           // 체력 재생
+    public float Reflect_CB;           // 피해량 반사
+    public float GainDmg_CB;           // 받는 피해량
 
     [Header("Etc")]
     public Vector2 inputVec;
@@ -76,22 +106,21 @@ public class Player : MonoBehaviour
         // 피격 효과
         playerBodies = GetComponentsInChildren<SpriteRenderer>();   // 알파값 조정을 위해 플레이어의 자식으로 있는 스프라이트 렌더러들을 연결
         originColor = new Color[playerBodies.Length];   // 플레이어의 원래 색깔을 저장
+
+        // 시작 시 main무기와 sub무기 정보를 받아온다.
+        mainWeapon = GameManager.instance.weaponChange.getMainWeapoon();
+        subWeapon = GameManager.instance.weaponChange.getSubWeapoon();
     }
 
     void Start()
     {
-        // 시작 시 main무기와 sub무기 정보를 받아온다.
-        mainWeapon = GameManager.instance.weaponChange.getMainWeapoon();
-        subWeapon = GameManager.instance.weaponChange.getSubWeapoon();
-        
         canSwap = true;
 
         // 무기 번호 초기화 (기본-0, 검)
         weaponNum = 0;
-        //selectedWeapon[0].SetActive(true);
         // 플레이어 관련 옵션 초기화
-        MaxHP = 10;
-        NowHP = MaxHP;
+        //MaxHP = 10;
+        //NowHP = MaxHP;
         playerLV = 1;
         needExpPerLV = baseExp;
         isLive = true;
@@ -114,15 +143,7 @@ public class Player : MonoBehaviour
             return;
         }
             
-        /*
-        // 레벨업 UI 테스트
-        if(Input.GetKeyDown(KeyCode.F1))
-        {
-            levelUpUI.SetActive(levelUpUI.activeSelf ? false : true);
-            Time.timeScale = levelUpUI.activeSelf ? 0f : 1f;
-        }
-        */
-        // @@@@@@@@주무기(오른쪽) 보조무기(왼쪽) 스왑에 따른 평타 변경 테스트
+        // 주무기(오른쪽) 보조무기(왼쪽) 스왑에 따른 평타 변경
         if (Time.timeScale > 0 && canSwap &&Input.GetKeyDown(KeyCode.O))
         {
             canSwap = false;
@@ -214,7 +235,7 @@ public class Player : MonoBehaviour
 
     void Dead()
     {
-        if (NowHP <= 0)
+        if (GameManager.instance.GM_NowHP <= 0)
         {
             for (int i = 0; i < playerBodies.Length; i++)
             {
@@ -234,7 +255,8 @@ public class Player : MonoBehaviour
         {
             SoundManager.instance.PlaySE("Player Hit");
             animator.SetTrigger("isHit");
-            NowHP--;
+            //NowHP--;
+            GameManager.instance.GM_NowHP--;
             HurtEffectOn();     
         }
     }
@@ -254,7 +276,7 @@ public class Player : MonoBehaviour
 
     public void HurtEffectOff()
     {
-        if (NowHP <= 0)
+        if (GameManager.instance.GM_NowHP <= 0)
             return;
         // 콜라이더 켜기
         capsuleCollider.enabled = true;

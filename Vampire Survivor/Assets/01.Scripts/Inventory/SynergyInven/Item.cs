@@ -11,23 +11,25 @@ public class Item : ScriptableObject
     public int id_Main;
     public int prefId_Main;
     public int dmg_Main;
-    public int count_Main;
-    public float atkSpeed_Main;
-    public float CT_Main;
+    public int Pent_Main;
+    public float AtkSpeed_Main;   // ¹«±â ÄğÅ¸ÀÓ, atkSpeed
     public float animTime_Main;
     public AtkType atkType_Main;
     public int projectileCount_Main;
+    public float projectileSpeed_Main;
+    public int knockBack_Main;
 
     [Header("Sub")]
     public int id_Sub;
     public int prefId_Sub;
     public int dmg_Sub;
-    public int count_Sub;
-    public float atkSpeed_Sub;
-    public float CT_Sub;
+    public int Pent_Sub;   
+    public float AtkSpeed_Sub;    // ¹«±â ÄğÅ¸ÀÓ, atkSpeed
     public float animTime_Sub;
     public AtkType atkType_Sub;
     public int projectileCount_Sub;
+    public float projectileSpeed_Sub;
+    public int knockBack_Sub;
 
     public enum AtkType
     {

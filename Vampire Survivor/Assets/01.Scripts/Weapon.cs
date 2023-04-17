@@ -19,12 +19,15 @@ public class Weapon : MonoBehaviour
 
     public Rigidbody2D rigid;
 
+    // 투사체인지 체크
+    public bool isProjectile;
+
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
     }
 
-
+ 
     private void Update()
     {
         // 방패, 도끼가 날아갈때 회전시키기
@@ -52,7 +55,7 @@ public class Weapon : MonoBehaviour
         this.per = per;
 
         // 관통이 -1(무한) 보다 큰 것은 속도를 적용
-        if (per > -1 || gameObject.tag == "Projectile")
+        if (per > -1 || gameObject.GetComponent<Weapon>().isProjectile)
         {
             rigid.velocity = dir * speed;
         }
@@ -75,7 +78,7 @@ public class Weapon : MonoBehaviour
             }
         }
         // 충돌 객체 = 적, 무한관통 x, 쉴드 o
-        else if(collision.CompareTag("Enemy") && per != -1 && gameObject.tag == "Shield")
+        else if(collision.CompareTag("Enemy") && gameObject.tag == "Shield")
         {
             isPing = true;
             // 적에게 닿았으면

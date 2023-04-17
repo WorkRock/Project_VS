@@ -27,10 +27,6 @@ public class Enemy : MonoBehaviour
     bool isFire;    // 불타고 있는지 체크
     float fireTime;
 
-    // 무엇에 맞았는지 체크
-    public bool byPyroAtk;     // 불 공격에 맞음
-    public bool byBasicAtk;    // 평타에 맞음
-
     // 피격 효과
     private SpriteRenderer[] enemyBodies;  // 피격 효과(알파값 조정)을 위해 플레이어의 자식으로 있는 스프라이트 렌더러들을 연결
     private Color[] originColor;            // 원래 색깔 저장  
@@ -84,6 +80,9 @@ public class Enemy : MonoBehaviour
     }
     void EnemyDie()
     {
+        // 사망시 넉백 x
+        rigid.isKinematic = true;
+        isLive = false;
         for (int i = 0; i < enemyBodies.Length; i++)
         {
             enemyBodies[i].color = originColor[i];
@@ -102,8 +101,8 @@ public class Enemy : MonoBehaviour
     // 물리적인 이동(rigid)은 fixedUpdate 사용
     void FixedUpdate()
     {
-        // 적 이동 시 넉백이 씹히므로 현재 스턴 애니메이션이 실행중일 경우 적은 이동하지 않게 해준다.
-        if (!isLive || animator.GetCurrentAnimatorStateInfo(0).IsName("3_Debuff_Stun"))
+        // 적 이동 시 넉백이 씹히므로 현재 스턴, 사망 애니메이션이 실행중일 경우 적은 이동하지 않게 해준다.
+        if (enemy_Hp <= 0 || animator.GetCurrentAnimatorStateInfo(0).IsName("3_Debuff_Stun"))
             return;
 
         // 이동할 방향 벡터
@@ -127,6 +126,9 @@ public class Enemy : MonoBehaviour
 
     void OnEnable()
     {
+        enemy_Hp = enemy_MaxHp;
+        rigid.isKinematic = false;
+        isLive = true;
         // 콜라이더 활성화
         this.GetComponent<CapsuleCollider2D>().enabled = true;
         target = GameManager.instance.player.GetComponent<Rigidbody2D>();
@@ -134,35 +136,55 @@ public class Enemy : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        // 1. 평타와 충돌
-        if (collision.gameObject.tag == "BasicAtk")
+        // 1. 평타_Main과 충돌
+        if (collision.gameObject.tag == "BasicAtk_Main")
         {
             // 스프라이트 색 변경
-            HurtEffectOn();
+            //HurtEffectOn();
             // 넉백
-            StartCoroutine(KnockBack());
-            // 평타에 맞았다고 체크
-            byBasicAtk = true;
+            StartCoroutine(KnockBack(collision.gameObject.GetComponent<CheckItem>().item.knockBack_Main));
+       
             // 적 히트 사운드 재생
             SoundManager.instance.PlaySE("Enemy Hit");
             animator.SetTrigger("isHit");
             // 체력 감소
-            enemy_Hp -= GameManager.instance.player.AllDmg + collision.gameObject.GetComponent<CheckItem>().dmg;
+            enemy_Hp -= GameManager.instance.GM_BasicAtkDmg_Main;
             // 데미지 표시
             GameObject dmgText = GameManager.instance.pool.Get(22);
             dmgText.transform.position = transform.position + Vector3.up * 1.2f;
-            dmgText.GetComponent<TextMeshPro>().text = (GameManager.instance.player.AllDmg + collision.gameObject.GetComponent<CheckItem>().dmg).ToString();
+            dmgText.GetComponent<TextMeshPro>().text = GameManager.instance.GM_BasicAtkDmg_Main.ToString();
 
             if (enemy_Hp <= 0)
             {
                 EnemyDie();
             }
-
-            // 발화 테스트
-            int igniPer = Random.Range(0, 100);
-            //if(igniPer < GameManager.instance.perkInven.perks[i].basicX)
         }
 
+        // 2. 평타_Sub과 충돌
+        if (collision.gameObject.tag == "BasicAtk_Sub")
+        {
+            // 스프라이트 색 변경
+            //HurtEffectOn();
+            // 넉백            
+            StartCoroutine(KnockBack(collision.gameObject.GetComponent<CheckItem>().item.knockBack_Sub));
+          
+            // 적 히트 사운드 재생
+            SoundManager.instance.PlaySE("Enemy Hit");
+            animator.SetTrigger("isHit");
+            // 체력 감소
+            enemy_Hp -= GameManager.instance.GM_BasicAtkDmg_Sub;
+            // 데미지 표시
+            GameObject dmgText = GameManager.instance.pool.Get(22);
+            dmgText.transform.position = transform.position + Vector3.up * 1.2f;
+            dmgText.GetComponent<TextMeshPro>().text = GameManager.instance.GM_BasicAtkDmg_Sub.ToString();
+
+            if (enemy_Hp <= 0)
+            {
+                EnemyDie();
+            }
+        }
+
+        /*
         // 2. 평타-투사체와 충돌
         if (collision.gameObject.tag == "Projectile")
         {
@@ -170,58 +192,55 @@ public class Enemy : MonoBehaviour
             HurtEffectOn();
             // 넉백
             StartCoroutine(KnockBack());
-            // 평타에 맞았다고 체크
-            byBasicAtk = true;
+            
             // 적 히트 사운드 재생
             SoundManager.instance.PlaySE("Enemy Hit");
             animator.SetTrigger("isHit");
-            enemy_Hp -= GameManager.instance.player.AllDmg + collision.gameObject.GetComponent<CheckItem>().dmg;
+            // 체력 감소
+            enemy_Hp -= collision.gameObject.GetComponent<CheckItem>().mainOrSub.ToString() == "Main" ? GameManager.instance.GM_BasicAtkDmg_Main : GameManager.instance.GM_BasicAtkDmg_Sub;
             // 데미지 표시
             GameObject dmgText = GameManager.instance.pool.Get(22);
             dmgText.transform.position = transform.position + Vector3.up * 1.2f;
-            dmgText.GetComponent<TextMeshPro>().text = (GameManager.instance.player.AllDmg + collision.gameObject.GetComponent<CheckItem>().dmg).ToString();
+            dmgText.GetComponent<TextMeshPro>().text = (collision.gameObject.GetComponent<CheckItem>().mainOrSub.ToString() == "Main" ? GameManager.instance.GM_BasicAtkDmg_Main : GameManager.instance.GM_BasicAtkDmg_Sub).ToString();
 
             if (enemy_Hp <= 0)
             {
                 EnemyDie();
             }
         }
-
+        */
         // 3. 방패와 충돌(방패는 튕김 체크 때문에 별도의 태그 사용)
         if (collision.gameObject.tag == "Shield")
         {
             // 스프라이트 색 변경
-            HurtEffectOn();
+            //HurtEffectOn();
             // 넉백
-            StartCoroutine(KnockBack());
+            StartCoroutine(KnockBack(collision.gameObject.GetComponent<CheckItem>().item.knockBack_Main));
             //// 불 도트 효과 테스트 /////
             // fireDotEffectOn();
             // Invoke("fireDotEffectOff", 3f);
-
-            // 평타에 맞았다고 체크
-            byBasicAtk = true;
             // 적 히트 사운드 재생
             SoundManager.instance.PlaySE("Enemy Hit");
             animator.SetTrigger("isHit");
-            enemy_Hp -= GameManager.instance.player.AllDmg + collision.gameObject.GetComponent<CheckItem>().dmg;
+            // 체력 감소
+            enemy_Hp -= GameManager.instance.GM_BasicAtkDmg_Main;
             // 데미지 표시
             GameObject dmgText = GameManager.instance.pool.Get(22);
             dmgText.transform.position = transform.position + Vector3.up * 1.2f;
-            dmgText.GetComponent<TextMeshPro>().text = (GameManager.instance.player.AllDmg + collision.gameObject.GetComponent<CheckItem>().dmg).ToString();
+            dmgText.GetComponent<TextMeshPro>().text = GameManager.instance.GM_BasicAtkDmg_Main.ToString();
 
             if (enemy_Hp <= 0)
             {
                 EnemyDie();
             }
         }
-
+        
         // 4. 연소, 낙뢰, 빙결 등 액티브 퍽과 충돌 (넉백 X)
         if(collision.gameObject.tag == "ActivePerk")
         {
             // 스프라이트 색 변경
-            HurtEffectOn();
-            // 평타에 맞았다고 체크
-            byBasicAtk = true;
+            //HurtEffectOn();
+           
             // 적 히트 사운드 재생
             SoundManager.instance.PlaySE("Enemy Hit");
             animator.SetTrigger("isHit");
@@ -231,6 +250,29 @@ public class Enemy : MonoBehaviour
             GameObject dmgText = GameManager.instance.pool.Get(22);
             dmgText.transform.position = transform.position + Vector3.up * 1.2f;
             dmgText.GetComponent<TextMeshPro>().text = (collision.gameObject.GetComponent<CheckPerk>().perk.basicX + collision.gameObject.GetComponent<CheckPerk>().perk.basicY).ToString();
+
+            if (enemy_Hp <= 0)
+            {
+                EnemyDie();
+            }
+        }
+
+        // 5. 업그레이드 공격과 충돌
+        if(collision.gameObject.tag == "UpgradeAtk")
+        {
+            // 스프라이트 색 변경
+            //HurtEffectOn();
+            // 넉백
+            StartCoroutine(KnockBack(collision.gameObject.GetComponent<CheckSynergy>().synergy.knockBack));
+            // 적 히트 사운드 재생
+            SoundManager.instance.PlaySE("Enemy Hit");
+            animator.SetTrigger("isHit");
+            // 체력 감소
+            enemy_Hp -= collision.gameObject.GetComponent<CheckSynergy>().synergy.dmg;
+            // 데미지 표시
+            GameObject dmgText = GameManager.instance.pool.Get(22);
+            dmgText.transform.position = transform.position + Vector3.up * 1.2f;
+            dmgText.GetComponent<TextMeshPro>().text = collision.gameObject.GetComponent<CheckSynergy>().synergy.dmg.ToString();
 
             if (enemy_Hp <= 0)
             {
@@ -262,7 +304,7 @@ public class Enemy : MonoBehaviour
     }
 
     // 넉백 코루틴 함수
-    IEnumerator KnockBack()
+    IEnumerator KnockBack(int knockBackPower)
     {
         yield return wait;  // 다음 하나의 물리 프레임을 딜레이
         Vector3 playerPos = GameManager.instance.player.transform.position;
@@ -270,6 +312,7 @@ public class Enemy : MonoBehaviour
         rigid.AddForce(dirVec.normalized * knockBackPower, ForceMode2D.Impulse);
     }
 
+    /*
     // 피격효과 함수(알파값 조정)
     public void HurtEffectOn()
     {
@@ -290,4 +333,5 @@ public class Enemy : MonoBehaviour
             enemyBodies[i].color = originColor[i];
         }
     }
+    */
 }

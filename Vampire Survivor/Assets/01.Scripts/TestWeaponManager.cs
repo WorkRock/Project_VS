@@ -23,25 +23,25 @@ public class TestWeaponManager : MonoBehaviour
     public float ThrowSpeed;        // 도끼 발사 속도
 
     // Item 옵션 - Main
-    public int id;
-    public string itemName;
-    public int prefabId;
-    public float damage;
-    public int count;
-    public float CT;
-    public float atkSpeed;
-    public string atkType;
-    public float animTime;
-    public int projectileCount;
+    public int id_Main;
+    public string itemName_Main;
+    public int prefabId_Main;
+    public float damage_Main;
+    public int pent_Main;
+    public float atkSpeed_Main;
+    public float projectileSpeed_Main;
+    public string atkType_Main;
+    public float animTime_Main;
+    public int projectileCount_Main;
 
     // Item 옵션 - Sub
     public int id_Sub;
     public string itemName_Sub;
     public int prefabId_Sub;
     public float damage_Sub;
-    public int count_Sub;   // 관통
-    public float CT_Sub;    // 쿨타임
-    public float atkSpeed_Sub;  // 공격 속도
+    public int pent_Sub;   // 관통
+    public float atkSpeed_Sub;    // 쿨타임
+    public float projectileSpeed_Sub;  // 공격 속도
     public string atkType_Sub;
     public float animTime_Sub;
     public int projectileCount_Sub; // 투사체 개수
@@ -60,6 +60,11 @@ public class TestWeaponManager : MonoBehaviour
     public Vector3 rotVec;
     private bool isWeaponChangeCheck;
 
+    // 도끼 업그레이드 공격 테스트
+    public Synergy axeUpgrade;
+    GameObject test;
+    public float invokeTime;
+
     void Start()
     {
         lastDir = new Vector3(-1, 0);
@@ -76,6 +81,28 @@ public class TestWeaponManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // 도끼 특화 공격 테스트
+        if(GameManager.instance.synergyInven.synergies.Contains(axeUpgrade))
+        {
+            invokeTime += Time.deltaTime;
+            if(invokeTime > axeUpgrade.AtkSpeed)
+            {
+                invokeTime = 0f;
+
+                test = GameManager.instance.pool.Get(axeUpgrade.prefId);
+                test.GetComponent<BoxCollider2D>().enabled = false;
+                test.transform.position = GameManager.instance.player.transform.position;
+                if (GameManager.instance.player.playerDir == -1 && test.transform.localScale.x > 0)
+                    test.transform.localScale = new Vector3(test.transform.localScale.x * -1, test.transform.localScale.y, 0);
+
+                else if (GameManager.instance.player.playerDir == 1 && test.transform.localScale.x < 0)
+                    test.transform.localScale = new Vector3(test.transform.localScale.x * -1, test.transform.localScale.y, 0);
+
+                Invoke("TestAtkOn", axeUpgrade.animTime - 0.3f);
+                Invoke("TestAtkOff", axeUpgrade.animTime);
+            }
+        }
+
         // 플레이어 이미지가 바라보는 방향을 받아옴
         lastSpriteDir.x = GameManager.instance.player.transform.localScale.x;
         
@@ -86,7 +113,7 @@ public class TestWeaponManager : MonoBehaviour
         if (isWeaponChangeCheck)
             WeaponChangeCheck();
 
-        switch (atkType)
+        switch (atkType_Main)
         {
             // 없음
             case "atkAllDir":
@@ -94,7 +121,7 @@ public class TestWeaponManager : MonoBehaviour
             // 완드(주)
             case "atkAllDir_Fix":
                 invokeTime_Main += Time.deltaTime;
-                if (invokeTime_Main > CT)
+                if (invokeTime_Main > atkSpeed_Main)
                 {
                     invokeTime_Main = 0f;
                     AllAtk_Fix();
@@ -103,7 +130,7 @@ public class TestWeaponManager : MonoBehaviour
             // 검(주), 단검(주), 창(주), 도끼(주)
             case "atkHorDir":
                 invokeTime_Main += Time.deltaTime;
-                if (invokeTime_Main > CT)
+                if (invokeTime_Main > atkSpeed_Main)
                 {
                     invokeTime_Main = 0f;
                     HorAtk();
@@ -112,7 +139,7 @@ public class TestWeaponManager : MonoBehaviour
             // 활(주), 방패(주)
             case "atkFollow":
                 invokeTime_Main += Time.deltaTime;
-                if (invokeTime_Main > CT)
+                if (invokeTime_Main > atkSpeed_Main)
                 {
                     invokeTime_Main = 0f;
                     FollowAtk();
@@ -130,7 +157,7 @@ public class TestWeaponManager : MonoBehaviour
             // 단검(보조), 도끼(보조)
             case "atkAllDir":
                 invokeTime_Sub += Time.deltaTime;
-                if (invokeTime_Sub > CT_Sub)
+                if (invokeTime_Sub > atkSpeed_Sub)
                 {
                     invokeTime_Sub = 0f;
                     AllAtk_Sub();
@@ -143,7 +170,7 @@ public class TestWeaponManager : MonoBehaviour
             // 창(보조)
             case "atkHorDir":
                 invokeTime_Sub += Time.deltaTime;
-                if (invokeTime_Sub > CT_Sub)
+                if (invokeTime_Sub > atkSpeed_Sub)
                 {
                     invokeTime_Sub = 0f;
                     HorAtk_Sub();
@@ -152,7 +179,7 @@ public class TestWeaponManager : MonoBehaviour
             // 검(보조), 활(보조), 완드(보조)
             case "atkFollow":
                 invokeTime_Sub += Time.deltaTime;
-                if (invokeTime_Sub > CT_Sub)
+                if (invokeTime_Sub > atkSpeed_Sub)
                 {
                     invokeTime_Sub = 0f;
                     FollowAtk_Sub();
@@ -165,12 +192,12 @@ public class TestWeaponManager : MonoBehaviour
                 
                 // 축 회전
                 transform.position = new Vector3(GameManager.instance.player.transform.position.x, GameManager.instance.player.transform.position.y + 0.35f, GameManager.instance.player.transform.position.z);
-                transform.Rotate(Vector3.back * atkSpeed_Sub * Time.deltaTime);
+                transform.Rotate(Vector3.back * projectileSpeed_Sub * Time.deltaTime);
                 break;
             // 도끼(보조)
             case "atkBoomerang":
                 invokeTime_Sub += Time.deltaTime;
-                if (invokeTime_Sub > CT_Sub)
+                if (invokeTime_Sub > atkSpeed_Sub)
                 {      
                     BoomerangAtk_Sub();
                     Thrown = true;
@@ -195,25 +222,25 @@ public class TestWeaponManager : MonoBehaviour
         mainWeapon = WeaponChange.Instance.getMainWeapoon();
         subWeapon = WeaponChange.Instance.getSubWeapoon();
 
-        id = mainWeapon.id_Main;
-        itemName = mainWeapon.itemName;
-        damage = mainWeapon.dmg_Main;
-        count = mainWeapon.count_Main;
-        CT = mainWeapon.CT_Main;
-        atkSpeed = mainWeapon.atkSpeed_Main;
-        atkType = mainWeapon.atkType_Main.ToString();
-        prefabId = mainWeapon.prefId_Main;
-        animTime = mainWeapon.animTime_Main;
-        projectileCount = mainWeapon.projectileCount_Main;
+        id_Main = mainWeapon.id_Main;
+        itemName_Main = mainWeapon.itemName;
+        damage_Main = mainWeapon.dmg_Main;
+        pent_Main = mainWeapon.Pent_Main;
+        atkSpeed_Main = mainWeapon.AtkSpeed_Main;
+        projectileSpeed_Main = mainWeapon.projectileSpeed_Main;
+        atkType_Main = mainWeapon.atkType_Main.ToString();
+        prefabId_Main = mainWeapon.prefId_Main;
+        animTime_Main = mainWeapon.animTime_Main;
+        projectileCount_Main = mainWeapon.projectileCount_Main;
 
         if (subWeapon == null)
             return;
         id_Sub = subWeapon.id_Sub;
         itemName_Sub = subWeapon.itemName;
         damage_Sub = subWeapon.dmg_Sub;
-        count_Sub = subWeapon.count_Sub;
-        CT_Sub = subWeapon.CT_Sub;
-        atkSpeed_Sub = subWeapon.atkSpeed_Sub;
+        pent_Sub = subWeapon.Pent_Sub;
+        atkSpeed_Sub = subWeapon.AtkSpeed_Sub;
+        projectileSpeed_Sub = subWeapon.projectileSpeed_Sub;
         atkType_Sub = subWeapon.atkType_Sub.ToString();
         prefabId_Sub = subWeapon.prefId_Sub;
         animTime_Sub = subWeapon.animTime_Sub;
@@ -224,11 +251,11 @@ public class TestWeaponManager : MonoBehaviour
     // 횡방향 공격
     void HorAtk()
     {
-        switch (projectileCount)
+        switch (projectileCount_Main)
         {
             // # 투사체 개수(projectileCount) == 1
             case 1:
-                passive_Main[0] = GameManager.instance.pool.Get(prefabId);
+                passive_Main[0] = GameManager.instance.pool.Get(prefabId_Main);
                 passive_Main[0].transform.position = GameManager.instance.player.transform.position;
                 if (GameManager.instance.player.playerDir == 1 && passive_Main[0].transform.localScale.x > 0)
                     passive_Main[0].transform.localScale = new Vector3(passive_Main[0].transform.localScale.x * -1, passive_Main[0].transform.localScale.y, 0);
@@ -236,25 +263,25 @@ public class TestWeaponManager : MonoBehaviour
                 else if (GameManager.instance.player.playerDir == -1 && passive_Main[0].transform.localScale.x < 0)
                     passive_Main[0].transform.localScale = new Vector3(passive_Main[0].transform.localScale.x * -1, passive_Main[0].transform.localScale.y, 0);
       
-                Invoke("HorAtk_Off", animTime);
+                Invoke("HorAtk_Off", animTime_Main);
                 break;
             // # 투사체 개수(projectileCount) == 2
             case 2:
-                passive_Main[0] = GameManager.instance.pool.Get(prefabId);
-                passive_Main[1] = GameManager.instance.pool.Get(prefabId);
+                passive_Main[0] = GameManager.instance.pool.Get(prefabId_Main);
+                passive_Main[1] = GameManager.instance.pool.Get(prefabId_Main);
 
                 passive_Main[0].transform.position = GameManager.instance.player.transform.position;
                 passive_Main[1].transform.position = GameManager.instance.player.transform.position;
 
                 passive_Main[1].transform.localScale = new Vector3(passive_Main[0].transform.localScale.x * -1, passive_Main[0].transform.localScale.y, 0);
 
-                Invoke("HorAtk_Off", animTime);
+                Invoke("HorAtk_Off", animTime_Main);
                 break;
             // # 투사체 개수(projectileCount) == 3
             case 3:
-                passive_Main[0] = GameManager.instance.pool.Get(prefabId);
-                passive_Main[1] = GameManager.instance.pool.Get(prefabId);
-                passive_Main[2] = GameManager.instance.pool.Get(prefabId);
+                passive_Main[0] = GameManager.instance.pool.Get(prefabId_Main);
+                passive_Main[1] = GameManager.instance.pool.Get(prefabId_Main);
+                passive_Main[2] = GameManager.instance.pool.Get(prefabId_Main);
 
                 passive_Main[0].transform.position = GameManager.instance.player.transform.position;
                 passive_Main[1].transform.position = GameManager.instance.player.transform.position;
@@ -265,7 +292,7 @@ public class TestWeaponManager : MonoBehaviour
                 passive_Main[1].transform.rotation = Quaternion.FromToRotation(Vector3.right, Vector3.right + Vector3.up);//Quaternion.Euler(0, 0, 135f);
                 passive_Main[2].transform.rotation = Quaternion.FromToRotation(Vector3.right, Vector3.down);//Quaternion.Euler(0, 0, 270f);
 
-                Invoke("HorAtk_Off", animTime);
+                Invoke("HorAtk_Off", animTime_Main);
                 break;
         }
     }
@@ -372,7 +399,7 @@ public class TestWeaponManager : MonoBehaviour
                 
                 lastDir = dir;
                 
-                passive_Sub.GetComponent<Weapon>().Init(damage_Sub, count_Sub, dir, atkSpeed_Sub);
+                passive_Sub.GetComponent<Weapon>().Init(damage_Sub, pent_Sub, dir, projectileSpeed_Sub);
                 //return;
                 break;
             case 2:
@@ -392,8 +419,8 @@ public class TestWeaponManager : MonoBehaviour
                 
                 lastDir = dir_2;
 
-                passsive_Sub_1.GetComponent<Weapon>().Init(damage_Sub, count_Sub, dir_2, atkSpeed_Sub);
-                passsive_Sub_2.GetComponent<Weapon>().Init(damage_Sub, count_Sub, dir_2, atkSpeed_Sub);
+                passsive_Sub_1.GetComponent<Weapon>().Init(damage_Sub, pent_Sub, dir_2, projectileSpeed_Sub);
+                passsive_Sub_2.GetComponent<Weapon>().Init(damage_Sub, pent_Sub, dir_2, projectileSpeed_Sub);
                 break;
             case 3:
                 // # 투사체 개수(projectileCount) == 3
@@ -415,9 +442,9 @@ public class TestWeaponManager : MonoBehaviour
 
                 lastDir = dir_3;
 
-                passsive_Sub_a.GetComponent<Weapon>().Init(damage_Sub, count_Sub, dir_3, atkSpeed_Sub);
-                passsive_Sub_b.GetComponent<Weapon>().Init(damage_Sub, count_Sub, dir_3, atkSpeed_Sub);
-                passsive_Sub_c.GetComponent<Weapon>().Init(damage_Sub, count_Sub, dir_3, atkSpeed_Sub);
+                passsive_Sub_a.GetComponent<Weapon>().Init(damage_Sub, pent_Sub, dir_3, projectileSpeed_Sub);
+                passsive_Sub_b.GetComponent<Weapon>().Init(damage_Sub, pent_Sub, dir_3, projectileSpeed_Sub);
+                passsive_Sub_c.GetComponent<Weapon>().Init(damage_Sub, pent_Sub, dir_3, projectileSpeed_Sub);
                 break;
         }
     }
@@ -428,7 +455,7 @@ public class TestWeaponManager : MonoBehaviour
     void AllAtk_Fix()
     {
         // 현재 투사체 개수에 따라서
-        switch (projectileCount)
+        switch (projectileCount_Main)
         {    
             case 1:
                 // # 투사체 개수(projectileCount) == 1
@@ -437,7 +464,7 @@ public class TestWeaponManager : MonoBehaviour
                 if (dir_C1 == new Vector3(0, 0))
                     dir_C1 = lastSpriteDir * -1;
 
-                passive_Main_Setup[0] = GameManager.instance.pool.Get(prefabId - 1);
+                passive_Main_Setup[0] = GameManager.instance.pool.Get(prefabId_Main - 1);
                 passive_Main_Setup[0].transform.position = GameManager.instance.player.transform.position + dir_C1 * 5;  // 마법진의 위치 = 플레이어위치 + (입력방향 * 거리(5); 거리는 변수화해서 변경 가능)
                 passive_Main_Setup[0].transform.rotation = Quaternion.identity;   // 마법진은 로테이션 바꿀필요 X
 
@@ -451,8 +478,8 @@ public class TestWeaponManager : MonoBehaviour
                 if (dir_C2 == new Vector3(0, 0))
                     dir_C2 = lastSpriteDir * -1;
 
-                passive_Main_Setup[0] = GameManager.instance.pool.Get(prefabId - 1);
-                passive_Main_Setup[1] = GameManager.instance.pool.Get(prefabId - 1);
+                passive_Main_Setup[0] = GameManager.instance.pool.Get(prefabId_Main - 1);
+                passive_Main_Setup[1] = GameManager.instance.pool.Get(prefabId_Main - 1);
 
                 passive_Main_Setup[0].transform.position = GameManager.instance.player.transform.position + dir_C2 * 5;  // 마법진의 위치 = 플레이어위치 + (입력방향 * 거리(5); 거리는 변수화해서 변경 가능)
                 passive_Main_Setup[1].transform.position = GameManager.instance.player.transform.position + dir_C2 * -5;
@@ -470,9 +497,9 @@ public class TestWeaponManager : MonoBehaviour
                 if (dir_C3 == new Vector3(0, 0))
                     dir_C3 = lastSpriteDir * -1;
 
-                passive_Main_Setup[0] = GameManager.instance.pool.Get(prefabId - 1);
-                passive_Main_Setup[1] = GameManager.instance.pool.Get(prefabId - 1);
-                passive_Main_Setup[2] = GameManager.instance.pool.Get(prefabId - 1);
+                passive_Main_Setup[0] = GameManager.instance.pool.Get(prefabId_Main - 1);
+                passive_Main_Setup[1] = GameManager.instance.pool.Get(prefabId_Main - 1);
+                passive_Main_Setup[2] = GameManager.instance.pool.Get(prefabId_Main - 1);
 
                 passive_Main_Setup[0].transform.position = GameManager.instance.player.transform.position + dir_C3 * 5;  // 마법진의 위치 = 플레이어위치 + (입력방향 * 거리(5); 거리는 변수화해서 변경 가능)
                 passive_Main_Setup[1].transform.position = GameManager.instance.player.transform.position + dir_C3 * -5;
@@ -490,12 +517,12 @@ public class TestWeaponManager : MonoBehaviour
 
     void AllAtk_Fix_Off()
     {
-        switch (projectileCount)
+        switch (projectileCount_Main)
         {       
             case 1:
                 // # 투사체 개수(projectileCount) == 1
                 // 2. 마법진 위치에 폭발 생성
-                passive_Main[0] = GameManager.instance.pool.Get(prefabId);
+                passive_Main[0] = GameManager.instance.pool.Get(prefabId_Main);
                 passive_Main[0].transform.position = passive_Main_Setup[0].transform.position;  // 폭발의 위치 = 마법진의 위치
                 passive_Main[0].transform.rotation = Quaternion.identity;
                 passive_Main_Setup[0].SetActive(false);   // 마법진이 먼저 사라져버리면 폭발 위치를 받아오지 못하므로 폭발 생성 후 비활성화
@@ -504,8 +531,8 @@ public class TestWeaponManager : MonoBehaviour
             case 2:
                 // # 투사체 개수(projectileCount) == 2
                 // 2. 마법진 위치에 폭발 생성
-                passive_Main[0] = GameManager.instance.pool.Get(prefabId);
-                passive_Main[1] = GameManager.instance.pool.Get(prefabId);
+                passive_Main[0] = GameManager.instance.pool.Get(prefabId_Main);
+                passive_Main[1] = GameManager.instance.pool.Get(prefabId_Main);
 
                 passive_Main[0].transform.position = passive_Main_Setup[0].transform.position;  // 폭발의 위치 = 마법진의 위치
                 passive_Main[1].transform.position = passive_Main_Setup[1].transform.position;
@@ -519,9 +546,9 @@ public class TestWeaponManager : MonoBehaviour
             case 3:
                 // # 투사체 개수(projectileCount) == 3
                 // 2. 마법진 위치에 폭발 생성
-                passive_Main[0] = GameManager.instance.pool.Get(prefabId);
-                passive_Main[1] = GameManager.instance.pool.Get(prefabId);
-                passive_Main[2] = GameManager.instance.pool.Get(prefabId);
+                passive_Main[0] = GameManager.instance.pool.Get(prefabId_Main);
+                passive_Main[1] = GameManager.instance.pool.Get(prefabId_Main);
+                passive_Main[2] = GameManager.instance.pool.Get(prefabId_Main);
 
                 passive_Main[0].transform.position = passive_Main_Setup[0].transform.position;  // 폭발의 위치 = 마법진의 위치
                 passive_Main[1].transform.position = passive_Main_Setup[1].transform.position;
@@ -551,41 +578,40 @@ public class TestWeaponManager : MonoBehaviour
     // 유도 공격 - 주 (활, 방패)
     void FollowAtk()
     {
-        switch (projectileCount)
+        switch (projectileCount_Main)
         {
             // # 투사체 개수(projectileCount) == 1
             case 1:
                 if (!GameManager.instance.player.scanner.nearestTarget)
                 {
-                    Transform passive = GameManager.instance.pool.Get(prefabId).transform;
+                    Transform passive = GameManager.instance.pool.Get(prefabId_Main).transform;
                     passive.position = GameManager.instance.player.transform.position;
                     Vector3 dir = GameManager.instance.player.inputVec;
                     if (dir == new Vector3(0, 0))
                         dir = lastDir;
                     passive.rotation = Quaternion.FromToRotation(Vector3.up, dir);
                     lastDir = dir;
-                    passive.GetComponent<Weapon>().Init(damage, count, dir, atkSpeed);
+                    passive.GetComponent<Weapon>().Init(damage_Main, pent_Main, dir, projectileSpeed_Main);
 
                     return;
                 }
-
                 Vector3 targetPos = GameManager.instance.player.scanner.nearestTarget.position;
                 Vector3 dir_two = targetPos - GameManager.instance.player.transform.position;
                 dir_two = dir_two.normalized;
 
-                Transform passive_two = GameManager.instance.pool.Get(prefabId).transform;
+                Transform passive_two = GameManager.instance.pool.Get(prefabId_Main).transform;
                 passive_two.position = GameManager.instance.player.transform.position;
                 // Quaternion.FromToRotation: 지정된 축을 중심으로 목표를 향해 회전하는 함수
                 passive_two.rotation = Quaternion.FromToRotation(Vector3.up, dir_two);
-                passive_two.GetComponent<Weapon>().Init(damage, count, dir_two, atkSpeed);
+                passive_two.GetComponent<Weapon>().Init(damage_Main, pent_Main, dir_two, projectileSpeed_Main);
 
                 break;
             // # 투사체 개수(projectileCount) == 2
             case 2:
                 if (!GameManager.instance.player.scanner.nearestTarget)
                 {
-                    Transform passive_1 = GameManager.instance.pool.Get(prefabId).transform;
-                    Transform passive_2 = GameManager.instance.pool.Get(prefabId).transform;
+                    Transform passive_1 = GameManager.instance.pool.Get(prefabId_Main).transform;
+                    Transform passive_2 = GameManager.instance.pool.Get(prefabId_Main).transform;
 
                     passive_1.position = GameManager.instance.player.transform.position;
                     passive_2.position = GameManager.instance.player.transform.position + Vector3.right * 1.05f;
@@ -596,8 +622,8 @@ public class TestWeaponManager : MonoBehaviour
                     passive_1.rotation = Quaternion.FromToRotation(Vector3.up, dir);
                     passive_2.rotation = Quaternion.FromToRotation(Vector3.up, dir);
                     lastDir = dir;
-                    passive_1.GetComponent<Weapon>().Init(damage, count, dir, atkSpeed);
-                    passive_2.GetComponent<Weapon>().Init(damage, count, dir, atkSpeed);
+                    passive_1.GetComponent<Weapon>().Init(damage_Main, pent_Main, dir, projectileSpeed_Main);
+                    passive_2.GetComponent<Weapon>().Init(damage_Main, pent_Main, dir, projectileSpeed_Main);
                     return;
                 }
 
@@ -605,25 +631,25 @@ public class TestWeaponManager : MonoBehaviour
                 Vector3 dir_2 = targetPos_Case2 - GameManager.instance.player.transform.position;
                 dir_2 = dir_2.normalized;
 
-                Transform passive_S_1 = GameManager.instance.pool.Get(prefabId).transform;
-                Transform passive_S_2 = GameManager.instance.pool.Get(prefabId).transform;
+                Transform passive_S_1 = GameManager.instance.pool.Get(prefabId_Main).transform;
+                Transform passive_S_2 = GameManager.instance.pool.Get(prefabId_Main).transform;
 
                 passive_S_1.position = GameManager.instance.player.transform.position;
                 passive_S_2.position = GameManager.instance.player.transform.position + Vector3.right * 1.05f;
 
                 passive_S_1.rotation = Quaternion.FromToRotation(Vector3.up, dir_2);
-                passive_S_1.GetComponent<Weapon>().Init(damage, count, dir_2, atkSpeed);
+                passive_S_1.GetComponent<Weapon>().Init(damage_Main, pent_Main, dir_2, projectileSpeed_Main);
                 passive_S_2.rotation = Quaternion.FromToRotation(Vector3.up, dir_2);
-                passive_S_2.GetComponent<Weapon>().Init(damage, count, dir_2, atkSpeed);
+                passive_S_2.GetComponent<Weapon>().Init(damage_Main, pent_Main, dir_2, projectileSpeed_Main);
 
                 break;
             // # 투사체 개수(projectileCount) == 3
             case 3:
                 if (!GameManager.instance.player.scanner.nearestTarget)
                 {
-                    Transform passive_1 = GameManager.instance.pool.Get(prefabId).transform;
-                    Transform passive_2 = GameManager.instance.pool.Get(prefabId).transform;
-                    Transform passive_3 = GameManager.instance.pool.Get(prefabId).transform;
+                    Transform passive_1 = GameManager.instance.pool.Get(prefabId_Main).transform;
+                    Transform passive_2 = GameManager.instance.pool.Get(prefabId_Main).transform;
+                    Transform passive_3 = GameManager.instance.pool.Get(prefabId_Main).transform;
 
                     passive_1.position = GameManager.instance.player.transform.position + Vector3.left * 1.05f;
                     passive_2.position = GameManager.instance.player.transform.position + Vector3.right * 1.05f;
@@ -636,9 +662,9 @@ public class TestWeaponManager : MonoBehaviour
                     passive_2.rotation = Quaternion.FromToRotation(Vector3.up, dir);
                     passive_3.rotation = Quaternion.FromToRotation(Vector3.up, dir);
                     lastDir = dir;
-                    passive_1.GetComponent<Weapon>().Init(damage, count, dir, atkSpeed);
-                    passive_2.GetComponent<Weapon>().Init(damage, count, dir, atkSpeed);
-                    passive_3.GetComponent<Weapon>().Init(damage, count, dir, atkSpeed);
+                    passive_1.GetComponent<Weapon>().Init(damage_Main, pent_Main, dir, projectileSpeed_Main);
+                    passive_2.GetComponent<Weapon>().Init(damage_Main, pent_Main, dir, projectileSpeed_Main);
+                    passive_3.GetComponent<Weapon>().Init(damage_Main, pent_Main, dir, projectileSpeed_Main);
                     return;
                 }
 
@@ -646,9 +672,9 @@ public class TestWeaponManager : MonoBehaviour
                 Vector3 dir_3 = targetPos_Case3 - GameManager.instance.player.transform.position;
                 dir_3 = dir_3.normalized;
 
-                Transform passive_S_a = GameManager.instance.pool.Get(prefabId).transform;
-                Transform passive_S_b = GameManager.instance.pool.Get(prefabId).transform;
-                Transform passive_S_c = GameManager.instance.pool.Get(prefabId).transform;
+                Transform passive_S_a = GameManager.instance.pool.Get(prefabId_Main).transform;
+                Transform passive_S_b = GameManager.instance.pool.Get(prefabId_Main).transform;
+                Transform passive_S_c = GameManager.instance.pool.Get(prefabId_Main).transform;
 
                 passive_S_a.position = GameManager.instance.player.transform.position + Vector3.left * 1.05f;
                 passive_S_b.position = GameManager.instance.player.transform.position + Vector3.right * 1.05f;
@@ -658,9 +684,9 @@ public class TestWeaponManager : MonoBehaviour
                 passive_S_b.rotation = Quaternion.FromToRotation(Vector3.up, dir_3);
                 passive_S_c.rotation = Quaternion.FromToRotation(Vector3.up, dir_3);
 
-                passive_S_a.GetComponent<Weapon>().Init(damage, count, dir_3, atkSpeed);
-                passive_S_b.GetComponent<Weapon>().Init(damage, count, dir_3, atkSpeed);
-                passive_S_c.GetComponent<Weapon>().Init(damage, count, dir_3, atkSpeed);
+                passive_S_a.GetComponent<Weapon>().Init(damage_Main, pent_Main, dir_3, projectileSpeed_Main);
+                passive_S_b.GetComponent<Weapon>().Init(damage_Main, pent_Main, dir_3, projectileSpeed_Main);
+                passive_S_c.GetComponent<Weapon>().Init(damage_Main, pent_Main, dir_3, projectileSpeed_Main);
                 break;
         }        
     }
@@ -681,7 +707,7 @@ public class TestWeaponManager : MonoBehaviour
                         dir = lastDir;
                     passive.rotation = Quaternion.FromToRotation(Vector3.up, dir);
                     lastDir = dir;
-                    passive.GetComponent<Weapon>().Init(damage_Sub, count_Sub, dir, atkSpeed_Sub);
+                    passive.GetComponent<Weapon>().Init(damage_Sub, pent_Sub, dir, projectileSpeed_Sub);
 
                     return;
                 }
@@ -694,7 +720,7 @@ public class TestWeaponManager : MonoBehaviour
                 passive_two.position = transform.position;
                 // Quaternion.FromToRotation: 지정된 축을 중심으로 목표를 향해 회전하는 함수
                 passive_two.rotation = Quaternion.FromToRotation(Vector3.up, dir_two);
-                passive_two.GetComponent<Weapon>().Init(damage_Sub, count_Sub, dir_two, atkSpeed_Sub);
+                passive_two.GetComponent<Weapon>().Init(damage_Sub, pent_Sub, dir_two, projectileSpeed_Sub);
 
                 break;
             // # 투사체 개수(projectileCount) == 2
@@ -713,8 +739,8 @@ public class TestWeaponManager : MonoBehaviour
                     passive_1.rotation = Quaternion.FromToRotation(Vector3.up, dir);
                     passive_2.rotation = Quaternion.FromToRotation(Vector3.up, dir);
                     lastDir = dir;
-                    passive_1.GetComponent<Weapon>().Init(damage_Sub, count_Sub, dir, atkSpeed_Sub);
-                    passive_2.GetComponent<Weapon>().Init(damage_Sub, count_Sub, dir, atkSpeed_Sub);
+                    passive_1.GetComponent<Weapon>().Init(damage_Sub, pent_Sub, dir, projectileSpeed_Sub);
+                    passive_2.GetComponent<Weapon>().Init(damage_Sub, pent_Sub, dir, projectileSpeed_Sub);
                     return;
                 }
 
@@ -731,8 +757,8 @@ public class TestWeaponManager : MonoBehaviour
                 passive_S_1.rotation = Quaternion.FromToRotation(Vector3.up, dir_2);        
                 passive_S_2.rotation = Quaternion.FromToRotation(Vector3.up, dir_2);
 
-                passive_S_1.GetComponent<Weapon>().Init(damage_Sub, count_Sub, dir_2, atkSpeed_Sub);
-                passive_S_2.GetComponent<Weapon>().Init(damage_Sub, count_Sub, dir_2, atkSpeed_Sub);
+                passive_S_1.GetComponent<Weapon>().Init(damage_Sub, pent_Sub, dir_2, projectileSpeed_Sub);
+                passive_S_2.GetComponent<Weapon>().Init(damage_Sub, pent_Sub, dir_2, projectileSpeed_Sub);
 
                 break;
             // # 투사체 개수(projectileCount) == 3
@@ -754,9 +780,9 @@ public class TestWeaponManager : MonoBehaviour
                     passive_2.rotation = Quaternion.FromToRotation(Vector3.up, dir);
                     passive_3.rotation = Quaternion.FromToRotation(Vector3.up, dir);
                     lastDir = dir;
-                    passive_1.GetComponent<Weapon>().Init(damage_Sub, count_Sub, dir, atkSpeed_Sub);
-                    passive_2.GetComponent<Weapon>().Init(damage_Sub, count_Sub, dir, atkSpeed_Sub);
-                    passive_3.GetComponent<Weapon>().Init(damage_Sub, count_Sub, dir, atkSpeed_Sub);
+                    passive_1.GetComponent<Weapon>().Init(damage_Sub, pent_Sub, dir, projectileSpeed_Sub);
+                    passive_2.GetComponent<Weapon>().Init(damage_Sub, pent_Sub, dir, projectileSpeed_Sub);
+                    passive_3.GetComponent<Weapon>().Init(damage_Sub, pent_Sub, dir, projectileSpeed_Sub);
                     return;
                 }
 
@@ -776,9 +802,9 @@ public class TestWeaponManager : MonoBehaviour
                 passive_S_b.rotation = Quaternion.FromToRotation(Vector3.up, dir_3);
                 passive_S_c.rotation = Quaternion.FromToRotation(Vector3.up, dir_3);
 
-                passive_S_a.GetComponent<Weapon>().Init(damage_Sub, count_Sub, dir_3, atkSpeed_Sub);
-                passive_S_b.GetComponent<Weapon>().Init(damage_Sub, count_Sub, dir_3, atkSpeed_Sub);
-                passive_S_c.GetComponent<Weapon>().Init(damage_Sub, count_Sub, dir_3, atkSpeed_Sub);
+                passive_S_a.GetComponent<Weapon>().Init(damage_Sub, pent_Sub, dir_3, projectileSpeed_Sub);
+                passive_S_b.GetComponent<Weapon>().Init(damage_Sub, pent_Sub, dir_3, projectileSpeed_Sub);
+                passive_S_c.GetComponent<Weapon>().Init(damage_Sub, pent_Sub, dir_3, projectileSpeed_Sub);
                 break;
         }
     }
@@ -809,7 +835,7 @@ public class TestWeaponManager : MonoBehaviour
             passive.Rotate(rotVec);
             passive.Translate(passive.up * 1.5f, Space.World);
 
-            passive.GetComponent<Weapon>().Init(damage_Sub, -1, Vector3.zero, atkSpeed_Sub); // -1은 무한으로 관통함을 의미.
+            passive.GetComponent<Weapon>().Init(damage_Sub, -1, Vector3.zero, projectileSpeed_Sub); // -1은 무한으로 관통함을 의미.
         }
     }
 
@@ -981,4 +1007,14 @@ public class TestWeaponManager : MonoBehaviour
         }
     }
     #endregion
+
+    
+    void TestAtkOn()
+    {
+        test.GetComponent<BoxCollider2D>().enabled = true;
+    }
+    void TestAtkOff()
+    {
+        test.SetActive(false);
+    }
 }

@@ -64,8 +64,10 @@
     <Compile Include="Assets\01.Scripts\Magnet.cs" />
     <Compile Include="Assets\SPUM\Script\SPUM_AnimationController.cs" />
     <Compile Include="Assets\01.Scripts\Lobby\ClassBtn.cs" />
+    <Compile Include="Assets\01.Scripts\CheckPerk.cs" />
     <Compile Include="Assets\08.Controller\PerkInven\PerkInvenManager.cs" />
     <Compile Include="Assets\SPUM\Script\Plugin\Moments Recorder\Scripts\Gif\NeuQuant.cs" />
+    <Compile Include="Assets\01.Scripts\CheckSynergy.cs" />
     <Compile Include="Assets\SPUM\Script\Plugin\Moments Recorder\Scripts\Gif\GifFrame.cs" />
     <Compile Include="Assets\01.Scripts\Inventory\PerkInven\PerkValueCheck.cs" />
     <Compile Include="Assets\08.Controller\PerkInven\PerkController.cs" />
@@ -104,6 +106,7 @@
     <Compile Include="Assets\08.Controller\SynergyInven\InventoryItemController.cs" />
     <Compile Include="Assets\01.Scripts\Weapon.cs" />
     <Compile Include="Assets\01.Scripts\TestWeaponManager.cs" />
+    <Compile Include="Assets\01.Scripts\Inventory\SynergyInven\Synergy.cs" />
     <Compile Include="Assets\SPUM\Sprite_Editor(Beta)\Script\SpriteEyeSync.cs" />
     <Compile Include="Assets\SPUM\Script\SPUM_SpriteButtonST.cs" />
     <Compile Include="Assets\01.Scripts\Inventory\SynergyInven\OpenInven.cs" />
@@ -123,7 +126,6 @@
     <Compile Include="Assets\01.Scripts\Exp.cs" />
     <Compile Include="Assets\SPUM\Script\Plugin\Moments Recorder\Scripts\Gif\LzwEncoder.cs" />
     <Compile Include="Assets\08.Controller\PerkInven\IObjectPerk.cs" />
-    <Compile Include="Assets\01.Scripts\CheckPerk.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

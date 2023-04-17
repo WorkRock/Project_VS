@@ -79,15 +79,8 @@ public class WeaponChange : MonoBehaviour
     // O키를 눌렀을 때
     public void swapWeapon()
     {
-        if(subWeapon != null)
+        if (subWeapon != null)
         {
-            /*
-            isMain = true;
-            saveItemData = mainWeapon;
-            mainWeapon = subWeapon;
-            subWeapon = saveItemData;
-            */
-
             isMain = true;
  
             mainWeapon = saveItemDatas[2];
@@ -100,9 +93,7 @@ public class WeaponChange : MonoBehaviour
                 saveItemDatas[i] = saveItemDatas[i+2];
                 saveItemDatas[i+2] = tempData;
             }
-           
-            
-            
+                 
             for (int i = 0; i < 2; i++)
             {
                 if (isMain) isMain = false;
@@ -139,6 +130,9 @@ public class WeaponChange : MonoBehaviour
         weaponUION = true;
         weaponUI();
         weaponChangeCheck.SetActive(false);
+
+        // 스왑 시 스탯을 다시 계산한다.
+        GameManager.instance.RefreshStats();
     }
 
     // 아이템 습득시 보조무기 버튼을 눌렀을 때 호출
@@ -148,6 +142,9 @@ public class WeaponChange : MonoBehaviour
         weaponUION = true;
         weaponUI();
         weaponChangeCheck.SetActive(false);
+
+        // 스왑 시 스탯을 다시 계산한다.
+        GameManager.instance.RefreshStats();
     }
 
     /*

@@ -42,12 +42,6 @@ public class PerkValueCheck : MonoBehaviour
            // 저장된 퍽의 발동 조건을 검사한다.
            checkValue(i);
         }
-        
-        if(isLightning)
-        {
-
-        }
-
     }
 
     // 액티브 퍽일 때 실행하는 메소드
@@ -135,8 +129,8 @@ public class PerkValueCheck : MonoBehaviour
             // 발동 조건: 평타
             case "rtBasicAtk":
                 // 평타 공격 주기가 돌아올 때
-                if (GameManager.instance.weaponManager.invokeTime_Main > GameManager.instance.weaponManager.CT - 0.03f
-                    || (GameManager.instance.weaponManager.subWeapon != null && GameManager.instance.weaponManager.invokeTime_Sub > GameManager.instance.weaponManager.CT_Sub - 0.03f))
+                if (GameManager.instance.weaponManager.invokeTime_Main > GameManager.instance.weaponManager.atkSpeed_Main - 0.03f
+                    || (GameManager.instance.weaponManager.subWeapon != null && GameManager.instance.weaponManager.invokeTime_Sub > GameManager.instance.weaponManager.atkSpeed_Sub - 0.03f))
                 {
                     Debug.Log("평타 공격주기가 돌아왔습니다.");
                     isBasicAtk(i);                  
@@ -264,10 +258,10 @@ public class PerkValueCheck : MonoBehaviour
         {
             // # 공격 속도
             case "atAtkSpeed":
-                GameManager.instance.weaponManager.CT
-                    = GameManager.instance.weaponManager.mainWeapon.CT_Main *
+                GameManager.instance.weaponManager.atkSpeed_Main
+                    = GameManager.instance.weaponManager.mainWeapon.AtkSpeed_Main *
                     (1 - (GameManager.instance.perkInven.perks[i].basicY + (GameManager.instance.perkInven.perks[i].addY * Level[i])));
-                Debug.Log("CT : " + GameManager.instance.weaponManager.CT);
+                Debug.Log("CT : " + GameManager.instance.weaponManager.atkSpeed_Main);
                 break;
             // # 전체 피해량
             case "atAllDmg":
@@ -284,9 +278,9 @@ public class PerkValueCheck : MonoBehaviour
         switch (GameManager.instance.perkInven.perks[i].addTargetY.ToString())
         {
             case "atAtkSpeed":
-                GameManager.instance.weaponManager.CT
+                GameManager.instance.weaponManager.atkSpeed_Main
                     /= 1 - (GameManager.instance.perkInven.perks[i].basicY + (GameManager.instance.perkInven.perks[i].addY * Level[i]));
-                Debug.Log("CT(minus) : " + GameManager.instance.weaponManager.CT);
+                Debug.Log("CT(minus) : " + GameManager.instance.weaponManager.atkSpeed_Main);
                 break;
         }
     }

@@ -4020,8 +4020,6 @@ MonoBehaviour:
   enemy_MaxHp: 20
   enemy_Atk: 2
   fireDotEffect: {fileID: 7898941493135256124}
-  byPyroAtk: 0
-  byBasicAtk: 0
   knockBackPower: 3
 --- !u!114 &8111015463267657818
 MonoBehaviour:

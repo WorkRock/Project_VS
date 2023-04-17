@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
-    public List<Item> items;
+    // 시너지 리스트
+    public List<Synergy> synergies;
 
+    // 슬롯들의 부모(자기 자신)
     [SerializeField]
     private Transform slotParent;
+    // 슬롯 배열
     [SerializeField]
     private Slot[] slots;
-
+    // 슬롯
     [SerializeField]
     private Slot slot;
-    [SerializeField]
-    private Transform Content;
 
     private void OnValidate()
     {
@@ -29,171 +30,23 @@ public class InventoryManager : MonoBehaviour
     public void FreshSlot()
     {
         int i = 0;
-        for (; i < items.Count ; i++)
+        for (; i < synergies.Count ; i++)
         {
-            slots[i].item = items[i];
+            slots[i].synergy = synergies[i];
         }
         for (; i < slots.Length; i++)
         {
-            slots[i].item = null;
+            slots[i].synergy = null;
         }
     }
 
-    public void AddItem(Item _item)
+    // 슬롯에 시너지 추가하기
+    public void AddItem(Synergy _synergy)
     {
-        items.Add(_item);
+        synergies.Add(_synergy);   // 시너지 리스트에 매개변수로 받은 시너지를 추가
+        // 시너지인벤토리 매니저의 자식으로 슬롯을 하나 생성
         Instantiate(slot, slotParent);
         slots = slotParent.GetComponentsInChildren<Slot>();
         FreshSlot();
-
-        /*
-        if (items.Count < slots.Length)
-        {
-            items.Add(_item);
-            FreshSlot();
-        }
-        else
-        {
-            print("슬롯이 가득 차 있습니다.");
-        }
-        */
     }
-    
-    public void DeleteItem(Item _item)
-    {
-        for(int i = 0; i < items.Count; i++)
-        {
-            if (items[i] == _item)
-            {
-                items.RemoveAt(i);
-                Slot[] slotChild = slots[items.Count].GetComponentsInChildren<Slot>();
-                
-                for(int x = 0; x < slotChild.Length; x++)
-                    Destroy(slotChild[x].gameObject);
-                FreshSlot();
-                break;
-            }
-                
-        }
-    }
-
-
-
-    /*
-    public void Swap(int count)
-    {
-        Item _item;
-
-        for(int i = count; i < items.Count; i++)
-        {
-            _item = items[i+1];
-            items[i] = _item;
-        }
-        
-    }
-
-    /*
-    public GameObject Inventory;
-
-    public static InventoryManager Instance;
-    public List<Item> Items = new List<Item>();
-
-    public Transform ItemContent;
-    public GameObject InventoryItem;
-
-    public Toggle EnableRemove;
-
-    public InventoryItemController[] InventoryItems;
-
-    public GameObject inventoryButton;
-
-    private int count;
-    private void Awake()
-    {
-        Instance = this;
-        
-    }
-
-    public void Add(Item item)
-    {
-        Items.Add(item);
-    }
-
-    public void Remove(Item item)
-    {
-        Items.Remove(item);
-        count--;
-    }
-
-    public void ListItems()
-    {
-        EnableRemove.isOn = false;
-        foreach (Transform item in ItemContent)
-        {
-            Destroy(item.gameObject);
-        }
-
-
-        foreach(var item in Items)
-        {
-            GameObject obj = Instantiate(InventoryItem, ItemContent);
-            var itemName = obj.transform.Find("ItemName").GetComponent<Text>();
-            var itemIcon = obj.transform.Find("ItemIcon").GetComponent<Image>();
-            var removeButton = obj.transform.Find("RemoveButton").GetComponent<Button>();
-
-            itemName.text = item.itemName;
-            itemIcon.sprite = item.itemImage;
-
-            if (EnableRemove.isOn)
-                removeButton.gameObject.SetActive(true);
-        }
-
-        if(Items.Count > InventoryItems.Length)
-            SetInventoryItems();
-    }
-
-    public void EnableItemsRemove()
-    {
-        if(EnableRemove.isOn)
-        {
-            foreach(Transform item in ItemContent)
-            {
-                item.Find("RemoveButton").gameObject.SetActive(true);
-            }
-        }
-        
-        else
-        {
-            foreach (Transform item in ItemContent)
-            {
-                item.Find("RemoveButton").gameObject.SetActive(false);
-            }
-        }
-    }
-
-    public void enableInventory()
-    {
-        if (inventoryButton.activeSelf)
-        {
-            InventoryItems = new InventoryItemController[count];
-            Inventory.SetActive(false);
-        }
-        else
-            Inventory.SetActive(true);
-    }
-
-
-
-    public void SetInventoryItems()
-    {       
-        InventoryItems = ItemContent.GetComponentsInChildren<InventoryItemController>();
-
-        for(int i = 0; i < Items.Count; i++)
-        {
-            InventoryItems[i].AddItem(Items[i]);
-            count++;
-            Debug.Log("아이템 추가");
-        }
-    }
-    */
 }

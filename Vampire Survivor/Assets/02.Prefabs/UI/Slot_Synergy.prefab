@@ -218,8 +218,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22ad0aaba56440e439129f3af1be8252, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  image: {fileID: 0}
-  text: {fileID: 0}
+  synergyImage: {fileID: 3371959193961471408}
+  synergName: {fileID: 4972062543352036058}
 --- !u!1 &6150667259094539686
 GameObject:
   m_ObjectHideFlags: 0

@@ -41,7 +41,7 @@ public class TestPlayer : MonoBehaviour
         if (clickInterface != null)
         {
             Item item = clickInterface.ClickItem();
-            inventory.AddItem(item);
+            //inventory.AddItem(item);
             //Destroy(hit.transform.gameObject);
         }
     }
